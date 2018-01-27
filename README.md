@@ -1,2 +1,3 @@
-# aiv2019
-Website for Adelaide IV 2019
+# Adelaide IV 2019
+
+Website for Adelaide IV 2019 created using Laravel.
