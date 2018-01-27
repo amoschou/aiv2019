@@ -123,12 +123,15 @@ class PaymentsController extends Controller
       Throws an error if something goes wrong.
       https://stripe.com/docs/api/php#errors
     */
-    
     /* Consider declines and failed payments (https://stripe.com/docs/declines) */
     /* Consider disputes and fraud (https://stripe.com/docs/disputes) */
     
-    
-    var_dump($charge); die();
-
+      $context = [
+        'activetab' => 'participate',
+        'titletext' => 'Payments',
+        'imagesource' => 'public/images/image-1.jpg',
+        'charge' => $charge
+      ];
+      return view ('payments.thanks', $context);
   }
 }
