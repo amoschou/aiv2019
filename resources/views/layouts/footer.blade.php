@@ -6,6 +6,7 @@
     <ul class="mdl-mini-footer__link-list">
       <li><a href="{{ route('help') }}">Help</a></li>
       <li><a href="{{ route('privacy') }}">Privacy</a></li>
+      <li><a href="{{ route('privacy.summary') }}">P3</a></li>
       <li><a href="{{ route('conduct') }}">Conduct</a></li>
     </ul>
   </div>

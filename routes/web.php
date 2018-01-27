@@ -41,6 +41,7 @@ Route::get('/contact/thanks', 'ContactController@show')->name('contact.thanks');
 
 Route::view('/help',              'footmatter.index',['titletext' => 'Help'           ])->name('help');
 Route::view('/privacy',           'footmatter.index',['titletext' => 'Privacy policy' ])->name('privacy');
+Route::view('/privacy/summary',   'footmatter.index',['titletext' => 'Summary of the privacy policy' ])->name('privacy.summary');
 Route::view('/privacy/affiliates','footmatter.index',['titletext' => 'Affiliates'     ])->name('privacy.affiliates');
 Route::view('/conduct',           'footmatter.index',['titletext' => 'Code of conduct'])->name('conduct');
 
