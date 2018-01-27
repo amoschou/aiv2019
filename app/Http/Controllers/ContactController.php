@@ -32,7 +32,21 @@ class ContactController extends Controller
       $context = [
         'activetab' => 'contact',
         'titletext' => 'Contact',
-        'imagesource' => 'public/images/image-1.jpg'
+        'imagesource' => 'public/images/image-1.jpg',
+        'essay' => [
+          [
+            'Website problems',
+            [
+              'This site is continuously updated and sometimes, something might go wrong. If you notice a problem with the website, please don’t use this form. Instead, go to <a href="https://github.com/amoschou/aiv2019/issues">https://github.com/amoschou/aiv2019/issues</a> and tell us about it there.',
+            ]
+          ],
+          [
+            'Other issues',
+            [
+              'If your issue isn’t addressed on the website, please tell us about it.',
+            ]
+          ]
+        ]
       ];
       return view('contact.create', $context);
     }
