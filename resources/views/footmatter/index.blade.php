@@ -175,7 +175,9 @@
     <p>When you look at our website, our internet service provider makes a record of your visit and logs (in server logs) the following information for statistical purposes:</p>
     <ul>
       <li>Your server address</li>
+      <!--
       <li>Your top level domain name (for example .com, .gov, .org, .au, etc)</li>
+      -->
       <li>The pages you accessed and documents downloaded</li>
       <li>The date and time of your visit to our site</li>
       <li>Whether you have visited our site before</li>
