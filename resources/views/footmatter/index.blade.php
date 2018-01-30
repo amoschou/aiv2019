@@ -182,7 +182,7 @@
       <li>The date and time of your visit to our site</li>
       <li>Whether you have visited our site before</li>
       <li>The previous site you visited, and</li>
-      <li>The type of browser being used.<li>
+      <li>The type of browser being used.</li>
     </ul>
     <p>We do not identify you or your browsing activities except, in the event of an investigation, where a law enforcement agency may exercise a warrant to inspect the internet service provider’s server logs.</p>
     <h6>Cookies</h6>
