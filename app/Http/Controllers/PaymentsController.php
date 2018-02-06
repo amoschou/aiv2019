@@ -103,6 +103,7 @@ class PaymentsController extends Controller
       "amount" => $_POST['totalincents'],
       "currency" => "aud",
       "description" => $_POST['purpose'],
+      "receipt_email" => $_POST['email'],
       "metadata" => [
         "name" => $_POST['name'],
         "email" => $_POST['email'],
