@@ -1,6 +1,6 @@
 # Adelaide IV 2019
 
-Website for Adelaide IV 2019 built using Laravel 5.5.
+Website for Adelaide IV 2019 built using Laravel 5.6.
 
 To install a new copy of the site:
 1. Clone the repository.
