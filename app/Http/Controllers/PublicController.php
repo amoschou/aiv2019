@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
-  public function home()
+  public function frontpage()
   {
     # To redirect the home page to the event page:
     return redirect()->route('adelaideiv');
@@ -52,7 +52,7 @@ class PublicController extends Controller
         ],
       ],
     ];
-    return view('home', $context);
+    return view('frontpage', $context);
   }
   public function aivcfadelaide()
   {

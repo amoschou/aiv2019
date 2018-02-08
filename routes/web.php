@@ -15,7 +15,7 @@
 //     return view('welcome');
 // });
 
-Route::get('/', 'PublicController@home')->name('home');
+Route::get('/', 'PublicController@frontpage')->name('frontpage');
 Route::get('/adelaideiv', 'PublicController@adelaideiv')->name('adelaideiv');
 Route::get('/aivcfadelaide', 'PublicController@aivcfadelaide')->name('aivcfadelaide');
 Route::get('/participate', 'PublicController@participate')->name('participate');
@@ -51,3 +51,15 @@ Route::post('/payments/checkout', 'PaymentsController@variableamountpost')->name
 Route::get('/payments', 'PaymentsController@index')->name('payments.index');
 Route::post('/stripe/checkout', 'PaymentsController@stripecheckout')->name('stripe.checkout');
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
