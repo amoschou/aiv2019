@@ -27,3 +27,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 }
+
+/*
+  THIS FILE IS FOR THE OFF THE SHELF LOG IN SYSTEM
+  IT'S NOT USED IN MY CUSTOM PASSWORDLESS?
+*/

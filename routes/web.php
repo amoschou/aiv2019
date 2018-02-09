@@ -51,15 +51,12 @@ Route::post('/payments/checkout', 'PaymentsController@variableamountpost')->name
 Route::get('/payments', 'PaymentsController@index')->name('payments.index');
 Route::post('/stripe/checkout', 'PaymentsController@stripecheckout')->name('stripe.checkout');
 
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
+// If logged in, then this should redirect to /home
+Route::get('/login','SignupController@login')->name('login');
+Route::post('/login','SignupController@signuppost')->name('login.post');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+// If logged in already, then /login/token should not work
+Route::get('/login/{token}','SignupController@logintoken');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/home/registration/{sectionid}', 'HomeController@registrationform')->name('home.form');

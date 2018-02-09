@@ -32,12 +32,13 @@
   4.0 Licence, which full text can be found here:
   https://creativecommons.org/licenses/by/4.0/legalcode.
 -->
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="A site for Australian intervarsity choral festivals.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>70th AIVCF, Adelaide 2019</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
   <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.blue_grey-deep_purple.min.css" />
