@@ -66,7 +66,8 @@ return [
     |
     */
 
-    'timezone' => 'Australia/Adelaide',
+    /* Changed to refer to .env file */
+    'timezone' => env('APP_TIMEZONE', 'Australia/Adelaide'),
 
     /*
     |--------------------------------------------------------------------------
