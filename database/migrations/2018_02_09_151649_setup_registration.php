@@ -87,7 +87,7 @@ class SetupRegistration extends Migration
         });
         Schema::create('rego_subsections', function (Blueprint $table) {
             $table->increments('subsectionid');
-            $table->integer('sectionid');
+            $table->unsignedInteger('sectionid');
             $table->integer('subsectioncode');
             $table->string('subsectionname');
             $table->text('subsectiondescr')->nullable();
@@ -99,7 +99,7 @@ class SetupRegistration extends Migration
         });
         Schema::create('rego_questions', function (Blueprint $table) {
             $table->increments('questionid');
-            $table->integer('sectionid');
+            $table->unsignedInteger('sectionid');
             $table->integer('subsectioncode')->nullable();
             $table->string('questionshortname')->unique();
             $table->text('questiontext');
@@ -114,7 +114,7 @@ class SetupRegistration extends Migration
         });
         Schema::create('rego_responses', function (Blueprint $table) {
             $table->increments('responseid');
-            $table->integer('userid');
+            $table->unsignedInteger('userid');
             $table->string('questionshortname');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
@@ -123,15 +123,15 @@ class SetupRegistration extends Migration
         });
         Schema::create('rego_responses_nofk', function (Blueprint $table) {
             $table->increments('responseid');
-            $table->integer('userid');
+            $table->unsignedInteger('userid');
             $table->string('attributename');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
             $table->unique(['userid','attributename']);
         });
         Schema::create('rego_mustask', function (Blueprint $table) {
-            $table->integer('userid');
-            $table->integer('sectionid');
+            $table->unsignedInteger('userid');
+            $table->unsignedInteger('sectionid');
             $table->boolean('submitted')->default(False);
             $table->foreign('userid')->references('id')->on('iv_users');
             $table->foreign('sectionid')->references('sectionid')->on('rego_sections');
