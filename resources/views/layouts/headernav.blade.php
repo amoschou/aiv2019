@@ -18,7 +18,9 @@
       <a class="mdl-navigation__link <?php activetab($activetab,'event') ?>" href="/adelaideiv">Adelaide IV</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'organisation') ?>" href="/aivcfadelaide">AIVCF Adelaide</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'participate') ?>" href="/participate">Participate</a>
+      <!--
       <a class="mdl-navigation__link <?php activetab($activetab,'login') ?>" href="/home">Registration</a>
+      -->
       <a class="mdl-navigation__link <?php activetab($activetab,'contact') ?>" href="/contact">Contact</a>
     </nav>
   </div>
@@ -28,7 +30,9 @@
     <a class="mdl-navigation__link <?php activetab($activetab,'event') ?>" href="/adelaideiv">Adelaide IV</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'organisation') ?>" href="/aivcfadelaide">AIVCF Adelaide</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'participate') ?>" href="/participate">Participate</a>
+    <!--
     <a class="mdl-navigation__link <?php activetab($activetab,'login') ?>" href="/home">Registration</a>
+    -->
     <a class="mdl-navigation__link <?php activetab($activetab,'contact') ?>" href="/contact">Contact</a>
   </nav>
 </div>

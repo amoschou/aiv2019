@@ -48,9 +48,6 @@
     </nav>
   </header>
   <main class="py-4">
-{{-- --}}
-<p>Session: {{ session()->getId() }}</p>
-{{-- --}}
     @yield('content')
   </main>
   <footer class="footer">
