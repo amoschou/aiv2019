@@ -117,4 +117,15 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Database Timezone
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default timezone for your database.
+    |
+    */
+
+    'timezone' => env('DB_TIMEZONE', 'Australia/Adelaide'),
+
 ];
