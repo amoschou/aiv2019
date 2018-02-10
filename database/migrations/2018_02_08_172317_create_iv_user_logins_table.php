@@ -28,8 +28,8 @@ class CreateIvUserLoginsTable extends Migration
       case('mysql'):
         Schema::create('iv_user_logins', function (Blueprint $table) {
             $table->unsignedInteger('id');
-            $table->string('token')->unique();
-            $table->string('session')->unique();
+            $table->string('token',40)->unique();
+            $table->string('session',255)->unique();
             $table->boolean('remember');
             $table->timestampTz('created_at')->useCurrent();
             $table->foreign('id')->references('id')->on('iv_users');
