@@ -72,7 +72,7 @@ return [
     */
 
     /* amoschou: changed from null to pgsql */
-    'connection' => 'pgsql',
+    'connection' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------

@@ -105,9 +105,23 @@
               {{ csrf_field() }}
               @php
                 $hassubsections = 0 !== DB::table('rego_subsections')->where('sectionid',$section->sectionid)->count();
-                $subsections = $hassubsections
-                             ? DB::table('rego_subsections')->select('sectionid','subsectioncode','subsectionname','subsectiondescr')->where('sectionid',$section->sectionid)->get()
-                             : DB::table('rego_subsections')->selectRaw('NULL::INT as sectionid,NULL::INT as subsectioncode,NULL::TEXT as subsectionname,NULL::TEXT as subsectiondescr')->take(1)->get();
+                if($hassubsections)
+                {
+                  $subsections = DB::table('rego_subsections')->select('sectionid','subsectioncode','subsectionname','subsectiondescr')->where('sectionid',$section->sectionid)->get();
+                }
+                else
+                {
+                  switch(config('database.default'))
+                  {
+                    case('pgsql'):
+                      $rawquery = 'NULL::INT as sectionid,NULL::INT as subsectioncode,NULL::TEXT as subsectionname,NULL::TEXT as subsectiondescr';
+                      break;
+                    case('mysql'):
+                      $rawquery = 'NULL as sectionid,NULL as subsectioncode,NULL as subsectionname,NULL as subsectiondescr';
+                      break;
+                  }
+                  $subsections = DB::table('rego_subsections')->selectRaw($rawquery)->take(1)->get();
+                }
               @endphp
               @foreach ($subsections as $subsection)
                 @if (!is_null($subsection->subsectionname))
