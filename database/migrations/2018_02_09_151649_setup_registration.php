@@ -29,7 +29,7 @@ class SetupRegistration extends Migration
             $table->increments('subsectionid');
             $table->integer('sectionid');
             $table->integer('subsectioncode');
-            $table->string('subsectionname');
+            $table->text('subsectionname');
             $table->text('subsectiondescr')->nullable();
             $table->integer('subsectionord');
             $table->unique(['sectionid','subsectioncode']);
@@ -89,7 +89,7 @@ class SetupRegistration extends Migration
             $table->increments('subsectionid');
             $table->integer('sectionid');
             $table->integer('subsectioncode');
-            $table->text('subsectionname');
+            $table->string('subsectionname');
             $table->text('subsectiondescr')->nullable();
             $table->integer('subsectionord');
             $table->unique(['sectionid','subsectioncode']);
