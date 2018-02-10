@@ -43,7 +43,7 @@ class CreateRegistrationResponseViews extends Migration
                           )
                            SELECT firstname,
                                   lastname,
-                                  COALESCE(otherpronoun,pronoun) pronoun,
+                                  CASE WHEN pronoun = 'othertext' THEN otherpronoun ELSE pronoun END pronoun,
                                   doing
                              FROM t");
         break;
@@ -51,7 +51,7 @@ class CreateRegistrationResponseViews extends Migration
         DB::statement("CREATE VIEW view_rego_responses_essential AS
                            SELECT firstname,
                                   lastname,
-                                  COALESCE(otherpronoun,pronoun) pronoun,
+                                  CASE WHEN pronoun = 'othertext' THEN otherpronoun ELSE pronoun END pronoun,
                                   doing
                              FROM (
                                SELECT userid,
