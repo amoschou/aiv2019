@@ -13,6 +13,9 @@ class CreateIvUserLoginsTable extends Migration
      */
     public function up()
     {
+    switch(config('database.default'))
+    {
+      case('pgsql'):
         Schema::create('iv_user_logins', function (Blueprint $table) {
             $table->integer('id');
             $table->text('token')->unique();
@@ -21,6 +24,18 @@ class CreateIvUserLoginsTable extends Migration
             $table->timestampTz('created_at')->useCurrent();
             $table->foreign('id')->references('id')->on('iv_users');
         });
+        break;
+      case('mysql'):
+        Schema::create('iv_user_logins', function (Blueprint $table) {
+            $table->unsignedInteger('id');
+            $table->text('token')->unique();
+            $table->text('session')->unique();
+            $table->boolean('remember');
+            $table->timestampTz('created_at')->useCurrent();
+            $table->foreign('id')->references('id')->on('iv_users');
+        });
+        break;
+    }
     }
 
     /**
