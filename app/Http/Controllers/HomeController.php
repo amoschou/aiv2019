@@ -38,7 +38,7 @@ class HomeController extends Controller
                       WHERE userid IS NULL";
         break;
       case('mysql'):
-        $query = "SELECT COUNT(*)
+        $query = "SELECT COUNT(*) count
                     FROM (SELECT * FROM rego_questions WHERE sectionid = ?) Q
          LEFT OUTER JOIN (SELECT * FROM rego_responses WHERE userid = ?) R
                    USING (questionshortname)
