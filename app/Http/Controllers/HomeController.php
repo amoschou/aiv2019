@@ -61,22 +61,23 @@ class HomeController extends Controller
     }
     
     
-    $responsetable = DB::table('rego_questions')
-                       ->join('rego_responses','rego_questions.questionshortname','=','rego_responses.questionshortname')
-                       ->where('userid',Auth::id())
-                       ->select('questiontext','responsejson')
-                       ->get();
-    
     $context = [
-      'responsetable' => $responsetable
     ];
     return view('registration.dashboard',$context);
   }
   
-  public function registrationform (Request $request,$sectionid)
+  public function registrationform ($singlesectionid)
   {
-    $validationarray = [];
+    $context = [
+      'singlesectionid' => $singlesectionid,
+    ];
+    return view('registration.form',$context);
+  }
+  
+  public function registrationformpost (Request $request,$sectionid)
+  {
     $sectionid = (int) $sectionid;
+    $validationarray = [];
     $validationlogics = DB::table('rego_questions')
                           ->where('sectionid',$sectionid)
                           ->select('questionshortname','responsevalidationlogic','companionresponsevalidationlogic')
@@ -95,7 +96,67 @@ class HomeController extends Controller
     $data = $validatedData;
     $datakeys = array_keys($data);
     $falsekey = NULL;
+    
+    var_dump($data);
+    var_dump($datakeys);
+    
+    DB::beginTransaction();
+    foreach($datakeys as $datakey)
+    {
+      if(DB::table('rego_questions')->where('questionshortname',$datakey)->exists())
+      {
+        if(DB::table('rego_responses')
+             ->where('userid',Auth::id())
+             ->where('questionshortname',$datakey)
+             ->exists())
+        {
+          DB::table('rego_responses')
+            ->where('userid',Auth::id())
+            ->where('questionshortname',$datakey)
+            ->update([
+            'responsejson' => json_encode($data[$datakey]),
+          ]);
+        }
+        else
+        {
+          DB::table('rego_responses')->insert([
+            'userid' => Auth::id(),
+            'questionshortname' => $datakey,
+            'responsejson' => json_encode($data[$datakey]),
+          ]);
+        }
+      }
+      else
+      {
+        if(DB::table('rego_responses_nofk')
+             ->where('userid',Auth::id())
+             ->where('attributename',$datakey)
+             ->exists())
+        {
+          DB::table('rego_responses_nofk')
+            ->where('userid',Auth::id())
+            ->where('attributename',$datakey)
+            ->update([
+            'responsejson' => json_encode($data[$datakey]),
+          ]);
+        }
+        else
+        {
+          DB::table('rego_responses_nofk')->insert([
+            'userid' => Auth::id(),
+            'attributename' => $datakey,
+            'responsejson' => json_encode($data[$datakey]),
+          ]);
+        }
+      }
+    }
+    DB::table('rego_mustask')
+      ->where('userid',Auth::id())
+      ->where('sectionid',$sectionid)
+      ->update(['submitted' => True]);
+    DB::commit();
 
+/*
     foreach($datakeys as $datakey)
     {
       if(isset($data[$datakey]) && $data[$datakey] === 'othertext')
@@ -116,7 +177,12 @@ class HomeController extends Controller
         ]);
       }
     }
+    DB::table('rego_mustask')
+      ->where('userid',Auth::id())
+      ->where('sectionid',$sectionid)
+      ->update(['submitted' => True]);
     DB::commit();
+*/
     return redirect('home');
   }
 }

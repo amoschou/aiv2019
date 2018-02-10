@@ -15,7 +15,8 @@ class CreateIvUserLoginsTable extends Migration
     {
         Schema::create('iv_user_logins', function (Blueprint $table) {
             $table->integer('id');
-            $table->uuid('token')->unique();
+            $table->text('token')->unique();
+            $table->text('session')->unique();
             $table->boolean('remember');
             $table->timestampTz('created_at')->useCurrent();
             $table->foreign('id')->references('id')->on('iv_users');

@@ -9,13 +9,27 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 use App\Mail\SignupForm;
-use Ramsey\Uuid\Uuid;
 
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
+use Tuupola\Base62Proxy as Base62;
+
 class SignupController extends Controller
 {
+  public function b62str($l)
+  {
+    $c = strlen(Base62::encode(PHP_INT_MAX)) - 1;
+    $b64str = $l % $c !== 0 ? Base62::encode(random_int(0,Base62::decode(str_repeat('z',$l % $c),True))) : '';
+    $l = (int) ($l/$c);
+    while($l > 0)
+    {
+      $b64str .= Base62::encode(random_int(0,Base62::decode(str_repeat('z',$c),True)));
+      $l--;
+    }
+    return $b64str;
+  }
+
   public function login()
   {
     // If logged in, then redirect to /home.
@@ -53,15 +67,17 @@ class SignupController extends Controller
       // WE ARE LOGGIN IN
       try
       {
+        $request->session()->regenerate();
         DB::beginTransaction();
         $data->id = DB::table('iv_users')
                       ->where('email',$data->email)
                       ->where('username',$data->username)
                       ->value('id');
-        $data->token = (string) Str::uuid();
+        $data->token = $this->b62str(40);
         DB::table('iv_user_logins')->insert([
           'id' => $data->id,
           'token' => $data->token,
+          'session' => session()->getId(),
           'remember' => $data->remember,
         ]);
         $data->url = secure_url("/login/{$data->token}");
@@ -85,16 +101,18 @@ class SignupController extends Controller
       // WE ARE SIGNING UP
       try
       {
+        $request->session()->regenerate();
         DB::beginTransaction();
         $data->id = DB::table('iv_users')->insertGetId([
           'email' => $data->email,
           'username' => $data->username,
           'confirmed' => false
         ]);
-        $data->token = (string) Str::uuid();
+        $data->token = $this->b62str(40);
         DB::table('iv_user_logins')->insert([
           'id' => $data->id,
           'token' => $data->token,
+          'session' => session()->getId(),
           'remember' => $data->remember,
         ]);
         $essentialdetailsid = DB::table('rego_sections')
@@ -125,10 +143,6 @@ class SignupController extends Controller
   public function logintoken ($token)
   {
     $loginpassed = False;
-    if(!is_null($token))
-    {
-      $token = Uuid::fromString($token);
-    }
     // Delete old tokens created earlier than 1 hour ago.
     DB::table('iv_user_logins')
       ->where('created_at','<',Carbon::parse('-60 minutes'))
@@ -136,6 +150,7 @@ class SignupController extends Controller
     // Get the record for the token.
     $record = DB::table('iv_user_logins')
                 ->where('token',$token)
+                ->where('session',session()->getId())
                 ->first();
     // And delete the token just used.
     DB::table('iv_user_logins')

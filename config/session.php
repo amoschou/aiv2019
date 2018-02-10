@@ -71,7 +71,8 @@ return [
     |
     */
 
-    'connection' => null,
+    /* amoschou: changed from null to pgsql */
+    'connection' => 'pgsql',
 
     /*
     |--------------------------------------------------------------------------

@@ -98,7 +98,7 @@
       @endphp
       @foreach ($sections as $section)
         <div class="card mb-4 border-primary">
-          <div class="card-header border-primary bg-primary text-white">{{ $section->sectionid }}: {{ $section->sectionname }}</div>
+          <div class="card-header border-primary bg-primary text-white">{{ $section->sectionname }}</div>
           <div class="card-body">
           
             <form class="form-horizontal" method="POST" action="/home/registration/{{ $section->sectionid }}">
@@ -223,7 +223,20 @@
                         @else
                           <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{{ $question->questiontext }}</label>
                           <div class="col-md-5">
-                            <input id="{{ $question->questionshortname }}" type="{{ $responseformat[1] }}" class="form-control @if ($errors->has($question->questionshortname)) is-invalid @endif" name="{{ $question->questionshortname }}" value="{{ old($question->questionshortname) }}" aria-describedby="{{ $question->questionshortname }}:questiondescr" @if ($question->responserequired)  @endif>
+                            <input    id="{{ $question->questionshortname }}"
+                                    type="{{ $responseformat[1] }}"
+                                   class="form-control @if ($errors->has($question->questionshortname)) is-invalid @endif"
+                                    name="{{ $question->questionshortname }}"
+                                   value="{{ old($question->questionshortname)
+                                             ?? json_decode(DB::table('rego_responses')
+                                                              ->where('userid',Auth::id())
+                                                              ->where('questionshortname',$question->questionshortname)
+                                                              ->value('responsejson'))
+                                          }}"
+                        aria-describedby="{{ $question->questionshortname }}:questiondescr"
+                                       @if ($question->responserequired)
+                                         required
+                                       @endif>
                             <div class="invalid-feedback">
                               @if ($errors->has($question->questionshortname))
                                 @foreach ($errors->get($question->questionshortname) as $message)
@@ -248,17 +261,38 @@
                             @endphp
                             @if($answeritemarray[0] === 'OtherText')
                               @php
-                                $othertextradio = old($question->questionshortname) === $answeritemarray[1];
-                                $othertexttext = old($question->questionshortname . ":" . $answeritemarray[1]);
+                                $othertextradio = $answeritemarray[1] === (old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
+                                                                                                                        ->where('userid',Auth::id())
+                                                                                                                        ->where('questionshortname',$question->questionshortname)
+                                                                                                                        ->value('responsejson')));
+                                $othertexttext = old($question->questionshortname . ':' . $answeritemarray[1])
+                                                 ?? json_decode(DB::table('rego_responses_nofk')
+                                                                  ->where('userid',Auth::id())
+                                                                  ->where('attributename',$question->questionshortname . ':' . $answeritemarray[1])
+                                                                  ->value('responsejson'));
                                 $othertexterror = $othertextradio && is_null($othertexttext);
                               @endphp
                               <div class="input-group">
                                 <div class="input-group-prepend ">
                                   <div class="input-group-text">
-                                    <input type="radio" name="{{ $question->questionshortname }}" value="{{ $answeritemarray[1] }}" aria-label="Radio button for following text input" @if ($othertextradio) checked @endif>
+                                    <input type="radio"
+                                           name="{{ $question->questionshortname }}"
+                                          value="{{ $answeritemarray[1] }}"
+                                     aria-label="Radio button for following text input"
+                                            @if ($othertextradio)
+                                              checked
+                                            @endif>
                                   </div>
                                 </div>
-                                <input type="text" class="form-control @if ($errors->has($question->questionshortname) || $othertexterror) is-invalid @endif" name="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}" aria-label="Text input with radio button" placeholder="Other" value="{{ old($question->questionshortname . ':' . $answeritemarray[1]) }}">
+                                <input type="text"
+                                      class="form-control
+                                             @if ($errors->has($question->questionshortname) || $othertexterror)
+                                               is-invalid
+                                             @endif"
+                                       name="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}"
+                                 aria-label="Text input with radio button"
+                                placeholder="Other"
+                                      value="{{ $othertexttext }}">
                                 <div class="invalid-feedback">
                                   @if ($errors->has($question->questionshortname))
                                     @foreach ($errors->get($question->questionshortname) as $message)
@@ -272,7 +306,17 @@
                               </div>
                             @else
                               <div class="form-check">
-                                <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif" type="radio" name="{{ $question->questionshortname }}" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}" value="{{ $answeritemarray[1] }}" @if (old($question->questionshortname) === $answeritemarray[1]) checked @endif>
+                                <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif"
+                                        type="radio"
+                                        name="{{ $question->questionshortname }}"
+                                          id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}"
+                                       value="{{ $answeritemarray[1] }}"
+                                       @if ($answeritemarray[1] === (old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
+                                                                                                                        ->where('userid',Auth::id())
+                                                                                                                        ->where('questionshortname',$question->questionshortname)
+                                                                                                                        ->value('responsejson'))))
+                                         checked
+                                       @endif>
                                 <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
                                   {{ $answeritemarray[0] }}
                                 </label>
@@ -341,7 +385,23 @@
                                 @else
                                   <div class="col">
                                     <div class="form-check" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:parent">
-                                      <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif" type="checkbox" name="{{ $question->questionshortname }}[]" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}" value="{{ $answeritemarray[1] }}" @if(in_array($answeritemarray[1],old($question->questionshortname,[]))) checked @endif>
+                                      <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif"
+                                              type="checkbox"
+                                              name="{{ $question->questionshortname }}[]"
+                                              id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}"
+                                             value="{{ $answeritemarray[1] }}"
+                                             @if(in_array(
+                                                   $answeritemarray[1],
+                                                   old($question->questionshortname)
+                                                   ??
+                                                   json_decode(DB::table('rego_responses')
+                                                                 ->where('userid',Auth::id())
+                                                                 ->where('questionshortname',$question->questionshortname)
+                                                                 ->value('responsejson'))
+                                                   ??
+                                                   []))
+                                               checked
+                                             @endif>
                                       <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
                                         {{ $answeritemarray[0] }}
                                       </label>

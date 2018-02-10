@@ -59,4 +59,5 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/{token}','SignupController@logintoken');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::post('/home/registration/{sectionid}', 'HomeController@registrationform')->name('home.form');
+Route::get('/home/registration/{sectionid}', 'HomeController@registrationform')->name('home.form');
+Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpost')->name('home.form.post');

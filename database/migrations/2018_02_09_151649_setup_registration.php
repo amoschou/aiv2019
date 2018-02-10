@@ -57,6 +57,14 @@ class SetupRegistration extends Migration
         $table->foreign('questionshortname')->references('questionshortname')->on('rego_questions');
         $table->unique(['userid','questionshortname']);
     });
+    Schema::create('rego_responses_nofk', function (Blueprint $table) {
+        $table->increments('responseid');
+        $table->integer('userid');
+        $table->text('attributename');
+        $table->json('responsejson');
+        $table->foreign('userid')->references('id')->on('iv_users');
+        $table->unique(['userid','attributename']);
+    });
     Schema::create('rego_mustask', function (Blueprint $table) {
         $table->integer('userid');
         $table->integer('sectionid');
@@ -362,6 +370,7 @@ class SetupRegistration extends Migration
   public function down()
   {
     Schema::dropIfExists('rego_mustask');
+    Schema::dropIfExists('rego_responses_nofk');
     Schema::dropIfExists('rego_responses');
     Schema::dropIfExists('rego_questions');
     Schema::dropIfExists('rego_subsections');

@@ -54,6 +54,7 @@
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     @include('layouts.headernav')
     <main class="mdl-layout__content">
+{{-- <p>Session: {{ session()->getId() }}</p> --}}
       @section('toast')
       @show
       <div class="mdl-grid portfolio-max-width @yield('class')">
