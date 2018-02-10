@@ -6,13 +6,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateIvUserLoginsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up()
+  {
     switch(config('database.default'))
     {
       case('pgsql'):
@@ -28,23 +28,23 @@ class CreateIvUserLoginsTable extends Migration
       case('mysql'):
         Schema::create('iv_user_logins', function (Blueprint $table) {
             $table->unsignedInteger('id');
-            $table->text('token')->unique();
-            $table->text('session')->unique();
+            $table->string('token')->unique();
+            $table->string('session')->unique();
             $table->boolean('remember');
             $table->timestampTz('created_at')->useCurrent();
             $table->foreign('id')->references('id')->on('iv_users');
         });
         break;
     }
-    }
+  }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('iv_user_logins');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down()
+  {
+    Schema::dropIfExists('iv_user_logins');
+  }
 }
