@@ -145,9 +145,9 @@ class SignupController extends Controller
     $loginpassed = False;
     // Delete old tokens created earlier than 1 hour ago.
     DB::table('iv_user_logins')
-      ->where('created_at','<',Carbon::parse('-60 minutes'))
+      ->where('created_at','<',Carbon::parse('-60 minutes',config('database.timezone')))
       ->delete();
-    // Get the record for the token.
+    // Get the record for the token.  If it exists, then it couldn't have expired.
     $record = DB::table('iv_user_logins')
                 ->where('token',$token)
                 ->where('session',session()->getId())
