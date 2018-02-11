@@ -4,4 +4,6 @@
 
 <p><a href="{{ $data->url }}">{{ $data->url }}</a></p>
 
+<p>using the same browser that you just used.</p>
+
 <p>This link expires in one hour and can’t be used more than once.</p>
