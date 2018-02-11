@@ -4,6 +4,6 @@ To verify the account for {{ $data->username }} and to log in, please visit:
 
 {{ $data->url }}
 
-using the same browser 
+using the same browser that you just used.
 
 This link expires in one hour and can’t be used more than once.
