@@ -85,6 +85,8 @@ class SetupRegistration extends Migration
         Schema::create('rego_sections', function (Blueprint $table) {
             $table->increments('sectionid');
             $table->string('sectionname')->unique();
+            $table->string('sectionshortname')->unique();
+            $table->string('sectiondescr')->nullable();
             $table->integer('sectionord')->unique();
         });
         Schema::create('rego_subsections', function (Blueprint $table) {
