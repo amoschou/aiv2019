@@ -16,22 +16,30 @@
          WHERE userid = ?
                AND
                sectionid = ?
-               AND
-                 CASE
-                   WHEN comparisonoperator = 'LIKE'
-                   THEN responsejson::TEXT LIKE responsepattern
-                   WHEN comparisonoperator = '@>' THEN ";
-                     switch(config('database.default'))
-                     {
-                       case('pgsql'):
-                         $q .= "responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB";
-                         break;
-                       case('mysql'):
-                         $q .= "JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL";
-                         break;
-                     }
-          $q .= " END
-        ORDER BY sectionord";
+               AND ";
+               switch(config('database.default'))
+               {
+                 case('pgsql'):
+                   $q .= "CASE
+                          WHEN comparisonoperator = 'LIKE'
+                          THEN responsejson::TEXT LIKE responsepattern
+                          WHEN comparisonoperator = '@>'
+                          THEN responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB
+                          END";
+                   break;
+                 case('mysql'):
+                   $suba = "(comparisonoperator = 'LIKE)";
+                   $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
+                   $subc = "(comparisonoperator = '@>')";
+                   $subd = "(JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL)";
+                   $subp = "((NOT $suba) OR $subb)";
+                   $subq = "($suba OR (NOT $subc) OR $subd)";
+                   $subr = "($suba OR $subc)";
+                   $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
+                   $q .= $subxnorpqr;
+                   break;
+               }
+        $q .= " ORDER BY sectionord";
   $sections = DB::select($q,[Auth::id(),(int) $sectionid]);
   
   $hassubsections = 0 !== DB::table('rego_subsections')->where('sectionid',(int) $sectionid)->count();
