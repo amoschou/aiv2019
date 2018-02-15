@@ -23,6 +23,8 @@ class SetupRegistration extends Migration
         Schema::create('rego_sections', function (Blueprint $table) {
             $table->increments('sectionid');
             $table->text('sectionname')->unique();
+            $table->text('sectionshortname')->unique();
+            $table->text('sectiondescr')->nullable();
             $table->integer('sectionord')->unique();
         });
         Schema::create('rego_subsections', function (Blueprint $table) {
@@ -45,7 +47,7 @@ class SetupRegistration extends Migration
             $table->text('questiontext');
             $table->text('questiondescr')->nullable();
             $table->text('responseformat');
-            $table->text('responserequired')->nullable();
+            $table->boolean('html5required');
             $table->text('responsevalidationlogic')->nullable();
             $table->text('companionresponsevalidationlogic')->nullable();
             $table->integer('questionord');

@@ -115,13 +115,6 @@ class SignupController extends Controller
           'session' => session()->getId(),
           'remember' => $data->remember,
         ]);
-        $essentialdetailsid = DB::table('rego_sections')
-                                ->where('sectionname','Essential details')
-                                ->value('sectionid');
-        DB::table('rego_mustask')->insert([
-          'userid' => $data->id,
-          'sectionid' => $essentialdetailsid,
-        ]);
         $data->url = secure_url("/login/{$data->token}");
         Mail::to($data->email)->send(new SignupForm($data));
         DB::commit();

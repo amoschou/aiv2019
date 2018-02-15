@@ -59,5 +59,11 @@ Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/login/{token}','SignupController@logintoken');
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home/registration/{sectionid}', 'HomeController@registrationform')->name('home.form');
+Route::get('/home/registration/{sectionid}', 'HomeController@displayregistration')->name('home.responses');
+Route::get('/home/registration/{sectionid}/edit', 'HomeController@registrationform')->name('home.form');
 Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpost')->name('home.form.post');
+
+Route::get('/banksa', 'BankingController@index')->name('banking');
+
+Route::post('/stripe/webhook', 'WebhookController@post')->name('webhook.post');
+Route::get('/stripe/webhook', 'WebhookController@index')->name('webhook');

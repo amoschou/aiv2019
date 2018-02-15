@@ -1,96 +1,75 @@
 @extends('layouts.app')
 
+
+<?php
+  function accordionshow($accordionshow,$string){
+    return $accordionshow === $string ? 'show' : '' ;
+  }
+?>
+
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
-    {{--
-    <div class="col-md-8">
-      <div class="card card-default">
-        <div class="card-header">Dashboard</div>
-        <div class="card-body">
+
+    <div class="col-md-3 mb-4">
+
+      <div id="accordion">
+        <div class="card border-primary rounded-0">
+          <div class="card-header border-primary rounded-0 bg-primary text-white" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="cursor:pointer">
+              Registration details
+          </div>
+          @php
+            $q = "SELECT DISTINCT sectionid,
+                         sectionname,
+                         sectionord
+                    FROM rego_responses
+                         NATURAL JOIN
+                         rego_requirements
+                         JOIN rego_sections
+                         ON (doasksection = sectionshortname)
+                   WHERE userid = ?
+                         AND
+                         CASE
+                           WHEN comparisonoperator = 'LIKE'
+                           THEN responsejson::TEXT LIKE responsepattern
+                           WHEN comparisonoperator = '@>' THEN ";
+                             switch(config('database.default'))
+                             {
+                               case('pgsql'):
+                                 $q .= "responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB";
+                                 break;
+                               case('mysql'):
+                                 $q .= "JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL";
+                                 break;
+                             }
+                  $q .= " END
+                ORDER BY sectionord";
+            $sections = DB::select($q,[Auth::id()]);
+          @endphp
+          <div id="collapseOne" class="collapse {{ accordionshow($accordionshow ?? NULL,'registration') }}" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="list-group list-group-flush">
+            @foreach($sections as $section)
+              <a class="list-group-item list-group-item-action {{ $section->sectionid === (int) $sectionid ? 'text-primary' : 'text-muted' }}" href="/home/registration/{{ $section->sectionid }}">{{ $section->sectionname }}</a>
+            @endforeach
+            </div>
+          </div>
+
         </div>
       </div>
+
     </div>
-    --}}
-    <table class="table table-bordered bg-light my-0 border-top-0">
-        @php
-          $sections = DB::table('rego_mustask')
-                        ->join('rego_sections','rego_mustask.sectionid','=','rego_sections.sectionid')
-                        ->leftJoin('rego_subsections','rego_subsections.sectionid','=','rego_sections.sectionid')
-                        ->where('userid',Auth::id())
-                        ->where('submitted',True)
-                        ->select('rego_sections.sectionid','rego_sections.sectionname','rego_subsections.subsectionname')
-                        ->get();
-        @endphp
-        @foreach($sections as $section)
-          <thead>
-            <tr>
-              <th>{{ $section->sectionname }}{{ is_null($section->subsectionname) ? '' : ': '.$section->subsectionname }}</th>
-              <th>Responses (<a href="/home/registration/{{ $section->sectionid }}">Edit</a>)</th>
-            </tr>
-          </thead>
-          <tbody>
-            @php
-              $responsetable = DB::table('rego_questions')
-                                 ->join('rego_responses','rego_questions.questionshortname','=','rego_responses.questionshortname')
-                                 ->join('rego_sections','rego_questions.sectionid','=','rego_sections.sectionid')
-                                 ->leftJoin('rego_subsections','rego_subsections.sectionid','=','rego_sections.sectionid')
-                                 ->where('userid',Auth::id())
-                                 ->select('rego_sections.sectionid','rego_subsections.subsectioncode','questiontext','rego_questions.questionshortname','responsejson')
-                                 ->get();
-            @endphp
-            @foreach($responsetable as $row)
-              <tr>
-                <td>{{ $row->questiontext }}</td>
-                <td>
-                  @php
-                    $object = json_decode($row->responsejson);
-                
-                    $done = False;
-                
-                    // IS IT A STRING?
-                    if(is_string($object))
-                    {
-                      if($object === 'othertext')
-                      {
-                        echo ucfirst(json_decode(DB::table('rego_responses_nofk')->where('userid',Auth::id())->where('attributename',$row->questionshortname.':othertext')->value('responsejson')));
-                      }
-                      else
-                      {
-                        echo ucfirst($object);
-                      }
-                      $done = True;
-                    }
-                
-                    // IS IT AN ARRAY?
-                    if(is_array($object))
-                    {
-                      // IS IT AN ARRAY OF STRINGS?
-                      $arrayofstrings = True;
-                      foreach($object as $element)
-                      {
-                        if(!is_string($element))
-                        {
-                          $arrayofstrings = False;
-                        }
-                      }
-                      if($arrayofstrings)
-                      {
-                        echo ucfirst(implode(', ',$object));
-                        $done = True;
-                      }
-                  
-                      // EVERY THING ELSE
-                      echo !$done ? $row->responsejson : '' ;
-                    }
-                  @endphp
-                </td>
-              </tr>
-            @endforeach
-          </tbody
-        @endforeach
-        
-    </table>
+    
+    <div class="col-md-9">
+    
+    @section('innercontent')
+      <h1>Welcome, {{ $firstname }}</h1>
+      <p>This is where you can register for the festival and manage your personal information.</p>
+      <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
+    @endsection
+
+    @yield('innercontent')
+    
+    </div>
   </div>
 </div>
 @endsection
