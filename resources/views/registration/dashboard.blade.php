@@ -37,10 +37,10 @@
                                     THEN responsejson::TEXT LIKE responsepattern
                                     WHEN comparisonoperator = '@>'
                                     THEN responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB
-                                    END";
+                                    END ";
                              break;
                            case('mysql'):
-                             $suba = "(comparisonoperator = 'LIKE)";
+                             $suba = "(comparisonoperator = 'LIKE')";
                              $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
                              $subc = "(comparisonoperator = '@>')";
                              $subd = "(JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL)";
@@ -52,6 +52,7 @@
                              break;
                          }
                   $q .= " ORDER BY sectionord";
+        var_dump($q); die();
             $sections = DB::select($q,[Auth::id()]);
           @endphp
           <div id="collapseOne" class="collapse {{ accordionshow($accordionshow ?? NULL,'registration') }}" aria-labelledby="headingOne" data-parent="#accordion">
