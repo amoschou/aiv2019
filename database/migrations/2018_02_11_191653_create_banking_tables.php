@@ -16,7 +16,7 @@ class CreateBankingTables extends Migration
     Schema::create('bank_transactions', function (Blueprint $table) {
         $table->increments('id');
         $table->date('date');
-        $table->text('description');
+        $table->string('description');
         $table->decimal('debit',8,2);
         $table->decimal('credit',8,2);
         $table->decimal('balance',8,2);
