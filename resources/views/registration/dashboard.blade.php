@@ -52,7 +52,6 @@
                              break;
                          }
                   $q .= " ORDER BY sectionord";
-        var_dump($q); die();
             $sections = DB::select($q,[Auth::id()]);
           @endphp
           <div id="collapseOne" class="collapse {{ accordionshow($accordionshow ?? NULL,'registration') }}" aria-labelledby="headingOne" data-parent="#accordion">

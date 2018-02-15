@@ -28,7 +28,7 @@
                           END";
                    break;
                  case('mysql'):
-                   $suba = "(comparisonoperator = 'LIKE)";
+                   $suba = "(comparisonoperator = 'LIKE')";
                    $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
                    $subc = "(comparisonoperator = '@>')";
                    $subd = "(JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL)";
