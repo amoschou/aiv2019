@@ -288,7 +288,7 @@
                           $responses = DB::table('rego_responses')
                                          ->where('questionshortname',$question->questionshortname)
                                          ->value('responsejson');
-                          $responses = json_decode($responses,TRUE);
+                          $responses = json_decode($responses,TRUE) ?? [];
                           
                           $radiogroup1 = [];
                           $radiogroup2 = [];
