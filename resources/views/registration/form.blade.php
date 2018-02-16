@@ -163,7 +163,15 @@
               </div>
             </div>
           @endif
+            <div class="list-group list-group-flush">
+              <div class="list-group-item border-primary">
+                General tips<br>
+                If a question does not apply to you, it is best to <strong>leave it empty</strong>.
+                Putting ‘N/A’ or something similar draws our attention to the wrong places and makes our job harder.
+              </div>
+            </div>
           <div class="card-body">
+          
           
 
             <form class="form-horizontal" method="POST" action="/home/registration/{{ $section->sectionid }}">
@@ -287,6 +295,7 @@
                           // query responses for extra subquestions.
                           $responses = DB::table('rego_responses')
                                          ->where('questionshortname',$question->questionshortname)
+                                         ->where('userid',Auth::id())
                                          ->value('responsejson');
                           $responses = json_decode($responses,TRUE) ?? [];
                           

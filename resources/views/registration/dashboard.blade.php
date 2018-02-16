@@ -40,6 +40,7 @@
                                     END ";
                              break;
                            case('mysql'):
+                             // Wow, MySQL, just wow.
                              $suba = "(comparisonoperator = 'LIKE')";
                              $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
                              $subc = "(comparisonoperator = '@>')";

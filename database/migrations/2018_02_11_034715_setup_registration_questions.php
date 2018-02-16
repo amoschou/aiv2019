@@ -18,34 +18,13 @@ class SetupRegistrationQuestions extends Migration
     $sectionid = DB::table('rego_sections')->insertGetId([
       'sectionord' => 1,
       'sectionname' => 'Essential details',
-      'sectionshortname' => 'essential'
+      'sectionshortname' => 'essential',
     ],'sectionid');
     /*
      *  Do not rename "Essential details" to something else.
      *  It is hard referenced in several places.
      */
     
-    // The following inserts into rego_mustask wouldn't
-    // normally need to be here. It's normally done when
-    // signing up to the site. But in development, migration
-    // rollbacks lose this data, so it is inserted here.
-/*
-    $users = DB::table('iv_users')->select('id')->get();
-    foreach($users as $user)
-    {
-      if(DB::table('rego_mustask')
-           ->where('userid',$user->id)
-           ->where('sectionid',$sectionid)
-           ->doesntExist())
-      {
-        DB::table('rego_mustask')->insert([
-          'userid' => $user->id,
-          'sectionid' => $sectionid
-        ]);
-      }
-    }
-*/
-
     DB::table('rego_questions')->insert([
       [
         'questionord' => 1,
@@ -114,7 +93,8 @@ class SetupRegistrationQuestions extends Migration
     $sectionid = DB::table('rego_sections')->insertGetId([
       'sectionord' => 2,
       'sectionname' => 'Personal details',
-      'sectionshortname' => 'personal'
+      'sectionshortname' => 'personal',
+      'sectiondescr' => 'We encourage you to provide your mobile number. Sometimes it is more appropriate to contact you this way, especially if an urgent response is required. It also lets us SMS you.',
     ],'sectionid');
     
     DB::table('rego_questions')->insert([
@@ -185,7 +165,8 @@ class SetupRegistrationQuestions extends Migration
     $sectionid = DB::table('rego_sections')->insertGetId([
       'sectionord' => 3,
       'sectionname' => 'Emergency contact details',
-      'sectionshortname' => 'emergency'
+      'sectionshortname' => 'emergency',
+      'sectiondescr' => 'The primary emergency contact is the person not attending the festival who you would like us to contact first should you experience an emergency.',
     ],'sectionid');
     
     DB::table('rego_questions')->insert([
@@ -231,7 +212,7 @@ class SetupRegistrationQuestions extends Migration
         'subsectioncode' => NULL,
         'questionshortname' => 'emergencyadditions',
         'questiontext' => 'Any other relevant information',
-        'questiondescr' => 'e.g. Additional contact methods, Detailsf or another contact person',
+        'questiondescr' => 'e.g. Additional contact methods, Details for another contact person',
         'responseformat' => 'textarea',
         'responsevalidationlogic' => 'string|nullable',
         'html5required' => False,
