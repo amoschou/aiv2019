@@ -125,7 +125,7 @@ class SetupRegistration extends Migration
         Schema::create('rego_responses', function (Blueprint $table) {
             $table->increments('responseid');
             $table->unsignedInteger('userid');
-            $table->text('foritem');
+            $table->string('foritem');
             $table->string('questionshortname');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
