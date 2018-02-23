@@ -521,6 +521,8 @@ class SetupRegistrationQuestions extends Migration
         'html5required' => True,
         'companionresponsevalidationlogic' => NULL,
       ],
+    ]);
+    DB::table('rego_questions')->insert([
       [
         'questionord' => 2,
         'sectionid' => $sectionid,
@@ -533,6 +535,8 @@ class SetupRegistrationQuestions extends Migration
         'html5required' => True,
         'companionresponsevalidationlogic' => NULL,
       ],
+    ]);
+    DB::table('rego_questions')->insert([
       [
         'questionord' => 3,
         'sectionid' => $sectionid,
@@ -545,6 +549,8 @@ class SetupRegistrationQuestions extends Migration
         'html5required' => False,
         'companionresponsevalidationlogic' => NULL,
       ],
+    ]);
+    DB::table('rego_questions')->insert([
       [
         'questionord' => 4,
         'sectionid' => $sectionid,
@@ -580,6 +586,8 @@ class SetupRegistrationQuestions extends Migration
         'html5required' => True,
         'companionresponsevalidationlogic' => NULL,
       ],
+    ]);
+    DB::table('rego_questions')->insert([
       [
         'questionord' => 6,
         'sectionid' => $sectionid,
@@ -617,6 +625,8 @@ class SetupRegistrationQuestions extends Migration
         'html5required' => False,
         'companionresponsevalidationlogic' => NULL,
       ],
+    ]);
+    DB::table('rego_questions')->insert([
       [
         'questionord' => 8,
         'sectionid' => $sectionid,
