@@ -135,7 +135,7 @@ class SetupRegistration extends Migration
         Schema::create('rego_responses_nofk', function (Blueprint $table) {
             $table->increments('responseid');
             $table->unsignedInteger('userid');
-            $table->text('foritem');
+            $table->string('foritem');
             $table->string('attributename');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
@@ -152,6 +152,8 @@ class SetupRegistration extends Migration
         break;
     }
     
+//
+
   }
 
   /**
