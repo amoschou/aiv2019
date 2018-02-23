@@ -34,7 +34,7 @@ class ContactForm extends Mailable
     {
         return $this->from(['AIVCF Adelaide' => 'contact@aiv.org.au'])
                     ->subject('Contact form on Adelaide IV website')
-                    ->view('mail.contact.index')
-                    ->text('mail.contact.index_plain');
+                    ->view('mail.public.contact.index')
+                    ->text('mail.public.contact.index_plain');
     }
 }

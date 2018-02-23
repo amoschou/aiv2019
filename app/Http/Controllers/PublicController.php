@@ -20,7 +20,7 @@ class PublicController extends Controller
         'Out of courtesy to the upcoming festivals (68th in Perth 2017, 69th in Melbourne 2018), we won’t have any news until Melbourne 2018 has begun. Festival details will be revealed in 2018.',
       ]
     ];
-    return view('index', $context);
+    return view('public.index', $context);
   }
   public function adelaideiv()
   {
@@ -52,7 +52,7 @@ class PublicController extends Controller
         ],
       ],
     ];
-    return view('frontpage', $context);
+    return view('public.frontpage', $context);
   }
   public function aivcfadelaide()
   {
@@ -98,7 +98,7 @@ class PublicController extends Controller
         ]
       ]
     ];
-    return view('index', $context);
+    return view('public.index', $context);
   }
   public function participate()
   {
@@ -134,7 +134,7 @@ class PublicController extends Controller
         ]
       ]
     ];
-    return view('index', $context);
+    return view('public.index', $context);
   }
   public function participatefundraising()
   {
@@ -156,7 +156,7 @@ class PublicController extends Controller
         ]
       ]
     ];
-    return view('index', $context);
+    return view('public.index', $context);
   }
   public function participatechoir()
   {
@@ -207,7 +207,7 @@ class PublicController extends Controller
         ],
       ]
     ];
-    return view('index', $context);
+    return view('public.index', $context);
   }
 }
 

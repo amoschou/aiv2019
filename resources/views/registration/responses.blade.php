@@ -2,47 +2,6 @@
 
 
 @php
-  $q = "SELECT DISTINCT sectionid,
-               doasksection as sectionshortname,
-               sectionname,
-               sectionord,
-               sectiondescr
-          FROM rego_responses
-               NATURAL JOIN
-               rego_requirements
-               JOIN rego_sections
-               ON (doasksection = sectionshortname)
-               LEFT OUTER JOIN rego_subsections USING (sectionid)
-         WHERE userid = ?
-               AND
-               sectionid = ?
-               AND ";
-               switch(config('database.default'))
-               {
-                 case('pgsql'):
-                   $q .= "CASE
-                          WHEN comparisonoperator = 'LIKE'
-                          THEN responsejson::TEXT LIKE responsepattern
-                          WHEN comparisonoperator = '@>'
-                          THEN responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB
-                          END";
-                   break;
-                 case('mysql'):
-                   // Wow, MySQL, just wow.
-                   $suba = "(comparisonoperator = 'LIKE')";
-                   $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
-                   $subc = "(comparisonoperator = '@>')";
-                   $subd = "(JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL)";
-                   $subp = "((NOT $suba) OR $subb)";
-                   $subq = "($suba OR (NOT $subc) OR $subd)";
-                   $subr = "($suba OR $subc)";
-                   $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
-                   $q .= $subxnorpqr;
-                   break;
-               }
-        $q .= " ORDER BY sectionord";
-  $sections = DB::select($q,[Auth::id(),(int) $sectionid]);
-  
   $hassubsections = 0 !== DB::table('rego_subsections')->where('sectionid',(int) $sectionid)->count();
   if($hassubsections)
   {
@@ -71,7 +30,7 @@
   {
     case('pgsql'):
       $q = "WITH a AS (SELECT questiontext,questionshortname,questionord FROM rego_questions WHERE sectionid = ? $subsectioninsert),
-                 b AS (SELECT responseid,userid,questionshortname,responsejson FROM rego_responses WHERE userid = ?)
+                 b AS (SELECT responseid,userid,questionshortname,responsejson FROM rego_responses WHERE userid = ? AND foritem = ?)
                SELECT *
                  FROM a
                       LEFT OUTER JOIN
@@ -82,7 +41,7 @@
       $q = "   SELECT *
                  FROM (SELECT questiontext,questionshortname,questionord FROM rego_questions WHERE sectionid = ? $subsectioninsert) AS a
                       LEFT OUTER JOIN
-                      (SELECT responseid,userid,questionshortname,responsejson FROM rego_responses WHERE userid = ?) AS b
+                      (SELECT responseid,userid,questionshortname,responsejson FROM rego_responses WHERE userid = ? AND foritem = ?) AS b
                       USING (questionshortname)
              ORDER BY questionord ASC";
       break;
@@ -98,7 +57,7 @@
         return '<dl>';
         break;
       case('table'):
-        return '<table class="table">';
+        return '<table class="table table-sm">';
         break;
     }
   }
@@ -194,118 +153,197 @@
   @foreach($sections as $section)
     <h2>{{ $section->sectionname }}</h2>
     @if(!is_null($section->sectiondescr))
-      <p>{{ $section->sectiondescr }}</p>
+      <p>{!! $section->sectiondescr !!}</p>
     @endif
-    <a href="/home/registration/{{ $section->sectionid }}/edit" role="button" class="btn btn-sm btn-secondary mb-2 rounded-0">Edit responses</a>
-      {!! aiv_style_begin_questionresponsegroup($a) !!}
-    @foreach($subsections as $subsection)
-      @if($hassubsections)
-        {!! aiv_style_begin_subsectionheading($a) !!}{{ $subsection->subsectionname }}{!! aiv_style_end_subsectionheading($a) !!}
-      @endif
+    @if(!is_null($section->sectionduplicateforeach))
       @php
-        $params = $hassubsections ? [$section->sectionid,$subsection->subsectioncode,Auth::id()] : [$section->sectionid,Auth::id()];
+        $foritems = json_decode(DB::table('rego_responses')->where('questionshortname',$section->sectionduplicateforeach)->where('userid',Auth::id())->value('responsejson'));
+        $hastabs = True;
       @endphp
-        @foreach(DB::select($q,$params) as $row)
-          {!! aiv_style_begin_question($a) !!}{{ $row->questiontext }}{!! aiv_style_end_question($a) !!}
-          {!! aiv_style_begin_response($a) !!}
-            @php
-              $object = json_decode($row->responsejson);
-
-              $done = False;
-              $output = NULL;
-              $specialmessage = NULL;
-
-              // IS IT A STRING?
-              if(is_string($object))
-              {
-                if($object === 'othertext')
-                {
-                  $output = ucfirst(json_decode(DB::table('rego_responses_nofk')
-                                             ->where('userid',Auth::id())
-                                             ->where('attributename',$row
-                                             ->questionshortname.':othertext')
-                                             ->value('responsejson')));
-                }
-                else
-                {
-                  $output = ucfirst($object);
-                }
-                $done = True;
-              }
-
-              // IS IT AN ARRAY?
-              if(is_array($object))
-              {
-                // IS IT AN ARRAY OF STRINGS?
-                $arrayofstrings = True;
-                foreach($object as $element)
-                {
-                  if(!is_string($element))
-                  {
-                    $arrayofstrings = False;
-                  }
-                }
-                if($arrayofstrings)
-                {
-                  if(in_array('hiddeninput',$object))
-                  {
-                    unset($object[array_search('hiddeninput',$object)]);
-                  }
-                  if(count($object) === 0)
-                  {
-                    $specialmessage = '<small class="text-muted">(None)</small>';
-                  }
-                  else
-                  {
-                    $output = ucfirst(implode(', ',$object));
-                  }
-                  $done = True;
-                }
-              }
-      
-              if(is_null($object))
-              {
-                $specialmessage = '<small class="text-muted">(Not answered)</small>';
-                $done = True;
-              }
-              
-              if(!$done)
-              {
-              
-                $candidate = json_decode($row->responsejson,TRUE);
-
-                // IS IT A SIMPLE KEY VALUE ARRAY OF STRINGS?
-                $simplekeyvalarrayofstrings = True;
-                foreach($candidate as $key => $val)
-                {
-                  if(!(is_string($key) && is_string($val)))
-                  {
-                    $simplekeyvalarrayofstrings = False;
-                  }
-                }
-                
-                if($simplekeyvalarrayofstrings)
-                {
-                  $output = [];
-                  foreach($candidate as $key => $value)
-                  {
-                    $output[] = ucfirst($key) . " (" . $value . ")";
-                  }
-                  $output = implode(', ',$output);
-                  $done = True;
-                }
-                else
-                {
-                  // EVERYTHING ELSE
-                  $output = $row->responsejson;
-                  $done = True;
-                }
-              }
-            @endphp
-            {!! $specialmessage ?? nl2br(htmlspecialchars($output)) !!}
-          {!! aiv_style_end_response($a) !!}
+    @else
+      @php
+        $foritems = NULL;
+        $hastabs = False;
+      @endphp
+    @endif
+    
+    @php
+    $foritems = $foritems ?? [''];
+    @endphp
+    
+    @if($hastabs)
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @foreach($foritems as $foritem)
+          @php
+            if($foritem === '' || $foritem === 'hiddeninput')
+            {
+              $tagname = '';
+              $tabname = 'For yourself';
+            }
+            else
+            {
+              $tagname = $foritem;
+              $tabname = "For your guest " . $foritem;
+            }
+          @endphp
+          <li class="nav-item">
+            <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="responsesfor-{{ $tagname }}-tab" data-toggle="tab" href="#responsesfor-{{ $tagname }}" role="tab" aria-controls="responsesfor-{{ $tagname }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $tabname }}</a>
+          </li>
         @endforeach
-    @endforeach
-      {!! aiv_style_end_questionresponsegroup($a) !!}
+      </ul>
+      <div class="tab-content" id="myTabContent">
+    @endif
+    
+    
+    @foreach($foritems as $foritem)
+      @php
+        if(!$hastabs)
+        {
+          $tagname = $foritem;
+          $tabname = 'Edit responses';
+        }
+        else
+        {
+          if($foritem === '' || $foritem === 'hiddeninput')
+          {
+            $tagname = '';
+            $tabname = 'Edit responses for yourself';
+          }
+          else
+          {
+            $tagname = $foritem;
+            $tabname = "Edit responses for your guest " . $foritem;
+          }
+        }
+      @endphp
+      @if($hastabs)
+        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="responsesfor-{{ $tagname }}" role="tabpanel" aria-labelledby="responsesfor-{{ $tagname }}-tab">
+      @endif
+      @if($tagname === '')
+        <a href="/home/registration/{{ $section->sectionid }}/edit" class="btn btn-sm btn-secondary mb-2 rounded-0">{{ $tabname }}</a>
+      @else
+        <a href="/home/registration/{{ $section->sectionid }}/{{ $tagname }}/edit" class="btn btn-sm btn-secondary mb-2 rounded-0">{{ $tabname }}</a>
+      @endif
+      {!! aiv_style_begin_questionresponsegroup($a) !!}
+        @foreach($subsections as $subsection)
+          @if($hassubsections)
+            {!! aiv_style_begin_subsectionheading($a) !!}{{ $subsection->subsectionname }}{!! aiv_style_end_subsectionheading($a) !!}
+          @endif
+          @php
+            $params = $hassubsections ? [$section->sectionid,$subsection->subsectioncode,Auth::id(),$tagname] : [$section->sectionid,Auth::id(),$tagname];
+          @endphp
+            @foreach(DB::select($q,$params) as $row)
+              {!! aiv_style_begin_question($a) !!}{!! $row->questiontext !!}{!! aiv_style_end_question($a) !!}
+              {!! aiv_style_begin_response($a) !!}
+                @php
+                  $object = json_decode($row->responsejson);
+
+                  $done = False;
+                  $output = NULL;
+                  $specialmessage = NULL;
+
+                  // IS IT A STRING?
+                  if(is_string($object))
+                  {
+                    switch($object)
+                    {
+                      case('othertext'):
+                        $output = ucfirst(json_decode(DB::table('rego_responses_nofk')
+                                                   ->where('userid',Auth::id())
+                                                   ->where('attributename',$row
+                                                   ->questionshortname.':othertext')
+                                                   ->value('responsejson')));
+                        break;
+                      case('');
+                        $specialmessage = '<small class="text-muted">(Nothing)</small>';
+                        break;
+                      default:
+                        $output = ucfirst($object);
+                        break;
+                    }
+                    $done = True;
+                  }
+
+                  // IS IT AN ARRAY?
+                  if(is_array($object))
+                  {
+                    // IS IT AN ARRAY OF STRINGS?
+                    $arrayofstrings = True;
+                    foreach($object as $element)
+                    {
+                      if(!is_string($element))
+                      {
+                        $arrayofstrings = False;
+                      }
+                    }
+                    if($arrayofstrings)
+                    {
+                      if(in_array('hiddeninput',$object))
+                      {
+                        unset($object[array_search('hiddeninput',$object)]);
+                      }
+                      if(count($object) === 0)
+                      {
+                        $specialmessage = '<small class="text-muted">(None)</small>';
+                      }
+                      else
+                      {
+                        $output = ucfirst(implode(', ',$object));
+                      }
+                      $done = True;
+                    }
+                  }
+  
+                  if(is_null($object))
+                  {
+                    $specialmessage = '<small class="text-muted">(Not answered)</small>';
+                    $done = True;
+                  }
+          
+                  if(!$done)
+                  {
+          
+                    $candidate = json_decode($row->responsejson,TRUE);
+
+                    // IS IT A SIMPLE KEY VALUE ARRAY OF STRINGS?
+                    $simplekeyvalarrayofstrings = True;
+                    foreach($candidate as $key => $val)
+                    {
+                      if(!(is_string($key) && is_string($val)))
+                      {
+                        $simplekeyvalarrayofstrings = False;
+                      }
+                    }
+            
+                    if($simplekeyvalarrayofstrings)
+                    {
+                      $output = [];
+                      foreach($candidate as $key => $value)
+                      {
+                        $output[] = ucfirst($key) . " (" . $value . ")";
+                      }
+                      $output = implode(', ',$output);
+                      $done = True;
+                    }
+                    else
+                    {
+                      // EVERYTHING ELSE
+                      $output = $row->responsejson;
+                      $done = True;
+                    }
+                  }
+                @endphp
+                {!! $specialmessage ?? nl2br(htmlspecialchars($output)) !!}
+              {!! aiv_style_end_response($a) !!}
+            @endforeach
+          @endforeach
+        {!! aiv_style_end_questionresponsegroup($a) !!}
+        @if($hastabs)
+          </div>
+        @endif
+      @endforeach
+    @if($hastabs)
+      </div>
+    @endif
   @endforeach
 @endsection

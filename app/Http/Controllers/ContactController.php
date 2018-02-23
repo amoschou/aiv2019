@@ -48,7 +48,7 @@ class ContactController extends Controller
           ]
         ]
       ];
-      return view('contact.create', $context);
+      return view('public.contact.create', $context);
     }
 
     /**
@@ -85,7 +85,7 @@ class ContactController extends Controller
         'imagesource' => 'public/images/image-1.jpg',
         'data' => $data
       ];
-      return view ('contact.thanks', $context);
+      return view ('public.contact.thanks', $context);
     }
 
     /**

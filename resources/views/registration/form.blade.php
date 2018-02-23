@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('registration.layouts.app')
 
 @section('extrastyles')
 <style>
@@ -6,10 +6,34 @@
     background-color: rgba(0,0,0,.05)
   }
 </style>
+<link href="//cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"
+      rel="stylesheet">
+<link href="//fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"
+      rel="stylesheet">
+<script type="text/javascript"
+         src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 @endsection
 
 @section('extrascripts')
+<script type="text/javascript"
+         src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+<script type="text/javascript"
+         src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/en-au.js"></script>
+<script type="text/javascript"
+         src="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js">
+</script>
 <script>
+  function deselect(questionshortname)
+  {
+    var radiolist = document.getElementsByName(questionshortname);
+    for(var i = 0 ; i < radiolist.length; i++)
+    {
+      radiolist[i].checked = false;
+    }
+    document.getElementById(questionshortname + ":deselected").checked = true;
+  }
   function addsubquestionradio(questionshortname,html5required,radios)
   {
     var htmlstr = document.getElementById(questionshortname + ':othertext:container').innerHTML;
@@ -37,17 +61,26 @@
       }
       radio = radio.split('^');
       radio[1] = radio[1] || radio[0];
-      htmlstr = htmlstr +     '<div class="form-check form-check-inline">';
-      htmlstr = htmlstr +       '<input class="form-check-input" ';
-      htmlstr = htmlstr +               'type="radio" ';
-      htmlstr = htmlstr +                 'id="' + questionshortname + '[othertext][' + i + ']" ';
-      htmlstr = htmlstr +              'value="' + radio[1] + '" ';
-      htmlstr = htmlstr +               'name="' + questionshortname + '[othertext][' + i + ']" ';
-      htmlstr = htmlstr +                     (html5required ? 'required ' : '');
-      // This doesn't work properly?
-//      htmlstr = htmlstr +                     (isdefault ? 'checked' : '');
-      htmlstr = htmlstr +       '>';
-      htmlstr = htmlstr +       '<label class="form-check-label" for="' + questionshortname + '[othertext][' + i + ']">' + radio[0] + '</label>';
+      htmlstr = htmlstr +     '<div class="pl-0 form-check">';
+      htmlstr = htmlstr +       '<div class="pretty p-icon p-toggle p-plain">';
+      htmlstr = htmlstr +         '<input class="form-check-input" ';
+      htmlstr = htmlstr +                 'type="radio" ';
+      htmlstr = htmlstr +                   'id="' + questionshortname + '[othertext][' + i + ']" ';
+      htmlstr = htmlstr +                'value="' + radio[1] + '" ';
+      htmlstr = htmlstr +                 'name="' + questionshortname + '[othertext][' + i + ']" ';
+      htmlstr = htmlstr +                       (html5required ? 'required ' : '');
+      htmlstr = htmlstr +         '>';
+
+    htmlstr = htmlstr +           '<div class="state p-on">';
+    htmlstr = htmlstr +             '<i class="icon material-icons text-primary">radio_button_checked</i>';
+      htmlstr = htmlstr +           '<label class="form-check-label" for="' + questionshortname + '[othertext][' + i + ']">' + radio[0] + '</label>';
+    htmlstr = htmlstr +           '</div>';
+    htmlstr = htmlstr +           '<div class="state p-off">';
+    htmlstr = htmlstr +             '<i class="icon material-icons text-secondary">radio_button_unchecked</i>';
+      htmlstr = htmlstr +           '<label class="form-check-label" for="' + questionshortname + '[othertext][' + i + ']">' + radio[0] + '</label>';
+    htmlstr = htmlstr +           '</div>';
+    htmlstr = htmlstr +         '</div>';
+      
       htmlstr = htmlstr +     '</div>';
     }
     htmlstr = htmlstr +   '</div>';
@@ -55,72 +88,43 @@
 
     document.getElementById(questionshortname + ':othertext:container').innerHTML = htmlstr;
   }
-
-
-  function toggleelaborations(id,elaborations)
-  {
-    idarray = id.split(':');
-    checkid = idarray[0] + ':' + idarray[1];
-    checkobject = document.getElementById(checkid);
-    var newdisplay;
-    var newvisibility;
-    for (var j = 0; j < elaborations.length; ++j)
-    {
-      var elaboration = elaborations[j];
-      inputid = checkid + ':' + elaboration;
-      labelid = inputid + ':label';
-      newvisibility = checkobject.checked ? "visible" : "hidden";
-      document.getElementById(inputid).style.visibility = newvisibility;
-      document.getElementById(labelid).style.visibility = newvisibility;
-    }
-  }
   function addothertext(questionshortname,istring,elaborations = null)
   {
     var i = document.getElementById(questionshortname + ':' + istring + ':container').childElementCount;
     var htmlstr = document.getElementById(questionshortname + ':' + istring + ':container').innerHTML;
-    if(elaborations === null)
-    {
-      htmlstr = htmlstr + '<div class="input-group">';
-      htmlstr = htmlstr +   '<div class="input-group-prepend">';
-      htmlstr = htmlstr +     '<div class="input-group-text rounded-0">';
-      htmlstr = htmlstr +       '<input type="checkbox" name="' + questionshortname + '[' + istring + '][' + i + ']" value="' + i + '" aria-label="Radio button for following text input" checked>';
-      htmlstr = htmlstr +     '</div>';
-      htmlstr = htmlstr +   '</div>';
-      htmlstr = htmlstr +   '<input type="text" class="form-control rounded-0" name="' + questionshortname + ':' + istring + '[' + i + ']" aria-label="Text input with radio button" placeholder="Other">';
-      htmlstr = htmlstr + '</div>';
-    }
-    else
-    {
-      htmlstr = htmlstr + '<div class="form-row">';
-      htmlstr = htmlstr +   '<div class="col">';
-      htmlstr = htmlstr +     '<div class="input-group">';
-      htmlstr = htmlstr +       '<div class="input-group-prepend">';
-      htmlstr = htmlstr +         '<div class="input-group-text rounded-0">';
-      htmlstr = htmlstr +           '<input type="checkbox"  name="' + questionshortname + '[' + istring + '][' + i + ']" value="' + i + '" aria-label="Radio button for following text input" checked>';
-      htmlstr = htmlstr +         '</div>';
-      htmlstr = htmlstr +       '</div>';
-      htmlstr = htmlstr +       '<input type="text" class="form-control" name="' + questionshortname + ':' + istring + '[' + i + ']" aria-label="Text input with radio button" placeholder="Other">';
-      htmlstr = htmlstr +     '</div>';
-      htmlstr = htmlstr +   '</div>';
-      htmlstr = htmlstr +   '<div class="col">';
-      htmlstr = htmlstr +     '<div class="form-control-plaintext pb-0">';
-      for (var j = 0; j < elaborations.length; ++j)
-      {
-        var elaboration = elaborations[j];
-        htmlstr = htmlstr +     '<div class="form-check form-check-inline">';
-        htmlstr = htmlstr +       '<input class="aiv-elaboration form-check-input" type="radio" name="' + questionshortname + ':' + istring + ':' + i + '" id="' + questionshortname + ':' + istring + ':' + i + ':' + elaboration + '" value="' + elaboration + '">';
-        htmlstr = htmlstr +       '<label class="aiv-elaboration form-check-label" for="' + questionshortname + ':' + istring + ':' + i + ':' + elaboration + '">' + elaboration + '</label>';
-        htmlstr = htmlstr +     '</div>';
-      }
-      htmlstr = htmlstr +     '</div>';
-      htmlstr = htmlstr +   '</div>';
-      htmlstr = htmlstr + '</div>';
-
-    }
+    htmlstr = htmlstr + '<div class="input-group">';
+    htmlstr = htmlstr +   '<div class="input-group-prepend">';
+    htmlstr = htmlstr +     '<div class="input-group-text rounded-0">';
+    htmlstr = htmlstr +       '<div class="pretty p-icon p-toggle p-plain pr-0 mr-0">';
+    htmlstr = htmlstr +         '<input type="checkbox" name="' + questionshortname + '[' + istring + '][' + i + ']" value="' + i + '" aria-label="Radio button for following text input" checked>';
+    htmlstr = htmlstr +         '<div class="state p-on">';
+    htmlstr = htmlstr +           '<i class="icon material-icons text-primary">check_box</i>';
+    htmlstr = htmlstr +           '<label></label>';
+    htmlstr = htmlstr +         '</div>';
+    htmlstr = htmlstr +         '<div class="state p-off">';
+    htmlstr = htmlstr +           '<i class="icon material-icons text-secondary">check_box_outline_blank</i>';
+    htmlstr = htmlstr +           '<label></label>';
+    htmlstr = htmlstr +         '</div>';
+    htmlstr = htmlstr +       '</div>';
+    htmlstr = htmlstr +     '</div>';
+    htmlstr = htmlstr +   '</div>';
+    htmlstr = htmlstr +   '<input type="text" class="form-control rounded-0" name="' + questionshortname + ':' + istring + '[' + i + ']" aria-label="Text input with radio button" placeholder="Other">';
+    htmlstr = htmlstr + '</div>';
     document.getElementById(questionshortname + ':' + istring + ':container').innerHTML = htmlstr;
   }
 </script>
 @endsection
+
+
+
+
+
+
+
+
+
+
+
 
 @section('content')
 
@@ -152,18 +156,12 @@
       @foreach ($sections as $section)
         <div class="card mb-4 border-primary rounded-0">
           <div class="card-header border-primary rounded-0 bg-primary text-white">{{ $section->sectionname }}</div>
-          @if(!is_null($section->sectiondescr))
             <div class="list-group list-group-flush">
-              <div class="list-group-item text-info border-0" class="info">
-                <div class="form-row">
-                  <div class="offset-md-3 col-md-5">
-                    {{ $section->sectiondescr }}
-                  </div>
+              @if(!is_null($section->sectiondescr))
+                <div class="list-group-item text-info border-primary" class="info">
+                 {!! $section->sectiondescr !!}
                 </div>
-              </div>
-            </div>
-          @endif
-            <div class="list-group list-group-flush">
+              @endif
               <div class="list-group-item border-primary">
                 General tips<br>
                 If a question does not apply to you, it is best to <strong>leave it empty</strong>.
@@ -176,6 +174,7 @@
 
             <form class="form-horizontal" method="POST" action="/home/registration/{{ $section->sectionid }}">
               {{ csrf_field() }}
+              <input type="hidden" name="foritem" value="{{ $foritem }}">
               @php
                 $hassubsections = 0 !== DB::table('rego_subsections')->where('sectionid',$section->sectionid)->count();
                 if($hassubsections)
@@ -222,7 +221,7 @@
                     // NOW, $responseformat[0] is "text" or "radio" or "checkbox". Other values are not implemented in this view.
                     // 
                     // If $responseformat[0] is "text",
-                    //   then $responseformat[1] will be "text" or "email" or "tel" or some other HTML5 value for the type attribute of <input>,
+                    //   then $responseformat[1] will be "text" or "email" or "tel" or "datetime-local" or some other HTML5 value for the type attribute of <input>,
                     //   additionally $formatarray[1] could also be "address" which is handled separately because it will use multiple <input>s.
                     //   DONE.
                     //
@@ -256,6 +255,9 @@
                     // MEANWHILE, if the answer requires several inputs (radios, checkboxes and addresses), they are grouped with <fieldset>
                     --}}
                   @php
+                    $questiontextwithoptional = $question->questiontext . ($question->html5required
+                                                                           ? ''
+                                                                           : '<br><small class="text-muted">Optional</small>');
                     $responseformat = explode(':',$question->responseformat);
                     switch($responseformat[0])
                     {
@@ -271,7 +273,7 @@
                   @endphp
                   @if($hasfieldset)
                     <fieldset class="form-group" aria-describedby="{{ $question->questionshortname }}:questiondescr">
-                      <legend class="sr-only">{{ $question->questiontext }}</legend>
+                      <legend class="sr-only">{!! $questiontextwithoptional !!}</legend>
                       <div class="form-row">
                   @else
                     <div class="form-group form-row">
@@ -296,6 +298,7 @@
                           $responses = DB::table('rego_responses')
                                          ->where('questionshortname',$question->questionshortname)
                                          ->where('userid',Auth::id())
+                                         ->where('foritem',$foritem)
                                          ->value('responsejson');
                           $responses = json_decode($responses,TRUE) ?? [];
                           
@@ -329,7 +332,7 @@
                           $radiogroupkeys = array_keys($radiogroup1);
                           
                         @endphp
-                        <label class="col-md-3 text-md-right">{{ $question->questiontext }}</label>
+                        <label class="col-md-3 text-md-right">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
                           <div class="form-row">
                             <div class="col-12" id="{{ $question->questionshortname }}:container">
@@ -365,20 +368,29 @@
                                         
                                         
                                       @endphp
-                                      <div class="form-check form-check-inline">
-                                        <input class="form-check-input"
-                                                type="radio"
-                                                  id="{{ $subquestionlc }}:{{ $globalradio[1] }}"
-                                               value="{{ $globalradio[1] }}"
-                                                name="{{ $question->questionshortname }}[{{ $subquestionlc }}]"
-                                                     @if ($question->html5required)
-                                                       required
-                                                     @endif
-                                                     @if ($subquesitonval === $globalradio[1])
-                                                       checked
-                                                     @endif
-                                        >
-                                        <label class="form-check-label" for="{{ $subquestionlc }}:{{ $globalradio[1] }}">{{ $globalradio[0] }}</label>
+                                      <div class="form-check">
+                                        <div class="pretty p-icon p-toggle p-plain">
+                                          <input class="form-check-input"
+                                                  type="radio"
+                                                    id="{{ $subquestionlc }}:{{ $globalradio[1] }}"
+                                                 value="{{ $globalradio[1] }}"
+                                                  name="{{ $question->questionshortname }}[{{ $subquestionlc }}]"
+                                                       @if ($question->html5required)
+                                                         required
+                                                       @endif
+                                                       @if ($subquesitonval === $globalradio[1])
+                                                         checked
+                                                       @endif
+                                          >
+                                          <div class="state p-on">
+                                            <i class="icon material-icons text-primary">radio_button_checked</i>
+                                            <label class="form-check-label" for="{{ $subquestionlc }}:{{ $globalradio[1] }}">{{ $globalradio[0] }}</label>
+                                          </div>
+                                          <div class="state p-off">
+                                            <i class="icon material-icons text-secondary">radio_button_unchecked</i>
+                                            <label class="form-check-label" for="{{ $subquestionlc }}:{{ $globalradio[1] }}">{{ $globalradio[0] }}</label>
+                                          </div>
+                                        </div>
                                       </div>
                                     @endforeach
                                     </div>
@@ -401,7 +413,7 @@
 
 
                       @case('textarea')
-                        <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{{ $question->questiontext }}</label>
+                        <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
                           <textarea class="rounded-0 form-control @if ($errors->has($question->questionshortname)) is-invalid @endif"
                                        id="{{ $question->questionshortname }}"
@@ -411,6 +423,7 @@
                             ??
                             json_decode(DB::table('rego_responses')
                                           ->where('userid',Auth::id())
+                                          ->where('foritem',$foritem)
                                           ->where('questionshortname',$question->questionshortname)
                                           ->value('responsejson'))
                           }}</textarea>
@@ -427,71 +440,63 @@
                         </span>
                         @break
                       @case('text')
-                        @if($responseformat[1] == 'address')
-                        {{-- This is not implemented correctly. Use "textarea" instead.
-                          <label class="col-md-3 col-form-label text-md-right">{{ $question->questiontext }}</label>
-                          <div class="col-md-5">
-                            <label for="{{ $question->questionshortname }}:addressline1" class="sr-only">{{ $question->questiontext }} Address line 1</label>
-                            <input id="{{ $question->questionshortname }}:addressline1" type="text" class="rounded-0 form-control" name="{{ $question->questionshortname }}:addressline1" placeholder="Address line 1" value="{{ old($question->questionshortname . ':addressline1') }}">
-                            <label for="{{ $question->questionshortname }}:addressline2" class="sr-only">{{ $question->questiontext }} Address line 2</label>
-                            <input id="{{ $question->questionshortname }}:addressline2" type="text" class="rounded-0 form-control" name="{{ $question->questionshortname }}:addressline2" placeholder="Address line 2" value="{{ old($question->questionshortname . ':addressline2') }}">
-                            <div class="form-row no-gutters">
-                              <div class="col-lg-6">
-                               <label for="{{ $question->questionshortname }}:city" class="sr-only">{{ $question->questiontext }} City</label>
-                               <input id="{{ $question->questionshortname }}:city" type="text" class="rounded-0 form-control" name="{{ $question->questionshortname }}:city" placeholder="City" value="{{ old($question->questionshortname . ':city') }}">
-                              </div>
-                              <div class="col-lg-3">
-                                <label for="{{ $question->questionshortname }}:stateterritory" class="sr-only">{{ $question->questiontext }} State/Territory</label>
-                                <input id="{{ $question->questionshortname }}:stateterritory" type="text" class="rounded-0 form-control" name="{{ $question->questionshortname }}:stateterritory" placeholder="State/Territory" value="{{ old($question->questionshortname . ':stateterritory') }}">
-                              </div>
-                              <div class="col-lg-3">
-                                <label for="{{ $question->questionshortname }}:postcode" class="sr-only">{{ $question->questiontext }} Postcode</label>
-                                <input id="{{ $question->questionshortname }}:postcode" type="text" class="rounded-0 form-control @if ($errors->has($question->questionshortname . ':postcode')) is-invalid @endif" name="{{ $question->questionshortname }}:postcode" placeholder="Postcode" value="{{ old($question->questionshortname . ':postcode') }}">
-                                <div class="invalid-feedback">
-                                  @if ($errors->has($question->questionshortname . ':postcode'))
-                                    @foreach ($errors->get($question->questionshortname . ':postcode') as $message)
-                                      @if(!$loop->first)<br>@endif{{ $message }}
-                                    @endforeach
-                                  @endif
-                                </div>
-                              </div>
-                            </div>
+                        <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
+                        <div class="col-md-5">
+                          @php
+                            $isdatetimelocal = $responseformat[1] === 'datetime-local';
+                          @endphp
+                          <input    id="{{ $question->questionshortname }}"
+                                  type="{{ $isdatetimelocal ? 'text' : $responseformat[1] }}"
+                                 class="rounded-0 form-control @if ($errors->has($question->questionshortname)) is-invalid @endif @if($isdatetimelocal) datetimepicker-input @endif " 
+@if($isdatetimelocal)
+                                 data-toggle="datetimepicker"
+                                 data-target="#{{ $question->questionshortname }}"
+@endif
+                                  name="{{ $question->questionshortname }}"
+                                 value="{{ old($question->questionshortname)
+                                           ?? json_decode(DB::table('rego_responses')
+                                                            ->where('userid',Auth::id())
+                                       ->where('foritem',$foritem)
+                                                            ->where('questionshortname',$question->questionshortname)
+                                                            ->value('responsejson'))
+                                        }}"
+                      aria-describedby="{{ $question->questionshortname }}:questiondescr"
+                                     @if ($question->html5required)
+                                       required
+                                     @endif>
+@if($isdatetimelocal)
+  <script type="text/javascript">
+    $(function () {
+      $('#{{ $question->questionshortname }}').datetimepicker();
+    });
+  </script>
+@endif
+                          <div class="invalid-feedback">
+                            @if ($errors->has($question->questionshortname))
+                              @foreach ($errors->get($question->questionshortname) as $message)
+                                @if(!$loop->first)<br>@endif{{ $message }}
+                              @endforeach
+                            @endif
                           </div>
-                          <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
-                          --}}
-                        @else
-                          <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{{ $question->questiontext }}</label>
-                          <div class="col-md-5">
-                            <input    id="{{ $question->questionshortname }}"
-                                    type="{{ $responseformat[1] }}"
-                                   class="rounded-0 form-control @if ($errors->has($question->questionshortname)) is-invalid @endif"
-                                    name="{{ $question->questionshortname }}"
-                                   value="{{ old($question->questionshortname)
-                                             ?? json_decode(DB::table('rego_responses')
-                                                              ->where('userid',Auth::id())
-                                                              ->where('questionshortname',$question->questionshortname)
-                                                              ->value('responsejson'))
-                                          }}"
-                        aria-describedby="{{ $question->questionshortname }}:questiondescr"
-                                       @if ($question->html5required)
-                                         required
-                                       @endif>
-                            <div class="invalid-feedback">
-                              @if ($errors->has($question->questionshortname))
-                                @foreach ($errors->get($question->questionshortname) as $message)
-                                  @if(!$loop->first)<br>@endif{{ $message }}
-                                @endforeach
-                              @endif
-                            </div>
-                          </div>
-                          <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
-                        @endif
+                        </div>
+                        <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
                         @break
+
+
+
+
+
+
+
+
+
+
+
                       @case('radio')
                         @php
                           $answeritems = explode('|',$responseformat[1]);
                         @endphp
-                        <label class="col-md-3 col-form-label text-md-right pt-0">{{ $question->questiontext }}</label>
+                        <label class="col-md-3 col-form-label text-md-right pt-0">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
                           @foreach ($answeritems as $answeritem)
                             @php
@@ -502,25 +507,37 @@
                               @php
                                 $othertextradio = $answeritemarray[1] === (old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
                                                                                                                         ->where('userid',Auth::id())
+                                         ->where('foritem',$foritem)
                                                                                                                         ->where('questionshortname',$question->questionshortname)
                                                                                                                         ->value('responsejson')));
                                 $othertexttext = old($question->questionshortname . ':' . $answeritemarray[1])
                                                  ?? json_decode(DB::table('rego_responses_nofk')
                                                                   ->where('userid',Auth::id())
+                                         ->where('foritem',$foritem)
                                                                   ->where('attributename',$question->questionshortname . ':' . $answeritemarray[1])
                                                                   ->value('responsejson'));
-                                $othertexterror = $othertextradio && is_null($othertexttext);
+                                $othertexterror = $othertextradio && ($othertexttext === '' || is_null($othertexttext));
                               @endphp
                               <div class="input-group">
                                 <div class="input-group-prepend">
                                   <div class="input-group-text rounded-0">
-                                    <input type="radio"
-                                           name="{{ $question->questionshortname }}"
-                                          value="{{ $answeritemarray[1] }}"
-                                     aria-label="Radio button for following text input"
-                                            @if ($othertextradio)
-                                              checked
-                                            @endif>
+                                    <div class="pretty p-icon p-toggle p-plain pr-0 mr-0">
+                                      <input type="radio"
+                                             name="{{ $question->questionshortname }}"
+                                            value="{{ $answeritemarray[1] }}"
+                                       aria-label="Radio button for following text input"
+                                              @if ($othertextradio)
+                                                checked
+                                              @endif>
+                                      <div class="state p-on">
+                                        <i class="icon material-icons text-primary">radio_button_checked</i>
+                                        <label></label>
+                                      </div>
+                                      <div class="state p-off">
+                                        <i class="icon material-icons text-secondary">radio_button_unchecked</i>
+                                        <label></label>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                                 <input type="text"
@@ -544,24 +561,37 @@
                                 </div>
                               </div>
                             @else
-                              <div class="form-check">
-                                <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif"
-                                        type="radio"
-                                        name="{{ $question->questionshortname }}"
-                                          id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}"
-                                       value="{{ $answeritemarray[1] }}"
-                                       @if ($question->html5required)
-                                         required
-                                       @endif
-                                       @if ($answeritemarray[1] === (old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
-                                                                                                                        ->where('userid',Auth::id())
-                                                                                                                        ->where('questionshortname',$question->questionshortname)
-                                                                                                                        ->value('responsejson'))))
-                                         checked
-                                       @endif>
-                                <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
-                                  {{ $answeritemarray[0] }}
-                                </label>
+                              <div class="pl-0 form-check">
+                                <div class="pretty p-icon p-toggle p-plain">
+                                  <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif"
+                                          type="radio"
+                                          name="{{ $question->questionshortname }}"
+                                            id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}"
+                                         value="{{ $answeritemarray[1] }}"
+                                         @if ($question->html5required)
+                                           required
+                                         @endif
+                                         @if ($answeritemarray[1] === (old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
+                                                                                                                          ->where('userid',Auth::id())
+                                           ->where('foritem',$foritem)
+                                                                                                                          ->where('questionshortname',$question->questionshortname)
+                                                                                                                          ->value('responsejson'))))
+                                           checked
+                                         @endif>
+
+                                  <div class="state p-on">
+                                    <i class="icon material-icons text-primary">radio_button_checked</i>
+                                    <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
+                                      {{ $answeritemarray[0] }}
+                                    </label>
+                                  </div>
+                                  <div class="state p-off">
+                                    <i class="icon material-icons text-secondary">radio_button_unchecked</i>
+                                    <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
+                                      {{ $answeritemarray[0] }}
+                                    </label>
+                                  </div>
+                                </div>
                                 @if($loop->last)
                                   <div class="invalid-feedback">
                                     @if ($errors->has($question->questionshortname))
@@ -574,11 +604,23 @@
                               </div>
                             @endif
                           @endforeach
+                          @if(!$question->html5required)
+                            <input id="{{ $question->questionshortname }}:deselected" class="d-none" type="radio" name="{{ $question->questionshortname }}" value="">
+                            <button type="button" class="btn btn-sm btn-default rounded-0" onclick="deselect('{{ $question->questionshortname }}')">Deselect</button>
+                          @endif
                         </div>
                         <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4">
                           {!! $question->questiondescr !!}
                         </span>
                         @break
+    
+    
+    
+    
+    
+    
+    
+    
                       @case('checkbox')
                         @php
                           $answeritems = explode('|',$responseformat[1]);
@@ -589,6 +631,7 @@
                             unset($answeritems[$OtherKey]);
                             $a = DB::table('rego_responses')
                               ->where('userid',Auth::id())
+                                         ->where('foritem',$foritem)
                               ->where('questionshortname',$question->questionshortname)
                               ->value('responsejson');
                             $answeritems = array_unique(array_merge($answeritems,json_decode($a) ?? []));
@@ -605,7 +648,7 @@
                           // as we go using $checkboxduplicates.
                           $checkboxduplicates = [];
                         @endphp
-                        <label class="col-md-3 col-form-label text-md-right pt-0">{{ $question->questiontext }}</label>
+                        <label class="col-md-3 col-form-label text-md-right pt-0">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
                           <input type="hidden" name="{{ $question->questionshortname }}[]" value="hiddeninput" checked>
                           @foreach ($answeritems as $answeritem)
@@ -635,35 +678,15 @@
                               <div class="form-row">
                                 @if($answeritemarray[0] === 'OtherText')
                                   <div class="col">
-                                    @if($haselaborations)
-                                      <button type="button" class="btn btn-default checkboxadd rounded-0" onclick="addothertext('{{ $question->questionshortname }}','{{ $answeritemarray[1] }}',{{ json_encode($globalansweritemelaborations) }})">Add another option</button>
-                                    @else
                                       <button type="button" class="btn btn-default checkboxadd rounded-0" onclick="addothertext('{{ $question->questionshortname }}','{{ $answeritemarray[1] }}')">Add another option</button>
-                                    @endif
                                   </div>
                                 @else
-                                  @if($haselaborations)
-                                    <div class="col-sm-6">
-                                      <div class="form-check" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:parent">
-                                        <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif" onchange="toggleelaborations('{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:parent',{{ json_encode($globalansweritemelaborations) }})" type="checkbox" name="{{ $question->questionshortname }}[]" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}" value="{{ $answeritemarray[1] }}">
-                                        <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
-                                          {{ $answeritemarray[0] }}
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                      @if($answeritemarray[0] !== 'OtherText')
-                                        @foreach ($globalansweritemelaborations as $elaboration)
-                                          <div class="form-check form-check-inline">
-                                            <input class="form-check-input" style="visibility:hidden" type="radio" name="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:{{ $elaboration }}" value="{{ $elaboration }}">
-                                            <label class="form-check-label" style="visibility:hidden"  for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:{{ $elaboration }}" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:{{ $elaboration }}:label">{{ $elaboration }}</label>
-                                          </div>
-                                        @endforeach
-                                      @endif
-                                    </div>
-                                  @else
-                                    <div class="col">
-                                      <div class="form-check" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:parent">
+
+
+
+                                  <div class="col">
+                                    <div class="form-check pl-0" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:parent">
+                                      <div class="pretty p-icon p-toggle p-plain" id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:parent">
                                         <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif"
                                                 type="checkbox"
                                                 name="{{ $question->questionshortname }}[]"
@@ -675,15 +698,25 @@
                                                      ??
                                                      json_decode(DB::table('rego_responses')
                                                                    ->where('userid',Auth::id())
+                                         ->where('foritem',$foritem)
                                                                    ->where('questionshortname',$question->questionshortname)
                                                                    ->value('responsejson'))
                                                      ??
                                                      []))
                                                  checked
                                                @endif>
-                                        <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
-                                          {{ $answeritemarray[0] }}
-                                        </label>
+                                        <div class="state p-on">
+                                          <i class="icon material-icons text-primary">check_box</i>
+                                          <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
+                                            {{ $answeritemarray[0] }}
+                                          </label>
+                                        </div>
+                                        <div class="state p-off">
+                                          <i class="icon material-icons text-secondary">check_box_outline_blank</i>
+                                          <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
+                                            {{ $answeritemarray[0] }}
+                                          </label>
+                                        </div>
                                         @if($loop->last)
                                           <div class="invalid-feedback">
                                             @if ($errors->has($question->questionshortname))
@@ -695,10 +728,59 @@
                                         @endif
                                       </div>
                                     </div>
-                                  @endif
+                                  </div>
                                 @endif
                               </div>
-                              <div id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:container"></div>
+                              <div id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:container">
+@if($answeritemarray[0] === 'OtherText')
+@php
+$oldothertextcheckboxes = old($question->questionshortname)['OtherText'];
+$oldothertexttexts = old($question->questionshortname . ":OtherText");
+$othertextkeys = array_keys($oldothertexttexts ?? []);
+$checkboxothertexterror = false;
+@endphp
+@foreach($othertextkeys as $othertextkey)
+@php
+$checkbothisoneerror = isset($oldothertextcheckboxes[$othertextkey]) && ($oldothertexttexts[$othertextkey] === '' || is_null($oldothertexttexts[$othertextkey]));
+$checkboxothertexterror =  $checkbothisoneerror ? True : $checkboxothertexterror;
+@endphp
+<div class="input-group">
+<div class="input-group-prepend">
+
+
+
+                                  <div class="input-group-text rounded-0">
+                                    <div class="pretty p-icon p-toggle p-plain pr-0 mr-0">
+                                      <input type="checkbox" name="{{ $question->questionshortname }}[{{ $answeritemarray[1] }}][{{ $othertextkey }}]" value="{{ $othertextkey }}" aria-label="Radio button for following text input" {{ isset($oldothertextcheckboxes[$othertextkey]) ? 'checked' : '' }}>
+                                      <div class="state p-on">
+                                        <i class="icon material-icons text-primary">radio_button_checked</i>
+                                        <label></label>
+                                      </div>
+                                      <div class="state p-off">
+                                        <i class="icon material-icons text-secondary">radio_button_unchecked</i>
+                                        <label></label>
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+
+</div>
+<input type="text" class="form-control rounded-0 @if($checkbothisoneerror) is-invalid @endif" name="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}[{{ $othertextkey }}]" aria-label="Text input with radio button" placeholder="Other" @if(isset($oldothertexttexts[$othertextkey])) value="{{ $oldothertexttexts[$othertextkey] }}" @endif>
+<div class="invalid-feedback">
+@if ($errors->has($question->questionshortname))
+@foreach ($errors->get($question->questionshortname) as $message)
+@if(!$loop->first)<br>@endif{{ $message }}
+@endforeach
+@endif
+@if($checkboxothertexterror)
+The other field is required if it is selected.
+@endif
+</div>
+</div>
+@endforeach
+@endif
+                              </div>
                             @endif
                           @endforeach
                         </div>

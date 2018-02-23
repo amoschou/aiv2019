@@ -32,7 +32,7 @@ class SignupForm extends Mailable
     {
         return $this->from(['AIVCF Adelaide' => 'mail@aiv.org.au'])
                     ->subject('Sign up to Adelaide IV website')
-                    ->view('mail.signup.index')
-                    ->text('mail.signup.index_plain');
+                    ->view('mail.registration.signup.index')
+                    ->text('mail.registration.signup.index_plain');
     }
 }

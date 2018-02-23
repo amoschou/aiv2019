@@ -40,7 +40,7 @@ class SignupController extends Controller
     }
     else
     {
-      return view ('signup.signup');
+      return view ('registration.signup.signup');
     }
   }
 
@@ -88,7 +88,7 @@ class SignupController extends Controller
         'titletext' => 'Registration',
         'imagesource' => 'public/images/image-1.jpg',
         ];
-        return view ('signup.thanks', $context);
+        return view ('registration.signup.thanks', $context);
       }
       catch (Exception $e)
       {
@@ -123,7 +123,7 @@ class SignupController extends Controller
         'titletext' => 'Registration',
         'imagesource' => 'public/images/image-1.jpg',
         ];
-        return view ('signup.thanks', $context);
+        return view ('registration.signup.thanks', $context);
       }
       catch (Exception $e)
       {

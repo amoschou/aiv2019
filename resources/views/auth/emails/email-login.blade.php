@@ -1,1 +1,0 @@
-Log in to Adelaide IV here: <a href="{{ $url }}">{{ $url }}</a>

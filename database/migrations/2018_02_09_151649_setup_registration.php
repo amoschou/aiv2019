@@ -25,7 +25,9 @@ class SetupRegistration extends Migration
             $table->text('sectionname')->unique();
             $table->text('sectionshortname')->unique();
             $table->text('sectiondescr')->nullable();
+            $table->text('sectionduplicateforeach')->nullable();
             $table->integer('sectionord')->unique();
+//            $table->foreign('sectionduplicateforeach')->references('questionid')->on('rego_questions');
         });
         Schema::create('rego_subsections', function (Blueprint $table) {
             $table->increments('subsectionid');
@@ -57,28 +59,30 @@ class SetupRegistration extends Migration
         Schema::create('rego_responses', function (Blueprint $table) {
             $table->increments('responseid');
             $table->integer('userid');
+            $table->text('foritem');
             $table->text('questionshortname');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
             $table->foreign('questionshortname')->references('questionshortname')->on('rego_questions');
-            $table->unique(['userid','questionshortname']);
+            $table->unique(['userid','foritem','questionshortname']);
         });
         Schema::create('rego_responses_nofk', function (Blueprint $table) {
             $table->increments('responseid');
             $table->integer('userid');
+            $table->text('foritem');
             $table->text('attributename');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
-            $table->unique(['userid','attributename']);
+            $table->unique(['userid','foritem','attributename']);
         });
-        Schema::create('rego_mustask', function (Blueprint $table) {
-            $table->integer('userid');
-            $table->integer('sectionid');
-            $table->boolean('submitted')->default(False);
-            $table->foreign('userid')->references('id')->on('iv_users');
-            $table->foreign('sectionid')->references('sectionid')->on('rego_sections');
-            $table->primary(['userid','sectionid']);
-        });
+//        Schema::create('rego_mustask', function (Blueprint $table) {
+//            $table->integer('userid');
+//            $table->integer('sectionid');
+//            $table->boolean('submitted')->default(False);
+//            $table->foreign('userid')->references('id')->on('iv_users');
+//            $table->foreign('sectionid')->references('sectionid')->on('rego_sections');
+//            $table->primary(['userid','sectionid']);
+//        });
         break;
       
       case('mysql'):
@@ -87,7 +91,9 @@ class SetupRegistration extends Migration
             $table->string('sectionname')->unique();
             $table->string('sectionshortname')->unique();
             $table->string('sectiondescr')->nullable();
+            $table->string('sectionduplicateforeach')->nullable();
             $table->integer('sectionord')->unique();
+//            $table->foreign('sectionduplicateforeach')->references('questionid')->on('rego_questions');
         });
         Schema::create('rego_subsections', function (Blueprint $table) {
             $table->increments('subsectionid');
@@ -119,28 +125,30 @@ class SetupRegistration extends Migration
         Schema::create('rego_responses', function (Blueprint $table) {
             $table->increments('responseid');
             $table->unsignedInteger('userid');
+            $table->text('foritem');
             $table->string('questionshortname');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
             $table->foreign('questionshortname')->references('questionshortname')->on('rego_questions');
-            $table->unique(['userid','questionshortname']);
+            $table->unique(['userid','foritem','questionshortname']);
         });
         Schema::create('rego_responses_nofk', function (Blueprint $table) {
             $table->increments('responseid');
             $table->unsignedInteger('userid');
+            $table->text('foritem');
             $table->string('attributename');
             $table->json('responsejson');
             $table->foreign('userid')->references('id')->on('iv_users');
-            $table->unique(['userid','attributename']);
+            $table->unique(['userid','foritem','attributename']);
         });
-        Schema::create('rego_mustask', function (Blueprint $table) {
-            $table->unsignedInteger('userid');
-            $table->unsignedInteger('sectionid');
-            $table->boolean('submitted')->default(False);
-            $table->foreign('userid')->references('id')->on('iv_users');
-            $table->foreign('sectionid')->references('sectionid')->on('rego_sections');
-            $table->primary(['userid','sectionid']);
-        });
+//        Schema::create('rego_mustask', function (Blueprint $table) {
+//            $table->unsignedInteger('userid');
+//            $table->unsignedInteger('sectionid');
+//            $table->boolean('submitted')->default(False);
+//            $table->foreign('userid')->references('id')->on('iv_users');
+//            $table->foreign('sectionid')->references('sectionid')->on('rego_sections');
+//            $table->primary(['userid','sectionid']);
+//        });
         break;
     }
     

@@ -34,7 +34,7 @@ class ExpressionOfInterestForm extends Mailable
     {
         return $this->from(['AIVCF Adelaide' => 'contact@aiv.org.au'])
                     ->subject('Expression of interest form on Adelaide IV website')
-                    ->view('mail.expressionofinterest.index')
-                    ->text('mail.expressionofinterest.index_plain');
+                    ->view('mail.public.expressionofinterest.index')
+                    ->text('mail.public.expressionofinterest.index_plain');
     }
 }

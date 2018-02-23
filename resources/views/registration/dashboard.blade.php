@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('registration.layouts.app')
 
 
 <?php
@@ -15,8 +15,14 @@
 
       <div id="accordion">
         <div class="card border-primary rounded-0">
-          <div class="card-header border-primary rounded-0 bg-primary text-white" id="headingOne" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="cursor:pointer">
-              Registration details
+          <div class="card-header border-primary rounded-0 bg-primary text-white"
+                  id="header-registrationdetails"
+         data-toggle="collapse"
+         data-target="#collapse-registrationdetails"
+       aria-expanded="true"
+       aria-controls="collapse-registrationdetails"
+               style="cursor:pointer">
+            Registration details
           </div>
           @php
             $q = "SELECT DISTINCT sectionid,
@@ -55,13 +61,40 @@
                   $q .= " ORDER BY sectionord";
             $sections = DB::select($q,[Auth::id()]);
           @endphp
-          <div id="collapseOne" class="collapse {{ accordionshow($accordionshow ?? NULL,'registration') }}" aria-labelledby="headingOne" data-parent="#accordion">
+          <div id="collapse-registrationdetails"
+            class="collapse {{ accordionshow($accordionshow ?? NULL,'responses') }}"
+  aria-labelledby="header-registrationdetails"
+      data-parent="#accordion">
             <div class="list-group list-group-flush">
             @foreach($sections as $section)
               <a class="list-group-item list-group-item-action {{ $section->sectionid === (int) $sectionid ? 'text-primary' : 'text-muted' }}" href="/home/registration/{{ $section->sectionid }}">{{ $section->sectionname }}</a>
             @endforeach
             </div>
           </div>
+          @if($iscommittee)
+            <div class="card-header border-warning rounded-0 bg-warning"
+                    id="header-bulkdata"
+           data-toggle="collapse"
+           data-target="#collapse-bulkdata"
+         aria-expanded="true"
+         aria-controls="collapse-bulkdata"
+                 style="cursor:pointer">
+              Bulk data
+            </div>
+            @php
+              $sections = DB::table('rego_sections')->select('sectionid','sectionname','sectionshortname')->get();
+            @endphp
+            <div id="collapse-bulkdata"
+              class="collapse"
+    aria-labelledby="header-bulkdata"
+        data-parent="#accordion">
+              <div class="list-group list-group-flush">
+                @foreach($sections as $section)
+                  <a class="list-group-item list-group-item-action" href="/home/bulkdata/{{ $section->sectionid }}">{{ $section->sectionshortname }}</a>
+                @endforeach
+              </div>
+            </div>
+          @endif
 
         </div>
       </div>
@@ -71,7 +104,12 @@
     <div class="col-md-9">
     
     @section('innercontent')
-      <h1>Welcome, {{ $firstname }}</h1>
+      <h1>
+        Welcome, {{ $firstname }}
+        @if($iscommittee)
+          <br><small class="text-muted">Committee member</small>
+        @endif
+      </h1>
       <p>This is where you can register for the festival and manage your personal information.</p>
       <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
     @endsection

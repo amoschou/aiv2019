@@ -27,14 +27,14 @@ class HomeController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request)
   {
     // Firstly, have the essential details been asked and answered yet?
     switch(config('database.default'))
     {
       case('pgsql'):
         $query = "WITH Q AS (SELECT * FROM rego_questions WHERE sectionid = ?),
-                       R AS (SELECT * FROM rego_responses WHERE userid = ?)
+                       R AS (SELECT * FROM rego_responses WHERE userid = ? and foritem = '')
                      SELECT COUNT(*)
                        FROM Q
             LEFT OUTER JOIN R
@@ -44,7 +44,7 @@ class HomeController extends Controller
       case('mysql'):
         $query = "SELECT COUNT(*) count
                     FROM (SELECT * FROM rego_questions WHERE sectionid = ?) Q
-         LEFT OUTER JOIN (SELECT * FROM rego_responses WHERE userid = ?) R
+         LEFT OUTER JOIN (SELECT * FROM rego_responses WHERE userid = ? and foritem = '') R
                    USING (questionshortname)
                    WHERE userid IS NULL";
         break;
@@ -53,13 +53,16 @@ class HomeController extends Controller
                             ->where('sectionname','Essential details')
                             ->value('sectionid');
     $params = [$essentialdetailsid,Auth::id()];
-    $count = DB::select($query,$params)[0]->count;
+    $select = DB::select($query,$params);
+    $count = $select[0]->count;
+    
     // If the count is not zero, then there are unanswered essential questions.
     if($count > 0)
     {
       // The essential questions do not have corresponding answers
       $context = [
         'singlesectionid' => $essentialdetailsid,
+        'foritem' => '',
       ];
       return view('registration.form',$context);
     }
@@ -76,7 +79,8 @@ class HomeController extends Controller
     $context = [
       'sectionid' => NULL,
       'firstname' => json_decode($firstname[0]->responsejson),
-      'accordionshow' => 'registration',
+      'accordionshow' => 'responses',
+      'iscommittee' => $request->user()->iscommittee,
     ];
     return view('registration.dashboard',$context);
   }
@@ -85,21 +89,89 @@ class HomeController extends Controller
   
   
   
-  public function displayregistration($sectionid)
+  public function bulkdata(Request $request, $sectionid)
   {
-    switch(config('database.default'))
-    {
-      case('pgsql'):
-        $firstname = DB::select("select responsejson from rego_responses join iv_users on (id = userid) where questionshortname = 'firstname' and userid = ?",[Auth::id()]);
-        break;
-      case('mysql'):
-        $firstname = DB::select("select responsejson from rego_responses join iv_users on (id = userid) where questionshortname = 'firstname' and userid = ?",[Auth::id()]);
-        break;
-    }
+    $sectionshortname = DB::table('rego_sections')->where('sectionid',(int) $sectionid)->value('sectionshortname');
+    $context = [
+      'sectionshortname' => $sectionshortname,
+      'accordionshow' => 'bulkdata',
+      'iscommittee' => $request->user()->iscommittee,
+    ];
+    return view('registration.bulkdata',$context);
+  }
+  
+  
+  
+  
+  
+  public function displayregistration(Request $request, $sectionid)
+  {
+    $q = "SELECT DISTINCT sectionid,
+                 doasksection as sectionshortname,
+                 sectionname,
+                 sectionord,
+                 sectiondescr,
+                 sectionduplicateforeach
+            FROM rego_responses
+                 NATURAL JOIN
+                 rego_requirements
+                 JOIN rego_sections
+                 ON (doasksection = sectionshortname)
+                 LEFT OUTER JOIN rego_subsections USING (sectionid)
+           WHERE userid = ?
+                 AND
+                 sectionid = ?
+                 AND ";
+                 switch(config('database.default'))
+                 {
+                   case('pgsql'):
+                     $q .= "CASE
+                            WHEN comparisonoperator = 'LIKE'
+                            THEN responsejson::TEXT LIKE responsepattern
+                            WHEN comparisonoperator = '@>'
+                            THEN responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB
+                            END";
+                     break;
+                   case('mysql'):
+                     // Wow, MySQL, just wow.
+                     $suba = "(comparisonoperator = 'LIKE')";
+                     $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
+                     $subc = "(comparisonoperator = '@>')";
+                     $subd = "(JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL)";
+                     $subp = "((NOT $suba) OR $subb)";
+                     $subq = "($suba OR (NOT $subc) OR $subd)";
+                     $subr = "($suba OR $subc)";
+                     $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
+                     $q .= $subxnorpqr;
+                     break;
+                 }
+          $q .= " ORDER BY sectionord";
+    $firstnamequery = "SELECT responsejson
+                         FROM rego_responses
+                              JOIN
+                              iv_users
+                              ON (id = userid)
+                        WHERE questionshortname = 'firstname'
+                              AND
+                              userid = ?";
+    $lastnamequery = "SELECT responsejson
+                         FROM rego_responses
+                              JOIN
+                              iv_users
+                              ON (id = userid)
+                        WHERE questionshortname = 'lastname'
+                              AND
+                              userid = ?";
+    $firstname = DB::select($firstnamequery,[Auth::id()]);
+    $lastname = DB::select($lastnamequery,[Auth::id()]);
+    $sections = DB::select($q,[Auth::id(),(int) $sectionid]);
     $context = [
       'firstname' => json_decode($firstname[0]->responsejson),
+      'lastname' => json_decode($lastname[0]->responsejson),
       'sectionid' => $sectionid,
-      'accordionshow' => 'registration',
+      'accordionshow' => 'responses',
+      'sections' => $sections,
+      'iscommittee' => $request->user()->iscommittee,
     ];
     return view('registration.responses',$context);
   }
@@ -108,10 +180,12 @@ class HomeController extends Controller
   
   
   
-  public function registrationform ($singlesectionid)
+  public function registrationform (Request $request,$singlesectionid)
   {
     $context = [
       'singlesectionid' => $singlesectionid,
+      'foritem' => '',
+      'iscommittee' => $request->user()->iscommittee,
     ];
     return view('registration.form',$context);
   }
@@ -120,9 +194,28 @@ class HomeController extends Controller
   
   
   
+  
+
+  public function registrationformwithforitem (Request $request,$singlesectionid,$foritem)
+  {
+    $foritem = $foritem;
+    $context = [
+      'singlesectionid' => $singlesectionid,
+      'foritem' => $foritem,
+      'iscommittee' => $request->user()->iscommittee,
+    ];
+    return view('registration.form',$context);
+  }
+  
+  
+  
+  
+  
+  
+
+  
   public function registrationformpost (Request $request,$sectionid)
   {
-//    var_dump($request->all());
     $sectionid = (int) $sectionid;
     $validationarray = [];
     $validationlogics = DB::table('rego_questions')
@@ -245,7 +338,7 @@ class HomeController extends Controller
       unset($data[$questionshortname]['OtherText']);
     }
 
-//  var_dump($data); die();
+    $foritem = $request->input('foritem') ?? '';
 
     $datakeys = array_keys($data);
 
@@ -256,11 +349,13 @@ class HomeController extends Controller
       {
         if(DB::table('rego_responses')
              ->where('userid',Auth::id())
+             ->where('foritem',$foritem)
              ->where('questionshortname',$datakey)
              ->exists())
         {
           DB::table('rego_responses')
             ->where('userid',Auth::id())
+            ->where('foritem',$foritem)
             ->where('questionshortname',$datakey)
             ->update([
             'responsejson' => json_encode($data[$datakey]),
@@ -270,6 +365,7 @@ class HomeController extends Controller
         {
           DB::table('rego_responses')->insert([
             'userid' => Auth::id(),
+            'foritem' => $foritem,
             'questionshortname' => $datakey,
             'responsejson' => json_encode($data[$datakey]),
           ]);
@@ -279,11 +375,13 @@ class HomeController extends Controller
       {
         if(DB::table('rego_responses_nofk')
              ->where('userid',Auth::id())
+             ->where('foritem',$foritem)
              ->where('attributename',$datakey)
              ->exists())
         {
           DB::table('rego_responses_nofk')
             ->where('userid',Auth::id())
+             ->where('foritem',$foritem)
             ->where('attributename',$datakey)
             ->update([
             'responsejson' => json_encode($data[$datakey]),
@@ -293,6 +391,7 @@ class HomeController extends Controller
         {
           DB::table('rego_responses_nofk')->insert([
             'userid' => Auth::id(),
+            'foritem' => $foritem,
             'attributename' => $datakey,
             'responsejson' => json_encode($data[$datakey]),
           ]);

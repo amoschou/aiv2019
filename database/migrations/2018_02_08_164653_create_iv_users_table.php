@@ -21,6 +21,7 @@ class CreateIvUsersTable extends Migration
             $table->text('email');
             $table->text('username');
             $table->boolean('confirmed');
+            $table->boolean('iscommittee')->default(False);
             $table->rememberToken();
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->useCurrent();
@@ -33,6 +34,7 @@ class CreateIvUsersTable extends Migration
             $table->string('email');
             $table->string('username');
             $table->boolean('confirmed');
+            $table->boolean('iscommittee')->default(False);
             $table->rememberToken();
             $table->timestampTz('created_at')->useCurrent();
             $table->timestampTz('updated_at')->useCurrent();

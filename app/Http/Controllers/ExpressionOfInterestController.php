@@ -44,7 +44,7 @@ class ExpressionOfInterestController extends Controller
           ]
         ]
       ];
-      return view('expressionofinterest.create', $context);
+      return view('public.expressionofinterest.create', $context);
     }
 
     /**
@@ -81,7 +81,7 @@ class ExpressionOfInterestController extends Controller
         'imagesource' => 'public/images/image-1.jpg',
         'data' => $data
       ];
-      return view ('expressionofinterest.thanks', $context);
+      return view ('public.expressionofinterest.thanks', $context);
     }
 
     /**

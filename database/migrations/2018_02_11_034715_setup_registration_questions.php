@@ -224,8 +224,280 @@ class SetupRegistrationQuestions extends Migration
     
     $sectionid = DB::table('rego_sections')->insertGetId([
       'sectionord' => 4,
+      'sectionname' => 'Choral experience',
+      'sectionshortname' => 'choral'
+    ],'sectionid');
+    
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 1,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'voice',
+        'questiontext' => 'Your primary voice part',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Soprano|Alto|Tenor|Bass',
+        'html5required' => True,
+        'responsevalidationlogic' => 'required',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 2,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'divisi',
+        'questiontext' => 'Your primary divisi line',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:First|Second',
+        'html5required' => True,
+        'responsevalidationlogic' => 'required',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 3,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'sometimessings',
+        'questiontext' => 'Other voice parts you can sing well on occasion',
+        'questiondescr' => NULL,
+        'responseformat' => 'checkbox:Soprano|Alto|Tenor|Bass',
+        'html5required' => False,
+        'responsevalidationlogic' => 'required',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
+
+    // NEW SECTION
+    
+    $sectionid = DB::table('rego_sections')->insertGetId([
+      'sectionord' => 5,
+      'sectionname' => 'Travel details',
+      'sectionshortname' => 'travel',
+      'sectiondescr' => 'Although we are asking for travel details, this is only informative, so we know around about when you’ll arrive and leave. That’s all. In ordinary circumstances, we expect you to make it from the airport into the city with your luggage on your own, similarly returning to the airport for departure. Unless you have special needs, <strong>we are not offering airport pickups and dropoffs</strong> because registration is easily and cheaply accessible by public transport from the airport.',
+    ],'sectionid');
+    
+    $subsectioncode = DB::table('rego_subsections')->insertGetId([
+      'subsectionord' => 1,
+      'sectionid' => $sectionid,
+      'subsectioncode' => 1,
+      'subsectionname' => 'Arriving',
+      'subsectiondescr' => NULL,
+    ],'subsectioncode');
+    
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 1,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'arrtype',
+        'questiontext' => 'Arriving by',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Plane|Train|Bus|Private vehicle^private',
+        'responsevalidationlogic' => 'nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 2,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'arrvessel',
+        'questiontext' => 'Vessel of arrival',
+        'questiondescr' => 'Flight number, train line or bus company',
+        'responseformat' => 'text:text',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 3,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'arrat',
+        'questiontext' => 'Point of arrival',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Adelaide Airport^airport|Adelaide Parklands Terminal^parklands|Adelaide Central Bus Station^central|OtherText',
+        'responsevalidationlogic' => 'nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => 'othertext:required_if:arrat,othertext|string|nullable',
+      ],
+      [
+        'questionord' => 4,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'arrdatetime',
+        'questiontext' => 'Date and time of arrival',
+        'questiondescr' => NULL,
+        'responseformat' => 'text:datetime-local',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
+
+    $subsectioncode = DB::table('rego_subsections')->insertGetId([
+      'subsectionord' => 2,
+      'sectionid' => $sectionid,
+      'subsectioncode' => 2,
+      'subsectionname' => 'Departing',
+      'subsectiondescr' => NULL,
+    ],'subsectioncode');
+    
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 5,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'deptype',
+        'questiontext' => 'Departing by',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Plane|Train|Bus|Private vehicle^private',
+        'responsevalidationlogic' => 'nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 6,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'depvessel',
+        'questiontext' => 'Vessel of departure',
+        'questiondescr' => 'Flight number, train line or bus company',
+        'responseformat' => 'text:text',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 7,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'depat',
+        'questiontext' => 'Point of departure',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Adelaide Airport^airport|Adelaide Parklands Terminal^parklands|Adelaide Central Bus Station^central|OtherText',
+        'responsevalidationlogic' => 'nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => 'othertext:required_if:depat,othertext|string|nullable',
+      ],
+      [
+        'questionord' => 8,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'depdatetime',
+        'questiontext' => 'Date and time of departure',
+        'questiondescr' => NULL,
+        'responseformat' => 'text:datetime-local',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
+
+    $subsectioncode = DB::table('rego_subsections')->insertGetId([
+      'subsectionord' => 3,
+      'sectionid' => $sectionid,
+      'subsectioncode' => 3,
+      'subsectionname' => 'Special assistance',
+      'subsectiondescr' => NULL,
+    ],'subsectioncode');
+    
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 9,
+        'sectionid' => $sectionid,
+        'subsectioncode' => $subsectioncode,
+        'questionshortname' => 'transporthelp',
+        'questiontext' => 'If (and only if) you <strong>require</strong> special assistance at arrival and departure, please describe that here.',
+        'questiondescr' => NULL,
+        'responseformat' => 'textarea',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
+
+    // NEW SECTION
+    
+    $sectionid = DB::table('rego_sections')->insertGetId([
+      'sectionord' => 6,
+      'sectionname' => 'Camp, billeting and accommodation',
+      'sectionshortname' => 'cba'
+    ],'sectionid');
+    
+    $subsectioncode = DB::table('rego_subsections')->insert([
+      'subsectionord' => 1,
+      'sectionid' => $sectionid,
+      'subsectioncode' => 1,
+      'subsectionname' => 'Camp',
+      'subsectiondescr' => NULL,
+    ],'subsectioncode');
+    $subsectioncode = DB::table('rego_subsections')->insert([
+      'subsectionord' => 2,
+      'sectionid' => $sectionid,
+      'subsectioncode' => 2,
+      'subsectionname' => 'Billeting',
+      'subsectiondescr' => NULL,
+    ],'subsectioncode');
+    $subsectioncode = DB::table('rego_subsections')->insert([
+      'subsectionord' => 3,
+      'sectionid' => $sectionid,
+      'subsectioncode' => 3,
+      'subsectionname' => 'Accommodation',
+      'subsectiondescr' => NULL,
+    ],'subsectioncode');
+
+    // NEW SECTION
+    
+    $sectionid = DB::table('rego_sections')->insertGetId([
+      'sectionord' => 7,
+      'sectionname' => 'Billeting details for hosts',
+      'sectionshortname' => 'billeting'
+    ],'sectionid');
+    
+    // NEW SECTION
+    
+    $sectionid = DB::table('rego_sections')->insertGetId([
+      'sectionord' => 8,
+      'sectionname' => 'Social event details',
+      'sectionshortname' => 'social',
+      'sectiondescr' => 'Guests are permitted only at the academic dinner. However, anybody is welcome to make their own social registration to attend other social events.'
+    ],'sectionid');
+    
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 1,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'accdinner',
+        'questiontext' => 'Will you be at the academic dinner?',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Yes|No',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
+    $accdinnerguestquestionshortname = DB::table('rego_questions')->insertGetId([
+      'questionord' => 2,
+      'sectionid' => $sectionid,
+      'subsectioncode' => NULL,
+      'questionshortname' => 'accdinnerguest',
+      'questiontext' => 'Name of your guest to the academic dinner',
+      'questiondescr' => NULL,
+      'responseformat' => 'checkbox:OtherText',
+      'responsevalidationlogic' => 'required',
+      'html5required' => False,
+      'companionresponsevalidationlogic' => 'multiothertext',
+    ],'questionshortname');
+    
+    // NEW SECTION
+    
+    $sectionid = DB::table('rego_sections')->insertGetId([
+      'sectionord' => 9,
       'sectionname' => 'Dietary requirements',
-      'sectionshortname' => 'food'
+      'sectionshortname' => 'food',
+      'sectionduplicateforeach' => $accdinnerguestquestionshortname
     ],'sectionid');
     
     $subsectioncode = DB::table('rego_subsections')->insertGetId([
@@ -316,7 +588,7 @@ class SetupRegistrationQuestions extends Migration
         'questiontext' => 'Any animal products you do not eat?',
         'questiondescr' => NULL,
         'responseformat' => 'checkbox:Red meat|Poultry|Fish|Other seafood|Eggs|Honey|Gelatin|Dairy',
-        'responsevalidationlogic' => 'string|nullable',
+        'responsevalidationlogic' => 'required',
         'html5required' => True,
         'companionresponsevalidationlogic' => NULL,
       ],
@@ -382,108 +654,7 @@ class SetupRegistrationQuestions extends Migration
       ],
     ]);
 
-    // NEW SECTION
-    
-    $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 5,
-      'sectionname' => 'Choral experience',
-      'sectionshortname' => 'choral'
-    ],'sectionid');
-    
-    DB::table('rego_questions')->insert([
-      [
-        'questionord' => 1,
-        'sectionid' => $sectionid,
-        'subsectioncode' => NULL,
-        'questionshortname' => 'voice',
-        'questiontext' => 'Your primary voice part',
-        'questiondescr' => NULL,
-        'responseformat' => 'radio:Soprano|Alto|Tenor|Bass',
-        'html5required' => True,
-        'responsevalidationlogic' => 'required',
-        'companionresponsevalidationlogic' => NULL,
-      ],
-      [
-        'questionord' => 2,
-        'sectionid' => $sectionid,
-        'subsectioncode' => NULL,
-        'questionshortname' => 'divisi',
-        'questiontext' => 'Your primary divisi line',
-        'questiondescr' => NULL,
-        'responseformat' => 'radio:First|Second',
-        'html5required' => True,
-        'responsevalidationlogic' => 'required',
-        'companionresponsevalidationlogic' => NULL,
-      ],
-      [
-        'questionord' => 3,
-        'sectionid' => $sectionid,
-        'subsectioncode' => NULL,
-        'questionshortname' => 'sometimessings',
-        'questiontext' => 'Other voice parts you can sing well on occasion',
-        'questiondescr' => NULL,
-        'responseformat' => 'checkbox:Soprano|Alto|Tenor|Bass',
-        'html5required' => False,
-        'responsevalidationlogic' => 'required',
-        'companionresponsevalidationlogic' => NULL,
-      ],
-    ]);
-
-    // NEW SECTION
-    
-    $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 6,
-      'sectionname' => 'Travel details',
-      'sectionshortname' => 'travel'
-    ],'sectionid');
-    
-    // NEW SECTION
-    
-    $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 7,
-      'sectionname' => 'Camp, billeting and accommodation',
-      'sectionshortname' => 'cba'
-    ],'sectionid');
-    
-    $subsectioncode = DB::table('rego_subsections')->insert([
-      'subsectionord' => 1,
-      'sectionid' => $sectionid,
-      'subsectioncode' => 1,
-      'subsectionname' => 'Camp',
-      'subsectiondescr' => NULL,
-    ],'subsectioncode');
-    $subsectioncode = DB::table('rego_subsections')->insert([
-      'subsectionord' => 2,
-      'sectionid' => $sectionid,
-      'subsectioncode' => 2,
-      'subsectionname' => 'Billeting',
-      'subsectiondescr' => NULL,
-    ],'subsectioncode');
-    $subsectioncode = DB::table('rego_subsections')->insert([
-      'subsectionord' => 3,
-      'sectionid' => $sectionid,
-      'subsectioncode' => 3,
-      'subsectionname' => 'Accommodation',
-      'subsectiondescr' => NULL,
-    ],'subsectioncode');
-
-    // NEW SECTION
-    
-    $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 8,
-      'sectionname' => 'Billeting details for hosts',
-      'sectionshortname' => 'billeting'
-    ],'sectionid');
-    
-    // NEW SECTION
-    
-    $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 9,
-      'sectionname' => 'Social event details',
-      'sectionshortname' => 'social'
-    ],'sectionid');
-    
-    // NEW SECTION
+          // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
       'sectionord' => 10,
@@ -500,6 +671,10 @@ class SetupRegistrationQuestions extends Migration
    */
   public function down()
   {
+    DB::statement('delete from rego_responses');
+    DB::statement('delete from rego_questions');
+    DB::statement('delete from rego_subsections');
+    DB::statement('delete from rego_sections');
     // I guess, we could delete all records from these tables, but doesn’t really matter.
   }
 }

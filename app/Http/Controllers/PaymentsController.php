@@ -22,7 +22,7 @@ class PaymentsController extends Controller
         ],
       ]
     ];
-    return view('payments.variableamount', $context);
+    return view('public.payments.variableamount', $context);
   }
   public function variableamountpost(Request $request)
   {
@@ -46,7 +46,7 @@ class PaymentsController extends Controller
       'imagesource' => 'public/images/image-1.jpg',
       'data' => $data,
     ];
-    return view ('payments.checkout', $context);
+    return view ('public.payments.checkout', $context);
   }
   public function stripecheckout()
   {
@@ -133,6 +133,6 @@ class PaymentsController extends Controller
         'imagesource' => 'public/images/image-1.jpg',
         'charge' => $charge
       ];
-      return view ('payments.thanks', $context);
+      return view ('public.payments.thanks', $context);
   }
 }

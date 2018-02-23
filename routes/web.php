@@ -15,9 +15,14 @@
 //     return view('welcome');
 // });
 
-Route::get('/', 'PublicController@frontpage')->name('frontpage');
+/*
+ * PUBLIC SITE ROUTES
+ */
+
+Route::get('/', 'PublicController@frontpage')->name('public.frontpage');
 Route::get('/adelaideiv', 'PublicController@adelaideiv')->name('adelaideiv');
 Route::get('/aivcfadelaide', 'PublicController@aivcfadelaide')->name('aivcfadelaide');
+
 Route::get('/participate', 'PublicController@participate')->name('participate');
 Route::get('/participate/fundraising', 'PublicController@participatefundraising')->name('participatefundraising');
 Route::get('/participate/choir', 'PublicController@participatechoir')->name('participatechoir');
@@ -25,10 +30,6 @@ Route::get('/participate/choir', 'PublicController@participatechoir')->name('par
 Route::get('/participate/choir/register', 'ExpressionOfInterestController@create')->name('register');
 Route::post('/participate/choir/register', 'ExpressionOfInterestController@store');
 Route::get('/participate/choir/register/thanks', 'ExpressionOfInterestController@show')->name('register.thanks');
-
-Route::view('/participate/informationforregistrants','informationforregistrants.index',['titletext' => 'Information for registrants'])->name('informationforchoristers');
-Route::view('/participate/informationforregistrants/publictransport','informationforregistrants.index',['titletext' => 'Public transport: Adelaide Metro'])->name('publictransport');
-Route::view('/participate/informationforregistrants/dining','informationforregistrants.index',['titletext' => 'Dining in Adelaide'])->name('dining');
 
 Route::get('/contact', 'ContactController@create')->name('contact');
 Route::post('/contact', 'ContactController@store');
@@ -39,17 +40,21 @@ Route::get('/contact/thanks', 'ContactController@show')->name('contact.thanks');
   A simple shortcut without defining a full route or controller.
 */
 
-Route::view('/help',              'footmatter.index',['titletext' => 'Help'           ])->name('help');
-Route::view('/privacy',           'footmatter.index',['titletext' => 'Privacy policy' ])->name('privacy');
-Route::view('/privacy/summary',   'footmatter.index',['titletext' => 'Summary of the privacy policy' ])->name('privacy.summary');
-Route::view('/privacy/affiliates','footmatter.index',['titletext' => 'Affiliates'     ])->name('privacy.affiliates');
-Route::view('/conduct',           'footmatter.index',['titletext' => 'Code of conduct'])->name('conduct');
+Route::view('/help',              'public.footmatter.index',['titletext' => 'Help'           ])->name('help');
+Route::view('/privacy',           'public.footmatter.index',['titletext' => 'Privacy policy' ])->name('privacy');
+Route::view('/privacy/summary',   'public.footmatter.index',['titletext' => 'Summary of the privacy policy' ])->name('privacy.summary');
+Route::view('/privacy/affiliates','public.footmatter.index',['titletext' => 'Affiliates'     ])->name('privacy.affiliates');
+Route::view('/conduct',           'public.footmatter.index',['titletext' => 'Code of conduct'])->name('conduct');
 
 Route::get('/payments/checkout', 'PaymentsController@variableamountget')->name('payments.variableamount.get');
 Route::post('/payments/checkout', 'PaymentsController@variableamountpost')->name('payments.variableamount.post');
 
 Route::get('/payments', 'PaymentsController@index')->name('payments.index');
 Route::post('/stripe/checkout', 'PaymentsController@stripecheckout')->name('stripe.checkout');
+
+/*
+ * REGISTRATION SITE ROUTES
+ */
 
 // If logged in, then this should redirect to /home
 Route::get('/login','SignupController@login')->name('login');
@@ -61,9 +66,63 @@ Route::get('/login/{token}','SignupController@logintoken');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/registration/{sectionid}', 'HomeController@displayregistration')->name('home.responses');
 Route::get('/home/registration/{sectionid}/edit', 'HomeController@registrationform')->name('home.form');
+Route::get('/home/registration/{sectionid}/{foritem}/edit', 'HomeController@registrationformwithforitem')->name('home.formwithforitem');
+
 Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpost')->name('home.form.post');
 
-Route::get('/banksa', 'BankingController@index')->name('banking');
+Route::get('/home/bulkdata/{sectionid}', 'HomeController@bulkdata')->name('home.bulkdata');
 
+
+
+
+/*
+ * festivalinformation SITE ROUTES
+ */
+
+$textclasses = [
+  'pclass' => 'mdc-typography--body1',
+  'ulclass' => 'mdc-typography--body1',
+  'liclass' => NULL,
+  'h1class' => 'mdc-typography--display4',
+  'h2class' => 'mdc-typography--display3',
+  'h3class' => 'mdc-typography--display2',
+  'h4class' => 'mdc-typography--display1',
+  'h5class' => 'mdc-typography--subheading2',
+  'h6class' => 'mdc-typography--body2',
+  'titleclass' => 'mdc-typography--title',
+  'captionclass' => 'mdc-typography--caption',
+  'headlineclass' => 'mdc-typography--headline',
+];
+
+$fibsacronym = env('FIBS_ACRONYM', 'FIBS');
+$fibsacronymlc = strtolower($fibsacronym);
+$fibsacronymasaname = ucfirst($fibsacronymlc);
+$fibsnameexpanded = env('FIBS_EXPANDED', 'Eff Eye Bee Ess');
+
+$context = [
+  'fibsacronym' => $fibsacronym,
+  'fibsacronymlc' => $fibsacronymlc,
+  'fibsacronymasaname' => $fibsacronymasaname,
+  'fibsnameexpanded' => $fibsnameexpanded,
+];
+
+$context = array_merge($textclasses,$context);
+
+Route::view("/{$fibsacronymlc}", 'festivalinformation.content.index', $context)->name('festivalinformation.content.index');
+Route::view("/{$fibsacronymlc}/calendar", 'festivalinformation.content.calendar', $context)->name('festivalinformation.content.calendar');
+Route::view("/{$fibsacronymlc}/maps", 'festivalinformation.content.maps', $context)->name('festivalinformation.content.maps');
+Route::view("/{$fibsacronymlc}/publictransport", 'festivalinformation.content.publictransport', $context)->name('festivalinformation.content.publictransport');
+Route::view("/{$fibsacronymlc}/dining", 'festivalinformation.content.dining', $context)->name('festivalinformation.content.dining');
+Route::view("/{$fibsacronymlc}/fineprint", 'festivalinformation.content.fineprint', $context)->name('festivalinformation.content.fineprint');
+Route::view("/{$fibsacronymlc}/dailycommentary", 'festivalinformation.content.dailycommentary.index', $context)->name('festivalinformation.content.dailycommentary');
+
+
+
+/*
+ * PRIVATE SITE ROUTES
+ */
+
+Route::get('/banksa', 'BankingController@index')->name('banking');
 Route::post('/stripe/webhook', 'WebhookController@post')->name('webhook.post');
 Route::get('/stripe/webhook', 'WebhookController@index')->name('webhook');
+
