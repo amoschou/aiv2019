@@ -500,13 +500,17 @@ class SetupRegistrationQuestions extends Migration
       'sectionduplicateforeach' => $accdinnerguestquestionshortname
     ],'sectionid');
     
-    $subsectioncode = DB::table('rego_subsections')->insertGetId([
+    $subsectionid = DB::table('rego_subsections')->insertGetId([
       'subsectionord' => 1,
       'sectionid' => $sectionid,
       'subsectioncode' => 1,
       'subsectionname' => 'Food allergy and intolerance requirements',
       'subsectiondescr' => NULL,
-    ],'subsectioncode');
+    ],'subsectionid');
+    
+    $subsectioncode = DB::table('rego_subsections')
+                        ->where('subsectionid',$subsectionid)
+                        ->value('subsectioncode');
     
     DB::table('rego_questions')->insert([
       [
@@ -565,14 +569,18 @@ class SetupRegistrationQuestions extends Migration
       ],
     ]);
     
-    $subsectioncode = DB::table('rego_subsections')->insertGetId([
+    $subsectionid = DB::table('rego_subsections')->insertGetId([
       'subsectionord' => 2,
       'sectionid' => $sectionid,
       'subsectioncode' => 2,
       'subsectionname' => 'Food restriction requirements',
       'subsectiondescr' => NULL,
-    ],'subsectioncode');
+    ],'subsectionid');
 
+    $subsectioncode = DB::table('rego_subsections')
+                        ->where('subsectionid',$subsectionid)
+                        ->value('subsectioncode');
+    
     DB::table('rego_questions')->insert([
       [
         'questionord' => 5,
@@ -604,13 +612,17 @@ class SetupRegistrationQuestions extends Migration
 
 
 
-    $subsectioncode = DB::table('rego_subsections')->insertGetId([
+    $subsectionid = DB::table('rego_subsections')->insertGetId([
       'subsectionord' => 3,
       'sectionid' => $sectionid,
       'subsectioncode' => 3,
       'subsectionname' => 'Other food requirements',
       'subsectiondescr' => NULL,
-    ],'subsectioncode');
+    ],'subsectionid');
+
+    $subsectioncode = DB::table('rego_subsections')
+                        ->where('subsectionid',$subsectionid)
+                        ->value('subsectioncode');
     
     DB::table('rego_questions')->insert([
       [
@@ -641,13 +653,17 @@ class SetupRegistrationQuestions extends Migration
       ],
     ]);
 
-    $subsectioncode = DB::table('rego_subsections')->insertGetId([
+    $subsectionid = DB::table('rego_subsections')->insertGetId([
       'subsectionord' => 4,
       'sectionid' => $sectionid,
       'subsectioncode' => 4,
       'subsectionname' => 'Food preferences (non requirements)',
       'subsectiondescr' => NULL,
-    ],'subsectioncode');
+    ],'subsectionid');
+
+    $subsectioncode = DB::table('rego_subsections')
+                        ->where('subsectionid',$subsectionid)
+                        ->value('subsectioncode');
       
     DB::table('rego_questions')->insert([
       [
