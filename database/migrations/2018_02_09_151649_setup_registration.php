@@ -90,7 +90,7 @@ class SetupRegistration extends Migration
             $table->increments('sectionid');
             $table->string('sectionname')->unique();
             $table->string('sectionshortname')->unique();
-            $table->string('sectiondescr')->nullable();
+            $table->text('sectiondescr')->nullable();
             $table->string('sectionduplicateforeach')->nullable();
             $table->integer('sectionord')->unique();
 //            $table->foreign('sectionduplicateforeach')->references('questionid')->on('rego_questions');
