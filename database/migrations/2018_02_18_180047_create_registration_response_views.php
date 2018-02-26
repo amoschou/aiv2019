@@ -13,23 +13,11 @@ class CreateRegistrationResponseViews extends Migration
     {
       return FALSE;
     }
-    
-
     // BEGIN INNER TABLE DEFINITION
-      $cols = 'userid';
       $t = 'select userid';
+      $cols = 'userid';
       for($i = 0 ; $i < count($columns) ; $i++)
       {
-        $col = $columns[$i];
-        if(substr($col,0,1) === '*')
-        {
-          $col = substr($col,1);
-          $cols .= ", CASE WHEN {$col} = 'othertext' THEN other{$col} ELSE {$col} END {$col}";
-        }
-        else
-        {
-          $cols .= ", $col";
-        }
         if($types[$i] === 'single' && $db === 'pgsql')
         {
           $t .= ", (json_agg(responsejson#>>'{}') FILTER (WHERE questionshortname = '{$col}'))->0#>>'{}' {$col}";
@@ -46,8 +34,15 @@ class CreateRegistrationResponseViews extends Migration
         {
           $t = ", (group_concat(case when questionshortname = '{$col}' then responsejson end)) {$col}";
         }
-        if(substr($col,0,1) === '*')
+        $col = $columns[$i];
+        if(substr($col,0,1) !== '*')
         {
+          $cols .= ", $col";
+        }
+        else
+        {
+          $col = substr($col,1);
+          $cols .= ", CASE WHEN {$col} = 'othertext' THEN other{$col} ELSE {$col} END {$col}";
           $i++;
         }
       }

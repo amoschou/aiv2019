@@ -91,7 +91,7 @@ Public transport
       <h3 class="{{ $titleclass }}">Tickets and fares</h3>
       <p class="{{ $pclass }}">If you are from interstate, you will probably need to pay full priced regular fares on Adelaide Metro services even if you are a student, so only regular fares are discussed here.</p>
       <p class="{{ $pclass }}">You have the choice of using a metrocard or metrotickets. Buying and using a regular Metrocard is cheaper than using singletrip metrotickets if you pay at least two fares. Daytrip metrotickets or a visitor pass metrocard might also be cheaper options in some circumstances.</p>
-      <p class="{{ $pclass }}">Validate (that is ‘touch on’) your ticket or metrocard whenever you board a bus, train or tram. Once you’ve first validated, you’re free to travel for two hours as many times as you like without paying another fare. This two hour window of unlimited validations is called a ‘trip’. In Adelaide, we don’t ‘touch off’.</p>
+      <p class="{{ $pclass }}">Validate (that is ‘touch on’) your ticket or metrocard whenever you board a bus, train or tram. Once you’ve first validated, you’re free to travel for two hours as many times as you like without paying another fare. This two hour window of unlimited validations until you finally get off is called a ‘trip’. In Adelaide, we don’t ‘touch off’.</p>
       <p class="{{ $pclass }}">Travel in interpeak times is cheaper than in peak times.</p>
       <ul class="{{ $ulclass }}">
         <li class="{{ $liclass }}">Interpeak: First validation between 9:01 and 3:00 on weekdays or at any time on Sundays or public holidays.</li>

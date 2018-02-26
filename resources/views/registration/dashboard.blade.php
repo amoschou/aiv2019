@@ -71,6 +71,25 @@
             @endforeach
             </div>
           </div>
+          <div class="card-header border-primary rounded-0 bg-primary text-white"
+                  id="header-personalinformation"
+         data-toggle="collapse"
+         data-target="#collapse-personalinformation"
+       aria-expanded="true"
+       aria-controls="collapse-personalinformation"
+               style="cursor:pointer">
+            Personal information
+          </div>
+          <div id="collapse-personalinformation"
+            class="collapse"
+  aria-labelledby="header-registrationdetails"
+      data-parent="#accordion">
+            <div class="list-group list-group-flush">
+              <a class="list-group-item list-group-item-action text-muted" href="/home/personalinformation/miscellaneous">Miscellaneous personal information</a>
+            </div>
+          </div>
+
+
           @if($iscommittee)
             <div class="card-header border-warning rounded-0 bg-warning"
                     id="header-bulkdata"

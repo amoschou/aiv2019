@@ -14,7 +14,16 @@
   Modified by Andrew Gilbert Moschou.
   Modifications Copyright © Andrew Gilbert Moschou 2016.
 */
+/*
+  Header background image
+  By Moyan Brenn from Anzio, Italy (Northern lights) [CC BY 2.0 (http://creativecommons.org/licenses/by/2.0)], via Wikimedia Commons
+*/
 .portfolio-header {
+  position: relative;
+  background-image: url(//upload.wikimedia.org/wikipedia/commons/e/e2/Northern_lights_%289997815384%29.jpg);
+  background-size: cover;
+}
+.portfolio-header-previous {
   position: relative;
   background-image: url(images/wallpaper-1920x1080-bluegrey500-10pcmonochromaticgaussiannoise-6pxgaussianblur.png);
 }
@@ -193,8 +202,15 @@ img.article-image {
   max-width: 550px;
   margin: auto;
 }
-
+/*
+  Footer background image
+  By Marco Ottobelli (Own work) [CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)], via Wikimedia Commons
+*/
 footer {
+  background-image: url(//upload.wikimedia.org/wikipedia/commons/5/54/Aurora_Borealis_from_the_rooftop_in_Iceland.jpg);
+  background-size: cover;
+}
+footer-previous {
   background-image: url(images/wallpaper-1920x1080-bluegrey900-uniformnoise-5pc-monochromatic.png);
   background-size: cover;
 }

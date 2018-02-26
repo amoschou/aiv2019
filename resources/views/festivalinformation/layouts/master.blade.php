@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="//material-components-web.appspot.com/assets/radio.css">
     <link rel="stylesheet" href="//material-components-web.appspot.com/assets/tabs.css">
     <link rel="stylesheet" href="//material-components-web.appspot.com/assets/select.css">
+    <link rel="stylesheet" href="//material-components-web.appspot.com/assets/grid-list.css">
     <script src="//material-components-web.appspot.com/ready.js"></script>
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto+Mono">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500">
@@ -51,7 +52,7 @@
         <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
           <button class="demo-menu material-icons mdc-toolbar__menu-icon">menu</button>
           @section('backbutton')
-            <a href="/{{ $fibsacronymlc }}" class="catalog-back mdc-toolbar__menu-icon"><i class="material-icons">&#xE5C4;</i></a>
+            <a href="/{{ $fibsacronymlc }}" class="catalog-back mdc-toolbar__menu-icon"><i class="material-icons">arrow_back</i></a>
           @show
           <span class="mdc-toolbar__title">@yield('toolbartitle')</span>
         </section>
