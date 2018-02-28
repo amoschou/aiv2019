@@ -124,6 +124,9 @@ Route::view("/{$fibsacronymlc}/dailycommentary", 'festivalinformation.content.da
 
 Route::get('/banksa', 'BankingController@index')->name('banking');
 Route::get('/post', 'PostController@get')->name('get');
+
+// Ideally, /post should be outside the web middleware group.
+// But if it is here, remember to except the csrf token
 Route::post('/post', 'PostController@post')->name('post');
 
 
