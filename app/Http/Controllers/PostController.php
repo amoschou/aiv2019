@@ -10,7 +10,25 @@ class PostController extends Controller
 {
   public function post(Request $request)
   {
-    $requestjson = $request->getContent();
+    \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+    $payload = $request->getContent();
+    $sig_header = $request->server('HTTP_STRIPE_SIGNATURE');
+    $event = null;
+    
+    try {
+      $event = \Stripe\Webhook::constructEvent(
+        $payload, $sig_header, $endpoint_secret
+      );
+    } catch(\UnexpectedValueException $e) {
+      // Invalid payload
+      response(400); // PHP 5.4 or greater
+      exit();
+    } catch(\Stripe\Error\SignatureVerification $e) {
+      // Invalid signature
+      response(400); // PHP 5.4 or greater
+      exit();
+    }
+
     DB::table('http_posts')->insert([
       'postjson' => $requestjson,
     ]);
@@ -24,3 +42,4 @@ class PostController extends Controller
     return view('post.post');
   }
 }
+
