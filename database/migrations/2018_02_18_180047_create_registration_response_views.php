@@ -44,11 +44,11 @@ class CreateRegistrationResponseViews extends Migration
         }
         if($types[$i] === 'single' && $db === 'mysql')
         {
-          $t .= ", json_unquote(group_concat(case when questionshortname = '{$col}' then responsejson end)) {col}";
+          $t .= ", json_unquote(group_concat(case when questionshortname = '{$col}' then responsejson end)) {$col}";
         }
         if($types[$i] === 'multi' && $db === 'mysql')
         {
-          $t = ", (group_concat(case when questionshortname = '{$col}' then responsejson end)) {$col}";
+          $t .= ", (group_concat(case when questionshortname = '{$col}' then responsejson end)) {$col}";
         }
       }
       $t .= ' FROM view_rego_responses GROUP BY userid ORDER BY userid';
