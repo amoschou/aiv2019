@@ -10,7 +10,7 @@ class PostController extends Controller
 {
   public function post(Request $request)
   {
-    $requestjson = json_encode($request->all());
+    $requestjson = json_encode($request->getContent());
     DB::table('http_posts')->insert([
       'postjson' => $requestjson,
     ]);
