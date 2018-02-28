@@ -16,7 +16,7 @@ class PostController extends Controller
     ]);
     // If this failed, then exception happens.
     // Otherwise all good and return 200.
-    return response()->setStatusCode(200);
+    return response(200);
   }
 
   public function get()
