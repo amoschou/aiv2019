@@ -29,7 +29,7 @@ $event_json = json_decode($input);
 
 // Do something with $event_json
     Log::info('Received post (B): ' . $input);
-    Log::info('Reeived post (C): ' . $event_json);
+    Log::info('Reeived post (C): ' . var_export($event_json,TRUE));
   }
 
   public function get()
