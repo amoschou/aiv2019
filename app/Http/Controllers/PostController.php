@@ -10,7 +10,8 @@ class PostController extends Controller
 {
   public function post(Request $request)
   {
-    $endpoint_secret = \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+    \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+    $endpoint_secret = 'whsec_FQHUFwH1ZcOtNwTygG9R85St4SEIBdVZ';
     $payload = $request->getContent();
     $sig_header = $request->server('HTTP_STRIPE_SIGNATURE');
     $event = null;
