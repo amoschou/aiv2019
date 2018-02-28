@@ -33,7 +33,7 @@ class CreateBankingTables extends Migration
             $table->foreign('transactionid')->references('id')->on('bank_transactions');
             $table->foreign('ownerid')->references('id')->on('iv_users');
         });
-        Schema::create('html_posts', function (Blueprint $table) {
+        Schema::create('http_posts', function (Blueprint $table) {
             $table->increments('postid');
             $table->json('postjson');
             $table->timestampTz('created_at')->useCurrent();
@@ -57,7 +57,7 @@ class CreateBankingTables extends Migration
             $table->foreign('transactionid')->references('id')->on('bank_transactions');
             $table->foreign('ownerid')->references('id')->on('iv_users');
         });
-        Schema::create('html_posts', function (Blueprint $table) {
+        Schema::create('http_posts', function (Blueprint $table) {
             $table->increments('postid');
             $table->json('postjson');
             $table->timestampTz('created_at')->useCurrent();
@@ -74,7 +74,7 @@ class CreateBankingTables extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('html_posts');
+    Schema::dropIfExists('http_posts');
     Schema::dropIfExists('bank_transaction_owners');
     Schema::dropIfExists('bank_transactions');
   }

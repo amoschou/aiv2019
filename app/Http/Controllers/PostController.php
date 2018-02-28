@@ -11,7 +11,7 @@ class PostController extends Controller
   public function post(Request $request)
   {
     $requestjson = $request->json();
-    DB::table('html_posts')->insert([
+    DB::table('http_posts')->insert([
       'postjson' => $requestjson,
     ]);
     // If this failed, then exception happens.
