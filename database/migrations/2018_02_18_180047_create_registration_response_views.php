@@ -16,8 +16,24 @@ class CreateRegistrationResponseViews extends Migration
     // BEGIN INNER TABLE DEFINITION
       $t = 'select userid';
       $cols = 'userid';
+      $skipnext = False;
       for($i = 0 ; $i < count($columns) ; $i++)
       {
+        $col = $columns[$i];
+        if(substr($col,0,1) === '*')
+        {
+          $col = substr($col,1);
+          $cols .= ", CASE WHEN {$col} = 'othertext' THEN other{$col} ELSE {$col} END {$col}";
+          $skipnext = True;
+        }
+        else
+        {
+          if($skipnext === False)
+          {
+            $cols .= ", $col";
+          }
+          $skipnext = False;
+        }
         if($types[$i] === 'single' && $db === 'pgsql')
         {
           $t .= ", (json_agg(responsejson#>>'{}') FILTER (WHERE questionshortname = '{$col}'))->0#>>'{}' {$col}";
@@ -28,22 +44,11 @@ class CreateRegistrationResponseViews extends Migration
         }
         if($types[$i] === 'single' && $db === 'mysql')
         {
-          $t .= ", json_unquote(group_concat(case when questionshortname = '{$col}' then responsejson end)) {$col}";
+          $t .= ", json_unquote(group_concat(case when questionshortname = '{$col}' then responsejson end)) {col}";
         }
         if($types[$i] === 'multi' && $db === 'mysql')
         {
           $t = ", (group_concat(case when questionshortname = '{$col}' then responsejson end)) {$col}";
-        }
-        $col = $columns[$i];
-        if(substr($col,0,1) !== '*')
-        {
-          $cols .= ", $col";
-        }
-        else
-        {
-          $col = substr($col,1);
-          $cols .= ", CASE WHEN {$col} = 'othertext' THEN other{$col} ELSE {$col} END {$col}";
-          $i++;
         }
       }
       $t .= ' FROM view_rego_responses GROUP BY userid ORDER BY userid';

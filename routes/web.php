@@ -123,6 +123,7 @@ Route::view("/{$fibsacronymlc}/dailycommentary", 'festivalinformation.content.da
  */
 
 Route::get('/banksa', 'BankingController@index')->name('banking');
-Route::post('/stripe/webhook', 'WebhookController@post')->name('webhook.post');
-Route::get('/stripe/webhook', 'WebhookController@index')->name('webhook');
+Route::get('/post', 'PostController@get')->name('get');
+Route::post('/post', 'PostController@post')->name('post');
+
 
