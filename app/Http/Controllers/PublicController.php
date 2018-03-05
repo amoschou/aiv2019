@@ -9,8 +9,9 @@ class PublicController extends Controller
   public function frontpage()
   {
     # To redirect the home page to the event page:
-    return redirect()->route('adelaideiv');
+#    return redirect()->route('adelaideiv');
     # Or to have an independent home page, comment the above
+/*
     $context = [
       'imagesource' => 'public/images/image-1.jpg',
       'activetab' => 'home',
@@ -19,6 +20,55 @@ class PublicController extends Controller
         'The 70th AIVCF will take place in Adelaide in 2019.',
         'Out of courtesy to the upcoming festivals (68th in Perth 2017, 69th in Melbourne 2018), we won’t have any news until Melbourne 2018 has begun. Festival details will be revealed in 2018.',
       ]
+    ];
+*/
+    $context = [
+      'imagesource' => 'public/images/image-1.jpg',
+      'activetab' => 'festival',
+      'titletext' => 'Festival concert: Northern lights',
+      'essay' => [
+        [
+          '',
+          [
+            'AIVCF Adelaide presents the 2019 festival concert ‘Northern lights’ on Saturday, 19 January 2019.',
+            'This concert presents works by incredible Scandinavian and Baltic composers Pärt, Gjeilo, Ešenvalds and Sandström, as well as Whitacre, Dove and Lauridsen.',
+            'Of particular highlight is the wonderful <em>Magnificat</em> by Kim André Arnesen, a talented young Norwegian composer. A recording of <em>Magnificat</em> in Nidaros Cathedral was nominated for a Grammy Award in 2016, and we are excited to feature the Australian première of this spine-tingling work.',
+            'The festival choir, comprising members from university choirs across Australia as well as the wider Australian choral community and even internationally, is directed by Peter Kelsall and incorporates the newly restored organ at St Peter’s Cathedral.',
+            '<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" href="/concert">Read more</a>',
+          ]
+        ]
+      ]
+    ];
+    return view('public.frontpage', $context);
+  }
+  public function concert()
+  {
+    $context = [
+      'useimagesource' => True,
+      'imagesource' => '/style/css/images/pkelsallyorkminster-960x640.jpg',
+      'activetab' => 'festival',
+      'titletext' => 'Festival concert: Northern lights',
+      'essay' => [
+        [
+          'Repertoire',
+          [
+            'Northern Lights presents works by incredible Scandinavian and Baltic composers Arvo Pärt, Ēriks Ešenvalds, Jan Sandström and Ola Gjeilo, as well as works by Eric Whitacre, Morten Lauridsen, and Jonathan Dove.',
+            'The major work of the concert is the wonderful <em>Magnificat</em> by Kim André Arnesen, a talented young Norwegian composer. A recording of <em>Magnificat</em> in Nidaros Cathedral was nominated for a Grammy Award in 2016, and we are excited to feature the Australian première of this spine-tingling work.',
+            'We’ll also be performing Pärt’s <em>Magnificat</em>, a work of sublime purity and austerity. Ešenvalds’ warm, glittering <em>Stars</em> captures the beauty of the composer’s native Latvian skies, while Gjeilo’s <em>Northern Lights</em> evokes a sense of fear and awe for Norway’s winter. Sandström’s radiant, mystical arrangement of <em>Es ist ein Ros’ entsprungen</em> is a modern choral masterpiece. <em>Seek Him That Maketh the Seven Stars</em> is Dove’s joyous setting of Amos 5:8 and Psalm 139, complemented by a sparkling, complex organ part. ‘Soneto de la Noche’ and ‘Sure on this Shining Night’ from Lauridsen’s much-loved <em>Nocturnes</em> make their festival reappearance. Finally, <em>Seal Lullaby</em>, featuring Whitacre’s signature use of soaring, soothing harmonies, transports us to a ‘slow-swinging sea’ under a northern sky, where a baby seal is sung to sleep by its mother.',
+            'These beautiful, lush pieces will be performed in the warm acoustic of St Peter’s Cathedral, one of Adelaide’s best classical music venues, accompanied by the newly-restored cathedral organ.',
+          ]
+        ],
+        [
+          'Musical director',
+          [
+            'We are thrilled to introduce Peter Kelsall as the festival’s musical director.',
+            'Peter completed his Bachelor of Music degree in 1989 at the University of Adelaide studying piano with Zelda Bock. He commenced organ studies with Christa Rumsey in 1987 and completed a Graduate Diploma in Performance on the instrument in 1993. In 1998, he completed his Masters Degree in Music Theory. He also holds a Certificate in Church Music from the Flinders Street School of Music TAFE and has undertaken studies in choral conducting with Carl Crossin.',
+            'An honorary life member of the Adelaide University Choral Society, he has been their musical director since 1997. With AUCS, he has conducted a wide range of repertoire from Palestrina to Pink Floyd and most things in between.',
+            'In 1995, he was appointed Organist and Choir Director at Pilgrim Uniting Church where he continues to build on a strong musical tradition. Pilgrim has recently developed a practice of ‘importing’ some of the world’s best organists to Adelaide to play for services and to give recitals on the church’s organ. As a result of this initiative, Peter has had the opportunity to work with highly distinguished organists including Thomas Trotter, David Goode, Benjamin Bayl, Clive Driskill-Smith, Simon Preston, John Scott, and Daniel Roth.',
+            'In December 2017 and January 2018, Peter directed the Choirs of Pilgrim Church and Christ Church, North Adelaide on their English Cathedrals Tour. The choirs sang Evensong services in ten English cathedrals, including Lincoln, Durham, Salisbury, Gloucester, and York Minster.',
+          ]
+        ],
+      ],
     ];
     return view('public.index', $context);
   }
@@ -52,7 +102,7 @@ class PublicController extends Controller
         ],
       ],
     ];
-    return view('public.frontpage', $context);
+    return view('public.index', $context);
   }
   public function aivcfadelaide()
   {
@@ -160,6 +210,15 @@ class PublicController extends Controller
   }
   public function participatechoir()
   {
+    function tablecell($str = '',$head = False)
+    {
+      $tdorth = $head ? 'th' : 'td' ;
+      return "<{$tdorth}>{$str}</{$tdorth}>";;
+    }
+    $ttstudent = 'Enrolled full time at an Australian University during Semester Two 2018 or Semester One 2019 (or equivalent)';
+    $ttyouth = 'Born on or after 10 January 1989';
+    $ttstudent = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttstudent">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttstudent">' . $ttstudent. '</div>';
+    $ttyouth = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttyouth">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttyouth">' . $ttyouth. '</div>';
     $context = [
       'imagesource' => 'public/images/image-2.jpg',
       'activetab' => 'participate',
@@ -171,8 +230,39 @@ class PublicController extends Controller
             'Choristers from all over Adelaide and wider Australia will be in Adelaide for the 70th anniversary festival. The 11 exciting days will be filled with music making and friendship forging by people who love choral music.',
             'Adelaide IV is a brilliant opportunity for amateur and professional singers to produce a concert to be rewarded with after more than a week of intensive rehearsals and to network with like-minded individuals. Daily routine includes a mixture of rehearsals and sectionals as well as social activities.',
             '<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" href="/participate/choir/register">Sign up</a>',
-            '<h5>News bulletins</h5><ul><li><a href="/documents/newsbulletins/aiv2019sheet1.pdf">Sheet 1</a></li></ul>',
+          ],
+        ],
+        [
+          'Fees',
+          [
+            'We’re not yet ready to announce registration fees but we hope to do this very soon. Watch this space.'
           ]
+          /*
+          [
+            '<table><tbody>',
+
+            '<tr>' . tablecell('',TRUE) . tablecell('Full festival experience',TRUE) . tablecell('Choral component',TRUE)             . tablecell('Social component',TRUE)                        . '</tr>',
+            '<tr>' . tablecell('',TRUE) . tablecell('<small>Includes all components</small>',TRUE)  . tablecell('<small>Includes camp</small>',TRUE) . tablecell('<small>Includes academic dinner</small>',TRUE) . '</tr>',
+
+            '<tr>' . tablecell('Students'.$ttstudent) . tablecell('$480') . tablecell('$359') . tablecell('$121') . '</tr>',
+            '<tr>' . tablecell('Youth'.$ttyouth)      . tablecell('$530') . tablecell('$404') . tablecell('$126') . '</tr>',
+            '<tr>' . tablecell('Full fee payers')     . tablecell('$580') . tablecell('$449') . tablecell('$131') . '</tr>',
+            '</tbody></table>',
+            '<h4>Discounts and addons</h4>',
+            'Academic dinner tickets can also be purchased separately at $120 each.',
+            'Furthermore, any chorister who has not sung at an IV festival before will have an additional $100 off.',
+            
+          ]
+          */
+        ],
+        [
+          'News bulletins',
+          [
+            '<ul>',
+            '<li><a href="/documents/newsbulletins/adelaideiv2019news2.pdf">March 2018 edition</a></li>',
+            '<li><a href="/documents/newsbulletins/adelaideiv2019news1.pdf">January 2018 edition</a><br><small>Warning: January 2018 edition contains some outdated information, please check more recent news or the website for current information.</small></li>',
+            '</ul>',
+          ],
         ],
         [
           'Dates',

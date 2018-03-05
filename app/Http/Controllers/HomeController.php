@@ -216,6 +216,7 @@ class HomeController extends Controller
   
   public function registrationformpost (Request $request,$sectionid)
   {
+  var_dump($_POST); die();
     $sectionid = (int) $sectionid;
     $validationarray = [];
     $validationlogics = DB::table('rego_questions')
@@ -224,7 +225,6 @@ class HomeController extends Controller
                           ->get();
     $multiothertextquestionshortnames = [];
     $subquestionradioquestionshortnames = [];
-//    var_dump($validationlogics); // die();
     foreach($validationlogics as $logic)
     {
       if(!is_null($logic->responsevalidationlogic))
@@ -232,6 +232,10 @@ class HomeController extends Controller
         $exploded = explode(':',$logic->responseformat,2);
         switch($exploded[0])
         {
+          case('text-var'):
+            $exploded = explode(':',$logic->responseformat,3);
+            $validationarray[$logic->questionshortname . '.*'] = $logic->responsevalidationlogic;
+            break;
           case('subquestion-radio'):
             $subquestionradioquestionshortnames[] = $logic->questionshortname;
             $exploded = explode(':',$logic->responseformat,3);

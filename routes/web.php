@@ -35,6 +35,8 @@ Route::get('/contact', 'ContactController@create')->name('contact');
 Route::post('/contact', 'ContactController@store');
 Route::get('/contact/thanks', 'ContactController@show')->name('contact.thanks');
 
+Route::get('/concert', 'PublicController@concert')->name('public.concert');
+
 /*
   These routes only need to return views.
   A simple shortcut without defining a full route or controller.

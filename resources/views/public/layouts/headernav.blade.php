@@ -15,6 +15,7 @@
   </div>
   <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
     <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+      <a class="mdl-navigation__link <?php activetab($activetab,'festival') ?>" href="/">Festival</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'event') ?>" href="/adelaideiv">Adelaide IV</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'organisation') ?>" href="/aivcfadelaide">AIVCF Adelaide</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'participate') ?>" href="/participate">Participate</a>
@@ -27,6 +28,7 @@
 </header>
 <div class="mdl-layout__drawer mdl-layout--small-screen-only">
   <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+    <a class="mdl-navigation__link <?php activetab($activetab,'festival') ?>" href="/">Festival</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'event') ?>" href="/adelaideiv">Adelaide IV</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'organisation') ?>" href="/aivcfadelaide">AIVCF Adelaide</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'participate') ?>" href="/participate">Participate</a>

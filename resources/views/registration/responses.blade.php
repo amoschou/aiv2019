@@ -168,7 +168,7 @@
     @endif
     
     @php
-    $foritems = $foritems ?? [''];
+      $foritems = $foritems ?? [''];
     @endphp
     
     @if($hastabs)
@@ -236,8 +236,8 @@
               {!! aiv_style_begin_question($a) !!}{!! $row->questiontext !!}{!! aiv_style_end_question($a) !!}
               {!! aiv_style_begin_response($a) !!}
                 @php
-                  $object = json_decode($row->responsejson);
-
+                  $object = json_decode($row->responsejson, True);
+                  
                   $done = False;
                   $output = NULL;
                   $specialmessage = NULL;
@@ -267,16 +267,21 @@
                   // IS IT AN ARRAY?
                   if(is_array($object))
                   {
-                    // IS IT AN ARRAY OF STRINGS?
-                    $arrayofstrings = True;
+                    // IS IT AN ARRAY OF SCALARS?
+                    $arrayofscalars = True;
                     foreach($object as $element)
                     {
-                      if(!is_string($element))
+                      if(!is_null($element))
                       {
-                        $arrayofstrings = False;
+                        if(!is_scalar($element))
+                        {
+                          $arrayofscalars = False;
+                        }
                       }
                     }
-                    if($arrayofstrings)
+                    // GET RID OF NULLS
+                    $object = array_filter($object,function($a){return !is_null($a);});
+                    if($arrayofscalars)
                     {
                       if(in_array('hiddeninput',$object))
                       {
@@ -288,12 +293,36 @@
                       }
                       else
                       {
-                        $output = ucfirst(implode(', ',$object));
+                        $objectkeys = array_keys($object);
+
+                        // If any key is a string, then it is important
+                        // Otherwise they are not reported.
+                        $stringkeys = False;
+                        foreach($objectkeys as $key)
+                        {
+                          if(is_string($key))
+                          {
+                            $stringkeys = True;
+                          }
+                        }
+                        if($stringkeys)
+                        {
+                          $outputarray = [];
+                          foreach($objectkeys as $key)
+                          {
+                            $outputarray[] = "$key: " . $object[$key];
+                          }
+                          $output = ucfirst(implode(', ',$outputarray));
+                        }
+                        else
+                        {
+                          $output = ucfirst(implode(', ',$object));
+                        }
                       }
                       $done = True;
                     }
                   }
-  
+                  
                   if(is_null($object))
                   {
                     $specialmessage = '<small class="text-muted">(Not answered)</small>';
@@ -306,16 +335,16 @@
                     $candidate = json_decode($row->responsejson,TRUE);
 
                     // IS IT A SIMPLE KEY VALUE ARRAY OF STRINGS?
-                    $simplekeyvalarrayofstrings = True;
+                    $simplekeyvalarrayofscalars = True;
                     foreach($candidate as $key => $val)
                     {
                       if(!(is_string($key) && is_string($val)))
                       {
-                        $simplekeyvalarrayofstrings = False;
+                        $simplekeyvalarrayofscalars = False;
                       }
                     }
             
-                    if($simplekeyvalarrayofstrings)
+                    if($simplekeyvalarrayofscalars)
                     {
                       $output = [];
                       foreach($candidate as $key => $value)

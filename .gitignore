@@ -12,3 +12,4 @@ yarn-error.log
 .env
 .DS_Store
 public/.well-known
+/public/Webfont_kit/*

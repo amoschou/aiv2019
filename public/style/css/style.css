@@ -20,7 +20,7 @@
 */
 .portfolio-header {
   position: relative;
-  background-image: url(//upload.wikimedia.org/wikipedia/commons/e/e2/Northern_lights_%289997815384%29.jpg);
+  background-image: url(/style/css/images/brenn.jpg);
   background-size: cover;
 }
 .portfolio-header-previous {
@@ -204,10 +204,10 @@ img.article-image {
 }
 /*
   Footer background image
-  By Marco Ottobelli (Own work) [CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)], via Wikimedia Commons
+  By Kristian Pikner (Own work) [CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0)], via Wikimedia Commons
 */
 footer {
-  background-image: url(//upload.wikimedia.org/wikipedia/commons/5/54/Aurora_Borealis_from_the_rooftop_in_Iceland.jpg);
+  background-image: url(/style/css/images/pikner.jpg);
   background-size: cover;
 }
 footer-previous {

@@ -34,6 +34,7 @@ class ContactController extends Controller
         'titletext' => 'Contact',
         'imagesource' => 'public/images/image-1.jpg',
         'essay' => [
+        /*
           [
             'Website problems',
             [
@@ -41,11 +42,13 @@ class ContactController extends Controller
             ]
           ],
           [
-            'Other issues',
+//            'Other issues',
+            '',
             [
               'If your issue isn’t addressed on the website, please tell us about it.',
             ]
           ]
+        */
         ]
       ];
       return view('public.contact.create', $context);

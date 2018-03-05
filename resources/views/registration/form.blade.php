@@ -10,21 +10,70 @@
       rel="stylesheet">
 <link href="//fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.0-beta/css/bootstrap-select.min.css">
+{{--
 <link href="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css"
       rel="stylesheet">
 <script type="text/javascript"
          src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+--}}
 @endsection
 
 @section('extrascripts')
+{{--
 <script type="text/javascript"
          src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
 <script type="text/javascript"
          src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/en-au.js"></script>
-<script type="text/javascript"
-         src="//cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js">
-</script>
+--}}
+<script src="/js/bootstrap-select.js"></script>
 <script>
+  function customselect(questionshortname)
+  {
+    var htmlstr = document.getElementById(questionshortname + ':custom').innerHTML;
+    var selectvalinternal = document.getElementById(questionshortname).value;
+    var selectvaldisplay = document.getElementById(questionshortname + ':' + selectvalinternal).innerHTML;
+    var i = document.getElementById(questionshortname + ':custom').childElementCount;
+    htmlstr = htmlstr + '<div class="form-row">';
+    htmlstr = htmlstr +   '<div class="col-md-6">';
+    htmlstr = htmlstr +     '<div class="form-control-plaintext">';
+
+
+
+
+      htmlstr = htmlstr +     '<div class="pl-0 form-check">';
+      htmlstr = htmlstr +       '<div class="pretty p-icon p-toggle p-plain">';
+      htmlstr = htmlstr +         '<input class="form-check-input" ';
+      htmlstr = htmlstr +                 'type="checkbox" ';
+      htmlstr = htmlstr +                   'id="' + questionshortname + ':checkbox:' + i + '" ';
+      htmlstr = htmlstr +                'value="' + selectvalinternal + '" ';
+      htmlstr = htmlstr +                 'name="' + questionshortname + '[checkbox][' + i + ']" ';
+      htmlstr = htmlstr +         ' checked >';
+
+    htmlstr = htmlstr +           '<div class="state p-on">';
+    htmlstr = htmlstr +             '<i class="icon material-icons text-primary">check_box</i>';
+      htmlstr = htmlstr +           '<label class="form-check-label" for="' + questionshortname + ':checkbox:' + i + '">' + selectvaldisplay + '</label>';
+    htmlstr = htmlstr +           '</div>';
+    htmlstr = htmlstr +           '<div class="state p-off">';
+    htmlstr = htmlstr +             '<i class="icon material-icons text-secondary">check_box_outline_blank</i>';
+      htmlstr = htmlstr +           '<label class="form-check-label" for="' + questionshortname + ':checkbox:' + i + '">' + selectvaldisplay + '</label>';
+    htmlstr = htmlstr +           '</div>';
+    htmlstr = htmlstr +         '</div>';
+      
+      htmlstr = htmlstr +     '</div>';
+
+
+
+
+    htmlstr = htmlstr +     '</div>';
+    htmlstr = htmlstr +   '</div>';
+    htmlstr = htmlstr +   '<div class="col-md-6">';
+    htmlstr = htmlstr +     '<input class="rounded-0 form-control" name="' + questionshortname + '[customtext][' + i + ']">';
+    htmlstr = htmlstr +   '</div>';
+    htmlstr = htmlstr + '</div>';
+    document.getElementById(questionshortname + ':custom').innerHTML = htmlstr;
+  }
   function deselect(questionshortname)
   {
     var radiolist = document.getElementsByName(questionshortname);
@@ -96,7 +145,7 @@
     htmlstr = htmlstr +   '<div class="input-group-prepend">';
     htmlstr = htmlstr +     '<div class="input-group-text rounded-0">';
     htmlstr = htmlstr +       '<div class="pretty p-icon p-toggle p-plain pr-0 mr-0">';
-    htmlstr = htmlstr +         '<input type="checkbox" name="' + questionshortname + '[' + istring + '][' + i + ']" value="' + i + '" aria-label="Radio button for following text input" checked>';
+    htmlstr = htmlstr +         '<input type="checkbox" name="' + questionshortname + '[' + istring + '][' + i + ']" value="' + i + '" aria-label="Checkbox button for following text input" checked>';
     htmlstr = htmlstr +         '<div class="state p-on">';
     htmlstr = htmlstr +           '<i class="icon material-icons text-primary">check_box</i>';
     htmlstr = htmlstr +           '<label></label>';
@@ -165,7 +214,7 @@
               <div class="list-group-item border-primary">
                 General tips<br>
                 If a question does not apply to you, it is best to <strong>leave it empty</strong>.
-                Putting ‘N/A’ or something similar draws our attention to the wrong places and makes our job harder.
+                Putting ‘N/A’ or ‘0’ or something similar draws our attention to the wrong places and makes our job harder.
               </div>
             </div>
           <div class="card-body">
@@ -264,6 +313,7 @@
                       case('radio'):
                       case('checkbox'):
                       case('subquestion-radio'):
+                      case('text-var'):
                         $hasfieldset = True;
                         break;
                       default:
@@ -279,6 +329,107 @@
                     <div class="form-group form-row">
                   @endif
                     @switch($responseformat[0])
+                    
+                    
+                    
+                    
+                    
+                      @case('text-var-custom')
+                        <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
+                        <div class="col-md-5">
+                          @php
+                            $variants = explode('|',$responseformat[2]);
+                          @endphp
+                          <div class="form-row">
+                            <div class="col-md-12">
+                              <select id="{{ $question->questionshortname }}" class="form-control selectpicker" title="Select a bottle" data-style="rounded-0">
+                                @foreach($variants as $variant)
+                                  @php
+                                    $variant = explode('^',$variant);
+                                    $variant[1] = $variant[1] ?? $variant[0];
+                                  @endphp
+                                  <option id="{{ $question->questionshortname }}:{{ $variant[1] }}" value="{{ $variant[1] }}">{{ $variant[0] }}</option>
+                                @endforeach
+                              </select>
+                            </div>
+                            <div class="col-md-12">
+                              <button type="button" class="btn btn-default checkboxadd rounded-0" onclick="customselect('{{ $question->questionshortname }}')">Add {{ $question->questionshortname }}</button>
+                            </div>
+                          </div>
+                          <div id="{{ $question->questionshortname }}:custom"></div>
+                        </div>
+                        <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
+                        @break
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                      @case('text-var')
+                        <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
+                        <div class="col-md-5">
+                          @php
+                            $variants = explode('|',$responseformat[2]);
+                          @endphp
+                          @foreach($variants as $variant)
+                            @php
+                              $variant = explode('^',$variant);
+                              $variant[1] = $variant[1] ?? $variant[0];
+                            @endphp
+                            <div class="form-row">
+                              <div class="col-md-6">
+                                <div class="form-control-plaintext">{{ $variant[0] }}</div>
+                              </div>
+                              <div class="col-md-6">
+                                <input
+                                   type="{{ $responseformat[1] }}"
+                                   name="{{ $question->questionshortname }}[{{ $variant[1] }}]"
+                                  class="rounded-0 form-control @if ($errors->has($question->questionshortname . '.' . $variant[1])) is-invalid @endif "
+                                 value="{{ old($question->questionshortname . '.' . $variant[1])
+                                           ??
+                                           json_decode(DB::table('rego_responses')
+                                             ->where('userid',Auth::id())
+                                             ->where('foritem','')
+                                             ->where('questionshortname',$question->questionshortname)
+                                             ->value('responsejson'))->{$variant[1]}
+                                        }}"
+                                      @if ($question->html5required)
+                                        required
+                                      @endif>
+                                <div class="invalid-feedback">
+                                  @if ($errors->has($question->questionshortname . '.' . $variant[1]))
+                                    @foreach ($errors->get($question->questionshortname . '.' . $variant[1]) as $message)
+                                      @if(!$loop->first)<br>@endif{{ $message }}
+                                    @endforeach
+                                  @endif
+                                </div>
+                              </div>
+                            </div>
+                          @endforeach
+                          {{--
+                          <input    id="{{ $question->questionshortname }}"
+                                  type="{{ $responseformat[1] }}"
+                                 class="rounded-0 form-control @if ($errors->has($question->questionshortname)) is-invalid @endif " 
+                                  name="{{ $question->questionshortname }}"
+                                 value="{{ old($question->questionshortname)
+                                           ?? json_decode(DB::table('rego_responses')
+                                                            ->where('userid',Auth::id())
+                                       ->where('foritem',$foritem)
+                                                            ->where('questionshortname',$question->questionshortname)
+                                                            ->value('responsejson'))
+                                        }}"
+                                     @if ($question->html5required)
+                                       required
+                                     @endif>
+                          --}}
+                        </div>
+                        <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
+                        @break
+                    
+                    
+                    
                       
                       
                       @case('subquestion-radio')
@@ -448,10 +599,12 @@
                           <input    id="{{ $question->questionshortname }}"
                                   type="{{ $isdatetimelocal ? 'text' : $responseformat[1] }}"
                                  class="rounded-0 form-control @if ($errors->has($question->questionshortname)) is-invalid @endif @if($isdatetimelocal) datetimepicker-input @endif " 
+{{--
 @if($isdatetimelocal)
                                  data-toggle="datetimepicker"
                                  data-target="#{{ $question->questionshortname }}"
 @endif
+--}}
                                   name="{{ $question->questionshortname }}"
                                  value="{{ old($question->questionshortname)
                                            ?? json_decode(DB::table('rego_responses')
@@ -464,6 +617,7 @@
                                      @if ($question->html5required)
                                        required
                                      @endif>
+{{--
 @if($isdatetimelocal)
   <script type="text/javascript">
     $(function () {
@@ -471,6 +625,7 @@
     });
   </script>
 @endif
+--}}
                           <div class="invalid-feedback">
                             @if ($errors->has($question->questionshortname))
                               @foreach ($errors->get($question->questionshortname) as $message)
@@ -678,7 +833,7 @@
                               <div class="form-row">
                                 @if($answeritemarray[0] === 'OtherText')
                                   <div class="col">
-                                      <button type="button" class="btn btn-default checkboxadd rounded-0" onclick="addothertext('{{ $question->questionshortname }}','{{ $answeritemarray[1] }}')">Add another option</button>
+                                    <button type="button" class="btn btn-default checkboxadd rounded-0" onclick="addothertext('{{ $question->questionshortname }}','{{ $answeritemarray[1] }}')">Add another option</button>
                                   </div>
                                 @else
 

@@ -3,40 +3,42 @@
 
 @section ('gridblock')
 
-
 {{--
   --  First card (Concert details)
   --}}
-{{--
-  --  <div class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--4dp portfolio-card">
-  --    <div class="mdl-card__media">
-  --      <img class="article-image" src=" images/example-work01.jpg" border="0" alt="">
-  --    </div>
-  --    <div class="mdl-card__title">
-  --      <h2 class="mdl-card__title-text">Concert</h2>
-  --    </div>
-  --    <div class="mdl-card__supporting-text">
-  --      The festival concert will be on Saturday, 19 January 2019.
-  --    </div>
-  --    <div class="mdl-card__actions mdl-card--border">
-  --      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="#">Read more</a>
-  --    </div>
-  --  </div>
-  --}}
+    <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp portfolio-card">
+      <div class="mdl-card__media">
+        <!--
+          Photograph by Michael Coghlan https://www.flickr.com/photos/mikecogh/16645424040/
+          With licence https://creativecommons.org/licenses/by-sa/2.0/
+          Modified by crop to change aspect ratio.
+        -->
+        <img class="article-image" src="/style/css/images/stpeterscathedral-384x256.jpg" border="0" alt="">
+      </div>
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">Concert</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+      The festival concert ‘Northern lights’ will be on Saturday, 19 January 2019.
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="/concert">Read more</a>
+      </div>
+    </div>
+  
 {{--
   --  Second card (Choir participation)
   --}}
-<div class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--4dp portfolio-card">
-  {{--
-    --  <div class="mdl-card__media">
-    --    <img class="article-image" src=" images/example-work07.jpg" border="0" alt="">
-    --  </div>
-    --}}
+<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp portfolio-card">
+  <div class="mdl-card__media">
+    <!-- Photograph by Lou McGee -->
+    <img class="article-image" src="/style/css/images/rehearsal2013-384x256.jpg" border="0" alt="">
+  </div>
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">Choristers</h2>
   </div>
   <div class="mdl-card__supporting-text">
-    Choristers from all over Australia are taking part on stage and in other festival events.
+    Choristers from all over Australia are taking part in the festival.
   </div>
   <div class="mdl-card__actions mdl-card--border">
     <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="/participate/choir">Read more</a>
@@ -47,12 +49,10 @@
 {{--
   --  Third card (Connect)
   --}}
-<div class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--4dp portfolio-card">
-  {{--
-    --  <div class="mdl-card__media">
-    --    <img class="article-image" src=" images/example-work07.jpg" border="0" alt="">
-    --  </div>
-  --}}
+<div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--4dp portfolio-card">
+  <div class="mdl-card__media">
+    <img class="article-image" src="/style/css/images/aiv2013-384x256.jpg" border="0" alt="">
+  </div>
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">Connect</h2>
   </div>
@@ -103,6 +103,8 @@
     </div>
   </div>
 </div>
+
+
 
 
 @stop

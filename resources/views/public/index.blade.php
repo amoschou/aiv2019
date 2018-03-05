@@ -5,7 +5,7 @@
   @if(isset($essay))
     @foreach ($essay as $section)
       @if($section[0] !== '')
-        <h3 class="mdl-typography--headline">{{ $section[0] }}</h3>
+        <h3 {{-- class="mdl-typography--headline" --}}>{{ $section[0] }}</h3>
       @endif
       @foreach ($section[1] as $par)
         <p>{!! $par !!}</p>

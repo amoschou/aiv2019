@@ -158,6 +158,30 @@ class SetupRegistrationQuestions extends Migration
         'html5required' => False,
         'companionresponsevalidationlogic' => 'multiothertext',
       ],
+      [
+        'questionord' => 6,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'concession',
+        'questiontext' => 'Do you have a valid concession?',
+        'questiondescr' => 'Valid concessions are ‘Students’ who are enrolled full time at any Australian university during Semester Two 2018 or Semester One 2019 (or equivalent) and ‘Youths’ who are born on or after 10 January 1989.',
+        'responseformat' => 'checkbox:Student|Youth',
+        'responsevalidationlogic' => 'required',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 7,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'fresher',
+        'questiontext' => 'Is this your first IV as a chorister?',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Yes|No',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
     ]);
     
     // NEW SECTION
@@ -408,7 +432,7 @@ class SetupRegistrationQuestions extends Migration
         'sectionid' => $sectionid,
         'subsectioncode' => $subsectioncode,
         'questionshortname' => 'transporthelp',
-        'questiontext' => 'If (and only if) you <strong>require</strong> special assistance at arrival and departure, please describe that here.',
+        'questiontext' => 'If (and only if) you <strong>require</strong> special assistance at arrival or departure, please describe that here.',
         'questiondescr' => NULL,
         'responseformat' => 'textarea',
         'responsevalidationlogic' => 'string|nullable',
@@ -478,7 +502,7 @@ class SetupRegistrationQuestions extends Migration
         'companionresponsevalidationlogic' => NULL,
       ],
     ]);
-    $accdinnerguestquestionshortname = DB::table('rego_questions')->insertGetId([
+    $accdinnerguestquestionid = DB::table('rego_questions')->insertGetId([
       'questionord' => 2,
       'sectionid' => $sectionid,
       'subsectioncode' => NULL,
@@ -489,8 +513,12 @@ class SetupRegistrationQuestions extends Migration
       'responsevalidationlogic' => 'required',
       'html5required' => False,
       'companionresponsevalidationlogic' => 'multiothertext',
-    ],'questionshortname');
+    ],'questionid');
     
+    $accdinnerguestquestionshortname = DB::table('rego_questions')
+                        ->where('questionid',$questionid)
+                        ->value('questionshortname');
+                        
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
@@ -688,6 +716,68 @@ class SetupRegistrationQuestions extends Migration
       'sectionshortname' => 'merchandise'
     ],'sectionid');
 
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 1,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'photo',
+        'questiontext' => 'Adelaide IV festival photograph',
+        'questiondescr' => '$15 each',
+        'responseformat' => 'text:number',
+        'html5required' => False,
+        'responsevalidationlogic' => 'nullable|numeric|integer|min:1',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 2,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'cd',
+        'questiontext' => 'Adelaide IV festival concert CD recording',
+        'questiondescr' => '$15 each',
+        'responseformat' => 'text:number',
+        'html5required' => False,
+        'responsevalidationlogic' => 'nullable|numeric|integer|min:1',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 3,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'bottle',
+        'questiontext' => 'Adelaide IV festival water bottle',
+        'questiondescr' => 'Select the type of water bottle you’d like to buy (Large $22, Small $17) and add it to the list. Write in the custom text to be printed on it, or leave the text field blank.',
+        'responseformat' => 'text:number',
+        'html5required' => False,
+        'responsevalidationlogic' => 'nullable|numeric|integer|min:1',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 4,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'tshirt',
+        'questiontext' => 'Adelaide IV festival T&nbsp;shirt',
+        'questiondescr' => '$20 each',
+        'responseformat' => 'text-var:number:Extra small^xs|Small^s|Medium^m|Large^l|Extra large^xl|Size 8^s8|Size 10^s10|Size 12^s12|Size 14^s14|Size 16^s16|Size 18^s18|Size 20^s20',
+        'html5required' => False,
+        'responsevalidationlogic' => 'nullable|numeric|integer|min:1',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 4,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'jumper',
+        'questiontext' => 'Adelaide IV jumper personally knitted by Emily',
+        'questiondescr' => '$10 each',
+        'responseformat' => 'soldout',
+        'html5required' => False,
+        'responsevalidationlogic' => 'nullable|numeric|integer|min:0',
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
   }
 
   /**

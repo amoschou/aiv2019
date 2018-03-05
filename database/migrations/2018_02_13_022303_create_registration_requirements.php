@@ -99,6 +99,12 @@ class CreateRegistrationRequirements extends Migration
         'responsepattern' => '"no"',
         'doasksection' => 'travel',
       ],
+      [
+        'questionshortname' => 'doing',
+        'comparisonoperator' => 'LIKE',
+        'responsepattern' => '%',
+        'doasksection' => 'merchandise',
+      ],
     ]);
 
 

@@ -6,7 +6,7 @@
   @if(isset($essay))
     @foreach ($essay as $section)
       @if($section[0] !== '')
-        <h3 class="mdl-typography--headline">{{ $section[0] }}</h3>
+        <h3 {{-- class="mdl-typography--headline" --}}>{{ $section[0] }}</h3>
       @endif
       @foreach ($section[1] as $par)
         <p>{!! $par !!}</p>
@@ -68,7 +68,7 @@
       </span>
     </div>
     <p>
-      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">
+      <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" type="submit">
         Submit
       </button>
     </p>

@@ -44,6 +44,8 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.purple-deep_purple.min.css" />
   <link rel="stylesheet" href="{{ asset('style/css/style.css') }}" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="/Webfont_kit/type.css">
+  <link rel="stylesheet" href="/css/tables.css">
   @yield('jqueryscript')
   @yield('stripescript')
   {{--  To best leverage Stripe’s advanced fraud functionality, include this script on
@@ -74,9 +76,9 @@
               @endif
             @show
             @section('cardmedia')
-              @if (False && isset($imagesource))
+              @if (isset($imagesource) && ($useimagesource ?? False))
                 <div class="mdl-card__media">
-                  <img class="article-image" src="{% static '' %}{{ $imagesource }}" border="0" alt="">
+                  <img class="article-image" src="{{ $imagesource }}" border="0" alt="">
                 </div>
               @endif
             @show

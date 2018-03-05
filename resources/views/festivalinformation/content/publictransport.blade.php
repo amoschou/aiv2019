@@ -90,7 +90,7 @@ Public transport
     <div class="panel" id="panel-1" role="tabpanel" aria-hidden="true">
       <h3 class="{{ $titleclass }}">Tickets and fares</h3>
       <p class="{{ $pclass }}">If you are from interstate, you will probably need to pay full priced regular fares on Adelaide Metro services even if you are a student, so only regular fares are discussed here.</p>
-      <p class="{{ $pclass }}">You have the choice of using a metrocard or metrotickets. Buying and using a regular Metrocard is cheaper than using singletrip metrotickets if you pay at least two fares. Daytrip metrotickets or a visitor pass metrocard might also be cheaper options in some circumstances.</p>
+      <p class="{{ $pclass }}">You have the choice of using a metrocard or metrotickets. Buying and using a regular Metrocard is cheaper than using singletrip metrotickets. Daytrip metrotickets or a visitor pass metrocard or a 14 day pass metrocard might also be cheaper options in some circumstances.</p>
       <p class="{{ $pclass }}">Validate (that is ‘touch on’) your ticket or metrocard whenever you board a bus, train or tram. Once you’ve first validated, you’re free to travel for two hours as many times as you like without paying another fare. This two hour window of unlimited validations until you finally get off is called a ‘trip’. In Adelaide, we don’t ‘touch off’.</p>
       <p class="{{ $pclass }}">Travel in interpeak times is cheaper than in peak times.</p>
       <ul class="{{ $ulclass }}">
@@ -99,22 +99,21 @@ Public transport
       </ul>
       <p class="{{ $pclass }}">Visit <a href="https://www.adelaidemetro.com.au/Tickets/Fares">https://www.adelaidemetro.com.au/Tickets/Fares</a> for up to date fare information.</p>
       <h4 class="{{ $h4class }}">Metrocard</h4>
-      <p class="{{ $pclass }}">Metrocards come in various varieties. Don’t bother with the 2 section card, the two that you’d be interested in are:</p>
+      <p class="{{ $pclass }}">Metrocards come in various varieties. Don’t bother with the 2 section card, the ones that you’d be interested in are:</p>
       <ul class="{{ $ulclass }}">
-        <li class="{{ $liclass }}">Regular metrocard</li>
-        <li class="{{ $liclass }}">Three day visitor pass</li>
+        <li class="{{ $liclass }}">Regular metrocard<br>For occasional travel, a regular metrocard is best. There is no card fee, you pay only for your trips ($3.62 peak trips, $1.99 interpeak trips).</li>
+        <li class="{{ $liclass }}">Three day visitor pass<br>A visitor pass costs $26.60 for three days of unlimited public transport. After the three days, you can top it up and it will behave like an ordinary regular metrocard.</li>
+        <li class="{{ $liclass }}">14 day pass<br>A 14 day pass is $60 for two weeks of unlimited travel.</li>
       </ul>
-      <p class="{{ $pclass }}">A regular card costs $10 initially ($5 for the card itself and $5 starting balance).</p>
-      <p class="{{ $pclass }}">A visitor pass costs $26.60 for three days of unlimited public transport. After the three days, you can top it up and it will behave like an ordinary regular metrocard.</p> 
       <p class="{{ $pclass }}">A visitor pass is cheaper than a regular card if you make six or more peak trips or eleven or more interpeak trips (or some combination) in the first three days.</p>
-      <p class="{{ $pclass }}">Metrocards can be purchased from WH Smith Express at Adelaide Airport. You can recharge on board trains and trams (vending machines use coins only) and at other places.</p>
+      <p class="{{ $pclass }}">Metrocards can be purchased from WH Smith Express at Adelaide Airport. You can recharge on board trains and trams (vending machines use card and coins only) and at other places.</p>
       <h4 class="{{ $h4class }}">Metrotickets</h4>
       <p class="{{ $pclass }}">The varieties of interest are:</p>
       <ul class="{{ $ulclass }}">
         <li class="{{ $liclass }}">Singletrip (Your trip lasts for two hours)</li>
         <li class="{{ $liclass }}">Daytrip (Your trip lasts until 4:30 AM)</li>
       </ul>
-      <p class="{{ $pclass }}">Metrotickets can be purchased on board buses (have exact change only or as close as possible) and on board trains and trams (vending machines use coins only).</p>
+      <p class="{{ $pclass }}">Metrotickets can be purchased on board buses (have exact change only or as close as possible) and on board trains and trams (vending machines use card and coins only).</p>
     </div>
     <div class="panel" id="panel-1" role="tabpanel" aria-hidden="true">
       <h3 class="{{ $titleclass }}">Planning journeys</h3>
