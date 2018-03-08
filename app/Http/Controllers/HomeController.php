@@ -30,15 +30,26 @@ class HomeController extends Controller
       ->where('questionshortname',$questionshortname)
       ->where('key',$key)
       ->get()[0];
-
-    if($filename !== json_decode($file->filename))
+    // With pgsql, these are already decoded.  
+    switch(config('database.default'))
+    {
+      case('pgsql'):
+        $filename = $file->filename;
+        $mimetype = $file->mimetype;
+        $contents = base64_decode($file->b64contents);
+        break;
+      case('mysql'):
+        $filename = json_decode($file->filename);
+        $mimetype = json_decode($file->mimetype);
+        $contents = base64_decode(json_decode($file->b64contents));
+        break;
+    }
+    
+    if($filename !== $file->filename)
     {
       abort(404);
     }
     
-    $mimetype = json_decode($file->mimetype);
-    $contents = base64_decode(json_decode($file->b64contents));
-
     $response = new Response($contents, 200);
     $response->header('Content-Type', $mimetype);
     return $response;
