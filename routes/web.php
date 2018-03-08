@@ -63,16 +63,22 @@ Route::get('/login','SignupController@login')->name('login');
 Route::post('/login','SignupController@signuppost')->name('login.post');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 // If logged in already, then /login/token should not work
-Route::get('/login/{token}','SignupController@logintoken');
+  Route::get('/login/{token}','SignupController@logintoken');
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/registration/{sectionid}', 'HomeController@displayregistration')->name('home.responses');
 Route::get('/home/registration/{sectionid}/edit', 'HomeController@registrationform')->name('home.form');
 Route::get('/home/registration/{sectionid}/{foritem}/edit', 'HomeController@registrationformwithforitem')->name('home.formwithforitem');
+Route::get('/home/registration/{questionshortname}/{key}/{filename}', 'HomeController@getuploadedfile')->name('home.responses.uploadedfile');
 
 Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpost')->name('home.form.post');
 
-Route::get('/home/bulkdata/{sectionid}', 'HomeController@bulkdata')->name('home.bulkdata');
+
+Route::get(
+  '/home/committee',
+  'CommitteeController@index'
+)->middleware('committee');
+
 
 
 
@@ -131,4 +137,5 @@ Route::get('/post', 'PostController@get')->name('get');
 // But if it is here, remember to except the csrf token
 Route::post('/post', 'PostController@post')->name('post');
 
+Route::get('/testing', 'TestingController@index')->name('testing');
 

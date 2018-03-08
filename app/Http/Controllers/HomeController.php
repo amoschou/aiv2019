@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Response;
 
 class HomeController extends Controller
 {
@@ -19,6 +20,29 @@ class HomeController extends Controller
   }
 
 
+
+
+  public function getuploadedfile($questionshortname, $key, $filename)
+  {
+    $file = DB::table('v_rego_fileuploads')
+      ->select('userid','foritem','questionshortname','key','filename','mimetype','b64contents')
+      ->where('userid',Auth::id())
+      ->where('questionshortname',$questionshortname)
+      ->where('key',$key)
+      ->get()[0];
+//    var_dump($file);
+    if($filename !== $file->filename)
+    {
+      abort(404);
+    }
+    
+    $mimetype = $file->mimetype;
+    $contents = base64_decode($file->b64contents);
+    
+    $response = new Response($contents, 200);
+    $response->header('Content-Type', $mimetype);
+    return $response;
+  }
 
 
 
@@ -216,29 +240,61 @@ class HomeController extends Controller
   
   public function registrationformpost (Request $request,$sectionid)
   {
-  var_dump($_POST); die();
     $sectionid = (int) $sectionid;
     $validationarray = [];
-    $validationlogics = DB::table('rego_questions')
+    $questions = DB::table('rego_questions')
                           ->where('sectionid',$sectionid)
                           ->select('questionshortname','responseformat','responsevalidationlogic','companionresponsevalidationlogic')
                           ->get();
     $multiothertextquestionshortnames = [];
     $subquestionradioquestionshortnames = [];
-    foreach($validationlogics as $logic)
+    foreach($questions as $question)
     {
-      if(!is_null($logic->responsevalidationlogic))
+      if(!is_null($question->responsevalidationlogic))
       {
-        $exploded = explode(':',$logic->responseformat,2);
+        $exploded = explode(':',$question->responseformat,2);
         switch($exploded[0])
         {
+          case('files'):
+            $exploded = explode(':',$question->responseformat,3);
+//            var_dump($exploded);
+//            $validationarray[$question->questionshortname . '.file.*'] = ;
+            $checkboxes = $request->all()['concessionproof']['checkbox'] ?? [];
+            $files = $request->all()['concessionproof']['file'] ?? [];
+//           var_dump($checkboxes);
+//           var_dump($files);
+//die();
+            foreach($checkboxes as $key => $val)
+            {
+              if($val === 'hiddeninput')
+              {
+                $validationarray[$question->questionshortname . '.checkbox.' . $key] = 'string|nullable';
+              }
+              else
+              {
+                if($val === 'save')
+                {
+                  $validationarray[$question->questionshortname . '.checkbox.' . $key] = 'string|nullable';
+                }
+                else
+                {
+                  $validationarray[$question->questionshortname . '.checkbox.' . $key] = 'string|nullable';
+                  $validationarray[$question->questionshortname . '.file.' . $key] = $question->responsevalidationlogic . '|required_with:' . $question->questionshortname . '.checkbox.' . $key;
+                }
+              }
+            }
+            break;
+          case('text-var-custom'):
+            $exploded = explode(':',$question->responseformat,3);
+            $validationarray[$question->questionshortname . '.customtext.*'] = $question->responsevalidationlogic;
+            break;
           case('text-var'):
-            $exploded = explode(':',$logic->responseformat,3);
-            $validationarray[$logic->questionshortname . '.*'] = $logic->responsevalidationlogic;
+            $exploded = explode(':',$question->responseformat,3);
+            $validationarray[$question->questionshortname . '.*'] = $question->responsevalidationlogic;
             break;
           case('subquestion-radio'):
-            $subquestionradioquestionshortnames[] = $logic->questionshortname;
-            $exploded = explode(':',$logic->responseformat,3);
+            $subquestionradioquestionshortnames[] = $question->questionshortname;
+            $exploded = explode(':',$question->responseformat,3);
             $subquestions = explode('|',$exploded[1]);
             $radios = explode('|',$exploded[2]);
             $defaultradio = NULL;
@@ -256,45 +312,45 @@ class HomeController extends Controller
               $subquestionlc = strtolower($subquestion);
               if($subquestionlc !== 'othertext')
               {
-                $validationarray[$logic->questionshortname . "." . $subquestionlc] = $logic->responsevalidationlogic;
+                $validationarray[$question->questionshortname . "." . $subquestionlc] = $question->responsevalidationlogic;
               }
             }
-            $qdata0keys = array_keys($request->input($logic->questionshortname . ":othertext") ?? []);
+            $qdata0keys = array_keys($request->input($question->questionshortname . ":othertext") ?? []);
             foreach($qdata0keys as $key)
             {
-              $validationarray[$logic->questionshortname . "." . $subquestionlc . "." . $key] = $logic->responsevalidationlogic;
+              $validationarray[$question->questionshortname . "." . $subquestionlc . "." . $key] = $question->responsevalidationlogic;
               if(is_null($defaultradio))
               {
-                $validationarray[$logic->questionshortname . ":" . $subquestionlc . "." . $key] = $logic->responsevalidationlogic;
+                $validationarray[$question->questionshortname . ":" . $subquestionlc . "." . $key] = $question->responsevalidationlogic;
               }
               else
               {
-                $validationarray[$logic->questionshortname . ":" . $subquestionlc . "." . $key] = 'string|nullable|required_unless:' . $logic->questionshortname . "." . $subquestionlc . "." . $key . "," . $defaultradio;
+                $validationarray[$question->questionshortname . ":" . $subquestionlc . "." . $key] = 'string|nullable|required_unless:' . $question->questionshortname . "." . $subquestionlc . "." . $key . "," . $defaultradio;
               }
             }
             break;
           default:
-            $validationarray[$logic->questionshortname] = $logic->responsevalidationlogic;
+            $validationarray[$question->questionshortname] = $question->responsevalidationlogic;
             break;
         }
       }
-      if(!is_null($logic->companionresponsevalidationlogic))
+      if(!is_null($question->companionresponsevalidationlogic))
       {
-        $exploded = explode(':',$logic->companionresponsevalidationlogic,2);
+        $exploded = explode(':',$question->companionresponsevalidationlogic,2);
         switch($exploded[0])
         {
           case('multiothertext'):
-            $multiothertextquestionshortnames[] = $logic->questionshortname;
-            $qdata1 = $request->input($logic->questionshortname);
-//            $qdata2 = $request->input($logic->questionshortname . ":OtherText");
+            $multiothertextquestionshortnames[] = $question->questionshortname;
+            $qdata1 = $request->input($question->questionshortname);
+//            $qdata2 = $request->input($question->questionshortname . ":OtherText");
             foreach(($qdata1['OtherText'] ?? []) as $othertext)
             {
-              $validationarray[$logic->questionshortname . ".OtherText." . $othertext] = 'string|nullable';
-              $validationarray[$logic->questionshortname . ":OtherText." . $othertext] = 'string|nullable|required_with:'.$logic->questionshortname . ".OtherText." . $othertext;
+              $validationarray[$question->questionshortname . ".OtherText." . $othertext] = 'string|nullable';
+              $validationarray[$question->questionshortname . ":OtherText." . $othertext] = 'string|nullable|required_with:'.$question->questionshortname . ".OtherText." . $othertext;
             }
             break;
           case('othertext'):
-            $validationarray[$logic->questionshortname . ":" . $exploded[0]] = $exploded[1];
+            $validationarray[$question->questionshortname . ":" . $exploded[0]] = $exploded[1];
             break;
           default:
             echo "Something is wrong.";
@@ -303,13 +359,16 @@ class HomeController extends Controller
       }
     }
     
-//    var_dump($validationarray); die();
+//    var_dump($validationarray);
+//die();
     
     $validatedData = $request->validate($validationarray);
     // Only continues if valid
     $data = $validatedData;
     
-//    var_dump($data); die();
+//var_dump($_POST);
+//    echo "VALIDATION PASSED";
+//   var_dump($data); die();
     
     foreach($subquestionradioquestionshortnames as $questionshortname)
     {
@@ -345,10 +404,67 @@ class HomeController extends Controller
     $foritem = $request->input('foritem') ?? '';
 
     $datakeys = array_keys($data);
+    
+//    var_dump($data);
+//    var_dump($data['concessionproof']['file']);
+//    var_dump($datakeys);
+//    die();
 
     DB::beginTransaction();
     foreach($datakeys as $datakey)
     {
+      if(
+        isset($data[$datakey]['checkbox']) 
+        &&
+        isset($data[$datakey]['file']) 
+      )
+      {
+        $out = new \stdClass();
+        $out->uploadedfiles = [];
+//        var_dump($data[$datakey]['checkbox']);
+ //       var_dump($data[$datakey]['file']);
+//        die();
+        foreach($data[$datakey]['checkbox'] ?? [] as $key => $val)
+        {
+          if($val !== 'hiddeninput')
+          {
+            if($val === 'save')
+            {
+              $savedfile = DB::table('v_rego_fileuploads')
+                ->select('filename','mimetype','b64contents')
+                ->where('userid',Auth::id())
+                ->where('foritem','')
+                ->where('questionshortname',$datakey)
+                ->where('key',$key)
+                ->get()[0];
+              $out->uploadedfiles[] = [
+                $key,
+                $savedfile->filename,
+                $savedfile->mimetype,
+                $savedfile->b64contents
+              ];
+            }
+            else
+            {
+//              var_dump($data);
+  //            die();
+              $contents = file_get_contents($data[$datakey]['file'][$key]->path());
+              $contents = base64_encode($contents);
+              $out->uploadedfiles[] = [
+                $key,
+                $data[$datakey]['file'][$key]->getClientOriginalName(),
+                $data[$datakey]['file'][$key]->getMimeType(),
+                $contents
+              ];
+            }
+          }
+        }
+        $responsejson = json_encode($out);
+      }
+      else
+      {
+        $responsejson = json_encode($data[$datakey]);
+      }
       if(DB::table('rego_questions')->where('questionshortname',$datakey)->exists())
       {
         if(DB::table('rego_responses')
@@ -362,7 +478,7 @@ class HomeController extends Controller
             ->where('foritem',$foritem)
             ->where('questionshortname',$datakey)
             ->update([
-            'responsejson' => json_encode($data[$datakey]),
+            'responsejson' => $responsejson,
           ]);
         }
         else
@@ -371,7 +487,7 @@ class HomeController extends Controller
             'userid' => Auth::id(),
             'foritem' => $foritem,
             'questionshortname' => $datakey,
-            'responsejson' => json_encode($data[$datakey]),
+            'responsejson' => $responsejson,
           ]);
         }
       }
@@ -388,7 +504,7 @@ class HomeController extends Controller
              ->where('foritem',$foritem)
             ->where('attributename',$datakey)
             ->update([
-            'responsejson' => json_encode($data[$datakey]),
+            'responsejson' => $responsejson,
           ]);
         }
         else
@@ -397,7 +513,7 @@ class HomeController extends Controller
             'userid' => Auth::id(),
             'foritem' => $foritem,
             'attributename' => $datakey,
-            'responsejson' => json_encode($data[$datakey]),
+            'responsejson' => $responsejson,
           ]);
         }
       }

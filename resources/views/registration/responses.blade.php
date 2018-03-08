@@ -2,6 +2,21 @@
 
 
 @php
+                  function is_array_of_scalars($iv_array)
+                  {
+                    $iv_returnval = True;
+                    foreach($iv_array as $iv_array_thing)
+                    {
+                      if(!is_null($iv_array_thing))
+                      {
+                        if(!is_scalar($iv_array_thing))
+                        {
+                          $iv_returnval = False;
+                        }
+                      }
+                    }
+                    return $iv_returnval;
+                  }
   $hassubsections = 0 !== DB::table('rego_subsections')->where('sectionid',(int) $sectionid)->count();
   if($hassubsections)
   {
@@ -236,7 +251,17 @@
               {!! aiv_style_begin_question($a) !!}{!! $row->questiontext !!}{!! aiv_style_end_question($a) !!}
               {!! aiv_style_begin_response($a) !!}
                 @php
-                  $object = json_decode($row->responsejson, True);
+                  $object = json_decode($row->responsejson);
+                  if(isset($object->uploadedfiles))
+                  {
+                    $isuploadedfiles = True;
+                  }
+                  else
+                  {
+                    $isuploadedfiles = False;
+                    $object = json_decode($row->responsejson, True);
+                  }
+                  
                   
                   $done = False;
                   $output = NULL;
@@ -267,21 +292,9 @@
                   // IS IT AN ARRAY?
                   if(is_array($object))
                   {
-                    // IS IT AN ARRAY OF SCALARS?
-                    $arrayofscalars = True;
-                    foreach($object as $element)
-                    {
-                      if(!is_null($element))
-                      {
-                        if(!is_scalar($element))
-                        {
-                          $arrayofscalars = False;
-                        }
-                      }
-                    }
                     // GET RID OF NULLS
                     $object = array_filter($object,function($a){return !is_null($a);});
-                    if($arrayofscalars)
+                    if(is_array_of_scalars($object))
                     {
                       if(in_array('hiddeninput',$object))
                       {
@@ -312,15 +325,49 @@
                           {
                             $outputarray[] = "$key: " . $object[$key];
                           }
-                          $output = ucfirst(implode(', ',$outputarray));
+                          $output = implode(";\n",array_map('ucfirst',$outputarray));
                         }
                         else
                         {
-                          $output = ucfirst(implode(', ',$object));
+                          $output = implode(";\n",array_map('ucfirst',$object));
                         }
                       }
                       $done = True;
                     }
+                    else
+                    {
+                      // Is it an array of checkbox and customtext?
+                      $checkboxarray = $object['checkbox'] ?? [];
+                      $customtextarray = $object['customtext'] ?? [];
+                      if(is_array_of_scalars($checkboxarray) && is_array_of_scalars($customtextarray))
+                      {
+                        $outputarray = [];
+                        foreach($checkboxarray as $key => $val)
+                        {
+                          if(is_null($customtextarray[$key]))
+                          {
+                            $outputarray[] = "{$val} without customisation";
+                          }
+                          else
+                          {
+                            $outputarray[] = "{$val} with customisation: {$customtextarray[$key]}";
+                          }
+                        }
+                        $output = implode(";\n",array_map('ucfirst',$outputarray));
+                        $done = True;
+                      }
+                    }
+                  }
+                  
+                  if($isuploadedfiles)
+                  {
+                    $output = [];
+                    foreach($object->uploadedfiles as $file)
+                    {
+                      $output[] = "<a href=\"/home/registration/{$row->questionshortname}/{$file[0]}/{$file[1]}\">{$file[1]}</a>";
+                    }
+                      $specialmessage = $output === [] ? '<small class="text-muted">(None)</small>' : implode("<br>",$output);
+                      $done = True;
                   }
                   
                   if(is_null($object))
@@ -351,7 +398,7 @@
                       {
                         $output[] = ucfirst($key) . " (" . $value . ")";
                       }
-                      $output = implode(', ',$output);
+                      $output = implode(";\n",$output);
                       $done = True;
                     }
                     else

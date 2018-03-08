@@ -29,7 +29,7 @@
               <li><a class="nav-link" href="{{ route('login') }}">Registration</a></li>
             @else
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                   {{ Auth::user()->username }} <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu rounded-0" aria-labelledby="navbarDropdown">

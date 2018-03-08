@@ -2,6 +2,7 @@
   $pclass = $pclass ?? '';
   $h4class = $h4class ?? '';
   $h5class = $h5class ?? '';
+  $h6class = $h6class ?? '';
   $ulclass = $ulclass ?? '';
   $liclass = $liclass ?? '';
 @endphp

@@ -43,11 +43,15 @@
               @endif
             </div>
             <div class="form-group">
-              <div class="form-check pl-0">
-                <div class="pretty p-icon p-smooth">
-                  <input type="checkbox" class="form-check-input" id="sharedemail" name="sharedemail" onchange="toggleusername()" value="on" @if ($errors->has('username') || old('username')) checked @endif>
-                  <div class="state">
-                    <i class="icon material-icons">check box</i>
+              <div class="pl-0 form-check">
+                <div class="pretty p-icon p-toggle p-plain">
+                  <input class="form-check-input" type="checkbox" id="sharedemail" value="on" name="sharedemail" onchange="toggleusername()" @if ($errors->has('username') || old('username')) checked @endif>
+                  <div class="state p-on">
+                    <i class="icon material-icons text-primary">check_box</i>
+                    <label class="form-check-label" for="sharedemail">This is a shared email address.</label>
+                  </div>
+                  <div class="state p-off">
+                    <i class="icon material-icons text-secondary">check_box_outline_blank</i>
                     <label class="form-check-label" for="sharedemail">This is a shared email address.</label>
                   </div>
                 </div>

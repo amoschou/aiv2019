@@ -1,3 +1,12 @@
+@php
+  $pclass = $pclass ?? '';
+  $h4class = $h4class ?? '';
+  $h5class = $h5class ?? '';
+  $h6class = $h6class ?? '';
+  $ulclass = $ulclass ?? '';
+  $liclass = $liclass ?? '';
+@endphp
+
 <h4 class="{{ $h4class }}">About this policy</h4>
 <h5 class="{{ $h5class }}">Purpose</h5>
 <p class="{{ $pclass }}">The purpose of this privacy policy is to communicate clearly the personal information handling practices we follow when we collect and deal with your personal information, including how you can contact us if you wish to correct or access personal information we hold about you.</p>

@@ -29,6 +29,39 @@
 --}}
 <script src="/js/bootstrap-select.js"></script>
 <script>
+  function addfileinput(questionshortname)
+  {
+    var htmlstr = document.getElementById(questionshortname + ':extra').innerHTML;
+    var i = document.getElementById(questionshortname + ':extra').childElementCount;
+    // Expect one child already (the hidden input), so add 1 to begin the new children.
+    i = i + 1;
+
+    htmlstr = htmlstr + '                            <div class="col-md-12">';
+    htmlstr = htmlstr + '                              <div class="input-group">';
+    htmlstr = htmlstr + '                                <div class="input-group-prepend">';
+    htmlstr = htmlstr + '                                  <div class="input-group-text rounded-0">';
+    htmlstr = htmlstr + '                                    <div class="pretty p-icon p-toggle p-plain pr-0 mr-0">';
+    htmlstr = htmlstr + '                                      <input type="checkbox"';
+    htmlstr = htmlstr + '                                             name="' + questionshortname + '[checkbox][' + i + ']"';
+    htmlstr = htmlstr + '                                       aria-label="Checkbox for following text input"';
+    htmlstr = htmlstr + '                                              checked>';
+    htmlstr = htmlstr + '                                      <div class="state p-on">';
+    htmlstr = htmlstr + '                                        <i class="icon material-icons text-primary">check_box</i>';
+    htmlstr = htmlstr + '                                        <label></label>';
+    htmlstr = htmlstr + '                                      </div>';
+    htmlstr = htmlstr + '                                      <div class="state p-off">';
+    htmlstr = htmlstr + '                                        <i class="icon material-icons text-secondary">check_box_outline_blank</i>';
+    htmlstr = htmlstr + '                                        <label></label>';
+    htmlstr = htmlstr + '                                      </div>';
+    htmlstr = htmlstr + '                                    </div>';
+    htmlstr = htmlstr + '                                  </div>';
+    htmlstr = htmlstr + '                                </div>';
+    htmlstr = htmlstr + '                                <input class="rounded-0 form-control" type="file" name="' + questionshortname + '[file][' + i + ']" id="' + questionshortname + ':file:' + i + '" aria-label="File input with checkbox">';
+    htmlstr = htmlstr + '                              </div>';
+    htmlstr = htmlstr + '                            </div>';
+
+    document.getElementById(questionshortname + ':extra').innerHTML = htmlstr;
+  }
   function customselect(questionshortname)
   {
     var htmlstr = document.getElementById(questionshortname + ':custom').innerHTML;
@@ -177,14 +210,9 @@
 
 @section('content')
 
-
-
-
 <div class="container">
   <div class="row justify-content-md-center">
     <div class="col-md-12">
-    
-    
       @php
         if(isset($singlesectionid))
         {
@@ -221,7 +249,7 @@
           
           
 
-            <form class="form-horizontal" method="POST" action="/home/registration/{{ $section->sectionid }}">
+            <form class="form-horizontal" method="POST" action="/home/registration/{{ $section->sectionid }}" enctype="multipart/form-data">
               {{ csrf_field() }}
               <input type="hidden" name="foritem" value="{{ $foritem }}">
               @php
@@ -257,8 +285,16 @@
                 @endif
                 @php
                   $questions = $hassubsections
-                             ? DB::table('rego_questions')->select('questionshortname','questiontext','questiondescr','responseformat','html5required')->whereRaw('sectionid = ? and subsectioncode = ?',[$section->sectionid, $subsection->subsectioncode])->orderBy('questionord','asc')->get()
-                             : DB::table('rego_questions')->select('questionshortname','questiontext','questiondescr','responseformat','html5required')->where('sectionid',$section->sectionid)->orderBy('questionord','asc')->get();
+                             ? DB::table('rego_questions')
+                                 ->select('questionshortname','questiontext','questiondescr','responseformat','html5required')
+                                 ->whereRaw('sectionid = ? and subsectioncode = ?',[$section->sectionid, $subsection->subsectioncode])
+                                 ->orderBy('questionord','asc')
+                                 ->get()
+                             : DB::table('rego_questions')
+                                 ->select('questionshortname','questiontext','questiondescr','responseformat','html5required')
+                                 ->where('sectionid',$section->sectionid)
+                                 ->orderBy('questionord','asc')
+                                 ->get();
                 @endphp
                 @foreach ($questions as $question)
                   {{--
@@ -314,10 +350,11 @@
                       case('checkbox'):
                       case('subquestion-radio'):
                       case('text-var'):
+                      case('files'):
                         $hasfieldset = True;
                         break;
                       default:
-                        $hasfieldset = ($responseformat[1] ?? '') === 'address' ? True : False;
+                        $hasfieldset = False;
                         break;
                     }
                   @endphp
@@ -328,12 +365,63 @@
                   @else
                     <div class="form-group form-row">
                   @endif
+                  
+{{-- GIANTS SWITCH --}}
                     @switch($responseformat[0])
                     
-                    
-                    
-                    
-                    
+{{-- GIANTS SWITCH CASE --}}
+                      @case('files')
+                        <label class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
+                        <div class="col-md-5">
+                          <div class="form-row">
+                            <div class="col-md-12">
+                              <button type="button" class="btn btn-default checkboxadd rounded-0" onclick="addfileinput('{{ $question->questionshortname }}')">Add a file</button>
+                            </div>
+                          </div>
+                          <input type="hidden" value="hiddeninput" name="{{ $question->questionshortname }}[checkbox][0]">
+                          <input type="hidden" value="hiddeninput" name="{{ $question->questionshortname }}[file][0]">
+                          <div class="form-row" id="{{ $question->questionshortname }}:extra">
+                            @php
+                              $files = DB::table('v_rego_fileuploads')
+                                ->select('key','filename')
+                                ->where('userid',Auth::id())
+                                ->where('foritem','')
+                                ->where('questionshortname',$question->questionshortname)
+                                ->get();
+                            @endphp
+                            @foreach($files as $file)
+                              <div class="col-md-12">
+                                <div class="form-check pl-0" id="">
+                                  <div class="pretty p-icon p-toggle p-plain" id="">
+                                    <input class="form-check-input"
+                                            type="checkbox"
+                                            name="{{ $question->questionshortname }}[checkbox][{{ $file->key }}]"
+                                            id="{{ $question->questionshortname }}:checkbox:{{ $file->key }}"
+                                           value="save"
+                                                checked>
+                                      <div class="state p-on">
+                                        <i class="icon material-icons text-primary">check_box</i>
+                                        <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ $file->key }}">
+                                          {{ $file->filename }}
+                                        </label>
+                                      </div>
+                                      <div class="state p-off">
+                                        <i class="icon material-icons text-secondary">check_box_outline_blank</i>
+                                        <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ $file->key }}">
+                                          {{ $file->filename }}
+                                        </label>
+                                      </div>
+                                  </div>
+                                  <a href="/home/registration/{{$question->questionshortname}}/{{$file->key}}/{{$file->filename}}">Open</a>
+                                </div>
+                              </div>
+                            @endforeach
+                          </div>
+                        </div>
+                        <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
+                        @break
+
+{{-- GIANTS SWITCH CASE --}}
                       @case('text-var-custom')
                         <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
@@ -356,17 +444,44 @@
                               <button type="button" class="btn btn-default checkboxadd rounded-0" onclick="customselect('{{ $question->questionshortname }}')">Add {{ $question->questionshortname }}</button>
                             </div>
                           </div>
-                          <div id="{{ $question->questionshortname }}:custom"></div>
+                          <div id="{{ $question->questionshortname }}:custom">
+                            @php
+                             $existingcustoms = json_decode(DB::table('rego_responses')
+                                                              ->where('questionshortname',$question->questionshortname)
+                                                              ->where('userid',Auth::id())
+                                                              ->where('foritem',$foritem)
+                                                              ->value('responsejson'));
+                            @endphp
+                            @foreach($existingcustoms->checkbox ?? [] as $key => $val)
+                              <div class="form-row">
+                                <div class="col-md-6">
+                                  <div class="form-control-plaintext">
+                                    <div class="pl-0 form-check">
+                                      <div class="pretty p-icon p-toggle p-plain">
+                                        <input class="form-check-input" type="checkbox" id="{{ $question->questionshortname }}:checkbox:{{ $loop->index }}" value="{{ $val }}" name="{{ $question->questionshortname }}[checkbox][{{ $loop->index }}]" checked>
+                                        <div class="state p-on">
+                                          <i class="icon material-icons text-primary">check_box</i>
+                                          <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ $loop->index }}">{{ $val }}</label>
+                                        </div>
+                                        <div class="state p-off">
+                                          <i class="icon material-icons text-secondary">check_box_outline_blank</i>
+                                          <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ $loop->index }}">{{ $val }}</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <input class="rounded-0 form-control" name="{{ $question->questionshortname }}[customtext][{{ $loop->index }}]" value="{{ $existingcustoms->customtext[$key] }}">
+                                </div>
+                              </div>
+                            @endforeach
+                          </div>
                         </div>
                         <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
                         @break
                     
-                    
-                    
-                    
-                    
-                    
-                    
+{{-- GIANTS SWITCH CASE --}}
                       @case('text-var')
                         <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
@@ -427,11 +542,8 @@
                         </div>
                         <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
                         @break
-                    
-                    
-                    
-                      
-                      
+
+{{-- GIANTS SWITCH CASE --}}
                       @case('subquestion-radio')
                         @php
                           $subquestions = explode('|',$responseformat[1]);
@@ -560,9 +672,7 @@
                         </span>
                         @break
                       
-                      
-
-
+{{-- GIANTS SWITCH CASE --}}
                       @case('textarea')
                         <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
@@ -590,6 +700,8 @@
                           {!! $question->questiondescr !!}
                         </span>
                         @break
+
+{{-- GIANTS SWITCH CASE --}}
                       @case('text')
                         <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $questiontextwithoptional !!}</label>
                         <div class="col-md-5">
@@ -637,16 +749,7 @@
                         <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4 form-control-plaintext">{!! $question->questiondescr !!}</span>
                         @break
 
-
-
-
-
-
-
-
-
-
-
+{{-- GIANTS SWITCH CASE --}}
                       @case('radio')
                         @php
                           $answeritems = explode('|',$responseformat[1]);
@@ -768,14 +871,8 @@
                           {!! $question->questiondescr !!}
                         </span>
                         @break
-    
-    
-    
-    
-    
-    
-    
-    
+
+{{-- GIANTS SWITCH CASE --}}
                       @case('checkbox')
                         @php
                           $answeritems = explode('|',$responseformat[1]);
@@ -887,63 +984,59 @@
                                 @endif
                               </div>
                               <div id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}:container">
-@if($answeritemarray[0] === 'OtherText')
-@php
-$oldothertextcheckboxes = old($question->questionshortname)['OtherText'];
-$oldothertexttexts = old($question->questionshortname . ":OtherText");
-$othertextkeys = array_keys($oldothertexttexts ?? []);
-$checkboxothertexterror = false;
-@endphp
-@foreach($othertextkeys as $othertextkey)
-@php
-$checkbothisoneerror = isset($oldothertextcheckboxes[$othertextkey]) && ($oldothertexttexts[$othertextkey] === '' || is_null($oldothertexttexts[$othertextkey]));
-$checkboxothertexterror =  $checkbothisoneerror ? True : $checkboxothertexterror;
-@endphp
-<div class="input-group">
-<div class="input-group-prepend">
-
-
-
-                                  <div class="input-group-text rounded-0">
-                                    <div class="pretty p-icon p-toggle p-plain pr-0 mr-0">
-                                      <input type="checkbox" name="{{ $question->questionshortname }}[{{ $answeritemarray[1] }}][{{ $othertextkey }}]" value="{{ $othertextkey }}" aria-label="Radio button for following text input" {{ isset($oldothertextcheckboxes[$othertextkey]) ? 'checked' : '' }}>
-                                      <div class="state p-on">
-                                        <i class="icon material-icons text-primary">radio_button_checked</i>
-                                        <label></label>
+                                @if($answeritemarray[0] === 'OtherText')
+                                  @php
+                                    $othertextkeys = array_keys(old($question->questionshortname . ":OtherText") ?? []);
+                                    $checkboxothertexterror = false;
+                                  @endphp
+                                  @foreach($othertextkeys as $othertextkey)
+                                    @php
+                                    $checkbothisoneerror = isset(old($question->questionshortname)['OtherText'][$othertextkey]) && (old($question->questionshortname . ":OtherText")[$othertextkey] === '' || is_null(old($question->questionshortname . ":OtherText")[$othertextkey]));
+                                    $checkboxothertexterror =  $checkbothisoneerror ? True : $checkboxothertexterror;
+                                    @endphp
+                                    <div class="input-group">
+                                      <div class="input-group-prepend">
+                                        <div class="input-group-text rounded-0">
+                                          <div class="pretty p-icon p-toggle p-plain pr-0 mr-0">
+                                            <input type="checkbox" name="{{ $question->questionshortname }}[{{ $answeritemarray[1] }}][{{ $othertextkey }}]" value="{{ $othertextkey }}" aria-label="Radio button for following text input" {{ isset(old($question->questionshortname)['OtherText'][$othertextkey]) ? 'checked' : '' }}>
+                                            <div class="state p-on">
+                                              <i class="icon material-icons text-primary">check_box</i>
+                                              <label></label>
+                                            </div>
+                                            <div class="state p-off">
+                                              <i class="icon material-icons text-secondary">check_box_outline_blank</i>
+                                              <label></label>
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
-                                      <div class="state p-off">
-                                        <i class="icon material-icons text-secondary">radio_button_unchecked</i>
-                                        <label></label>
+                                      <input type="text" class="form-control rounded-0 @if($checkbothisoneerror) is-invalid @endif" name="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}[{{ $othertextkey }}]" aria-label="Text input with radio button" placeholder="Other" @if(isset(old($question->questionshortname . ":OtherText")[$othertextkey])) value="{{ old($question->questionshortname . ":OtherText")[$othertextkey] }}" @endif>
+                                      <div class="invalid-feedback">
+                                        @if ($errors->has($question->questionshortname))
+                                          @foreach ($errors->get($question->questionshortname) as $message)
+                                            @if(!$loop->first)<br>@endif{{ $message }}
+                                          @endforeach
+                                        @endif
+                                        @if($checkboxothertexterror)
+                                          The other field is required if it is selected.
+                                        @endif
                                       </div>
                                     </div>
-                                  </div>
-
-
-
-</div>
-<input type="text" class="form-control rounded-0 @if($checkbothisoneerror) is-invalid @endif" name="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}[{{ $othertextkey }}]" aria-label="Text input with radio button" placeholder="Other" @if(isset($oldothertexttexts[$othertextkey])) value="{{ $oldothertexttexts[$othertextkey] }}" @endif>
-<div class="invalid-feedback">
-@if ($errors->has($question->questionshortname))
-@foreach ($errors->get($question->questionshortname) as $message)
-@if(!$loop->first)<br>@endif{{ $message }}
-@endforeach
-@endif
-@if($checkboxothertexterror)
-The other field is required if it is selected.
-@endif
-</div>
-</div>
-@endforeach
-@endif
+                                  @endforeach
+                                @endif
                               </div>
                             @endif
                           @endforeach
                         </div>
                         <span id="{{ $question->questionshortname }}:questiondescr" class="col-md-4">{!! $question->questiondescr !!}</span>
                         @break
+
+{{-- GIANTS SWITCH CASE --}}
                       @default
                         <p>Something went wrong here: $answercontrol is <strong>{{ $answercontrol }}</strong> which is not allowed.</p>
                     @endswitch
+{{-- END GIANTS SWITCH CASE --}}
+
                   @if($hasfieldset)
                       </div>
                     </fieldset>
