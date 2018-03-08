@@ -34,18 +34,18 @@ class HomeController extends Controller
     switch(config('database.default'))
     {
       case('pgsql'):
-        $filename = $file->filename;
+        $filename2 = $file->filename;
         $mimetype = $file->mimetype;
         $contents = base64_decode($file->b64contents);
         break;
       case('mysql'):
-        $filename = json_decode($file->filename);
+        $filename2 = json_decode($file->filename);
         $mimetype = json_decode($file->mimetype);
         $contents = base64_decode(json_decode($file->b64contents));
         break;
     }
     
-    if($filename !== $file->filename)
+    if($filename !== $filename2)
     {
       abort(404);
     }
