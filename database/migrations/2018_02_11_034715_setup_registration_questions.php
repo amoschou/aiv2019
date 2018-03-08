@@ -528,7 +528,7 @@ class SetupRegistrationQuestions extends Migration
     ],'questionid');
     
     $accdinnerguestquestionshortname = DB::table('rego_questions')
-                        ->where('questionid',$questionid)
+                        ->where('questionid',$accdinnerguestquestionid)
                         ->value('questionshortname');
                         
     // NEW SECTION
