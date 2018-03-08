@@ -36,11 +36,20 @@ class HomeController extends Controller
       abort(404);
     }
     
-    $mimetype = $file->mimetype;
-    $contents = base64_decode($file->b64contents);
+    switch(config('database.default'))
+    {
+      case('pgsql'):
+        $mimetype = $file->mimetype;
+        $contents = base64_decode($file->b64contents);
+        break;
+      case('mysql'):
+        $mimetype = json_decode($file->mimetype);
+        $contents = base64_decode(json_decode($file->b64contents));
+        break;
+    }
     
     $response = new Response($contents, 200);
-    $response->header('Content-Type', 'image/jpeg' ?? $mimetype);
+    $response->header('Content-Type', $mimetype);
     return $response;
   }
 
