@@ -395,24 +395,24 @@
                                   <div class="pretty p-icon p-toggle p-plain" id="">
                                     <input class="form-check-input"
                                             type="checkbox"
-                                            name="{{ $question->questionshortname }}[checkbox][{{ $file->key }}]"
-                                            id="{{ $question->questionshortname }}:checkbox:{{ $file->key }}"
+                                            name="{{ $question->questionshortname }}[checkbox][{{ json_decode($file->key) }}]"
+                                            id="{{ $question->questionshortname }}:checkbox:{{ json_decode($file->key) }}"
                                            value="save"
                                                 checked>
                                       <div class="state p-on">
                                         <i class="icon material-icons text-primary">check_box</i>
-                                        <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ $file->key }}">
+                                        <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ json_decode($file->key) }}">
                                           {{ $file->filename }}
                                         </label>
                                       </div>
                                       <div class="state p-off">
                                         <i class="icon material-icons text-secondary">check_box_outline_blank</i>
-                                        <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ $file->key }}">
+                                        <label class="form-check-label" for="{{ $question->questionshortname }}:checkbox:{{ json_decode($file->key) }}">
                                           {{ $file->filename }}
                                         </label>
                                       </div>
                                   </div>
-                                  <a href="/home/registration/{{$question->questionshortname}}/{{$file->key}}/{{$file->filename}}">Open</a>
+                                  <a href="/home/registration/{{$question->questionshortname}}/{{json_decode($file->key)}}/{{json_decode($file->filename)}}">Open</a>
                                 </div>
                               </div>
                             @endforeach
