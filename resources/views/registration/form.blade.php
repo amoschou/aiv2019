@@ -504,11 +504,15 @@
                                   class="rounded-0 form-control @if ($errors->has($question->questionshortname . '.' . $variant[1])) is-invalid @endif "
                                  value="{{ old($question->questionshortname . '.' . $variant[1])
                                            ??
-                                           json_decode(DB::table('rego_responses')
-                                             ->where('userid',Auth::id())
-                                             ->where('foritem','')
-                                             ->where('questionshortname',$question->questionshortname)
-                                             ->value('responsejson'))->{$variant[1]}
+                                           is_null(
+                                             $a = json_decode(DB::table('rego_responses')
+                                               ->where('userid',Auth::id())
+                                               ->where('foritem','')
+                                               ->where('questionshortname',$question->questionshortname)
+                                               ->value('responsejson'))
+                                           )
+                                           ? NULL
+                                           : $a->{$variant[1]}
                                         }}"
                                       @if ($question->html5required)
                                         required
