@@ -40,7 +40,7 @@ class HomeController extends Controller
     $contents = base64_decode($file->b64contents);
     
     $response = new Response($contents, 200);
-    $response->header('Content-Type', $mimetype);
+    $response->header('Content-Type', 'image/jpeg' ?? $mimetype);
     return $response;
   }
 
