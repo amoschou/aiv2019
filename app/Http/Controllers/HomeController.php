@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Response;
 
+use Validator;
+use Illuminate\Support\Str;
+
 class HomeController extends Controller
 {
   /**
@@ -99,7 +102,7 @@ class HomeController extends Controller
         'singlesectionid' => $essentialdetailsid,
         'foritem' => '',
       ];
-      return view('registration.form',$context);
+      return view('registration.form.base',$context);
     }
     
     switch(config('database.default'))
@@ -141,46 +144,25 @@ class HomeController extends Controller
   
   public function displayregistration(Request $request, $sectionid)
   {
-    $q = "SELECT DISTINCT sectionid,
-                 doasksection as sectionshortname,
-                 sectionname,
-                 sectionord,
-                 sectiondescr,
-                 sectionduplicateforeach
-            FROM rego_responses
-                 NATURAL JOIN
-                 rego_requirements
-                 JOIN rego_sections
-                 ON (doasksection = sectionshortname)
-                 LEFT OUTER JOIN rego_subsections USING (sectionid)
-           WHERE userid = ?
-                 AND
-                 sectionid = ?
-                 AND ";
-                 switch(config('database.default'))
-                 {
-                   case('pgsql'):
-                     $q .= "CASE
-                            WHEN comparisonoperator = 'LIKE'
-                            THEN responsejson::TEXT LIKE responsepattern
-                            WHEN comparisonoperator = '@>'
-                            THEN responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB
-                            END";
-                     break;
-                   case('mysql'):
-                     // Wow, MySQL, just wow.
-                     $suba = "(comparisonoperator = 'LIKE')";
-                     $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
-                     $subc = "(comparisonoperator = '@>')";
-                     $subd = "(JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL)";
-                     $subp = "((NOT $suba) OR $subb)";
-                     $subq = "($suba OR (NOT $subc) OR $subd)";
-                     $subr = "($suba OR $subc)";
-                     $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
-                     $q .= $subxnorpqr;
-                     break;
-                 }
-          $q .= " ORDER BY sectionord";
+    $q = "SELECT
+            sectionid,
+            sectionname,
+            sectiondescr,
+            sectionduplicateforeach
+          from
+            v_rego_required_sections
+            natural join
+            rego_sections
+          where
+            userid = ?
+            and
+            required = 'true'
+            and
+            sectionid = ?
+          order by
+            sectionord";
+
+
     $firstnamequery = "SELECT responsejson
                          FROM rego_responses
                               JOIN
@@ -222,7 +204,7 @@ class HomeController extends Controller
       'foritem' => '',
       'iscommittee' => $request->user()->iscommittee,
     ];
-    return view('registration.form',$context);
+    return view('registration.form.base',$context);
   }
   
   
@@ -239,7 +221,7 @@ class HomeController extends Controller
       'foritem' => $foritem,
       'iscommittee' => $request->user()->iscommittee,
     ];
-    return view('registration.form',$context);
+    return view('registration.form.base',$context);
   }
   
   
@@ -370,16 +352,58 @@ class HomeController extends Controller
       }
     }
     
-//    var_dump($validationarray);
-//die();
+    // It doesn't look like that acdinner and acdinnerguest can be
+    // validated using the abstract approach so one of the rules is
+    // done manually here.
+    //
+    //   IF THERE'S AN ACADEMIC DINNER GUEST,
+    //   THEN YOU MUST BE GOING TO THE DINNER YOURSELF.
     
-    $validatedData = $request->validate($validationarray);
-    // Only continues if valid
-    $data = $validatedData;
+    $v = Validator::make(
+      $request->all(),
+      $validationarray,
+      ['acdinner.in' => 'This must be ‘yes’ if you are bringing a guest to the academic dinner. Either select ‘yes’ here or deselect any guests below.']
+    );
+    $v->sometimes('acdinner','in:yes', function ($input) {
+      return (
+        isset($input->acdinnerguest[0])
+        &&
+        $input->acdinnerguest[0] === 'hiddeninput'
+        &&
+        count($input->acdinnerguest) > 1
+      );
+      // Remember that the "hiddeninput" guest should always exist
+      // This is posted into acdinnerguest[0] and it's handled.
+    });
     
-//var_dump($_POST);
-//    echo "VALIDATION PASSED";
-//   var_dump($data); die();
+    // Normally, without custom "sometimes" rules like above,
+    // we could do:
+    //
+    //   $data = $request->validate($validationarray)
+    // 
+    // and get returned the validated data. Unfortunately, this isn't
+    // automatic when using the Validator trait with custom rules, so
+    // we borrow extractInputFromRules() from ValidatesRequest.php:
+    //
+    //  /**
+    //   * Get the request input based on the given validation rules.
+    //   *
+    //   * @param  \Illuminate\Http\Request  $request
+    //   * @param  array  $rules
+    //   * @return array
+    //   */
+    //  protected function extractInputFromRules(Request $request, array $rules)
+    //  {
+    //    return $request->only(collect($rules)->keys()->map(function ($rule) {
+    //      return Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule;
+    //    })->unique()->toArray());
+    //  }
+    
+    $v->validate();
+    $rules = $v->getRules();
+    $data = $request->only(collect($rules)->keys()->map(function ($rule) {
+                return Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule;
+            })->unique()->toArray());
     
     foreach($subquestionradioquestionshortnames as $questionshortname)
     {
@@ -414,7 +438,22 @@ class HomeController extends Controller
 
     $foritem = $request->input('foritem') ?? '';
 
+    $removekeys = [];
+    foreach($data as $key => $val)
+    {
+      if($val === 'othertext' && isset($data[$key.':othertext']))
+      {
+        $data[$key] = $data[$key.':othertext'];
+        $removekeys[] = $key.':othertext';
+      }
+    }
+    foreach($removekeys as $removekey)
+    {
+      unset($data[$removekey]);
+    }
+
     $datakeys = array_keys($data);
+
     
 //    var_dump($data);
 //    var_dump($data['concessionproof']['file']);
@@ -476,7 +515,9 @@ class HomeController extends Controller
       {
         $responsejson = json_encode($data[$datakey]);
       }
-      if(DB::table('rego_questions')->where('questionshortname',$datakey)->exists())
+      if(DB::table('rego_questions')
+           ->where('questionshortname',$datakey)
+           ->exists())
       {
         if(DB::table('rego_responses')
              ->where('userid',Auth::id())
@@ -504,6 +545,8 @@ class HomeController extends Controller
       }
       else
       {
+        // This shouldn't ever happen (Hopefully).
+        // But things will still work if it does.
         if(DB::table('rego_responses_nofk')
              ->where('userid',Auth::id())
              ->where('foritem',$foritem)
@@ -529,6 +572,49 @@ class HomeController extends Controller
         }
       }
     }
+    // Delete old personal information no longer required.
+    $questionshortnamein = "
+                 select questionshortname
+                 from rego_questions
+                 natural join
+                 v_rego_required_sections
+                 where userid = ? and required = 'false' ";
+    DB::delete("delete from
+             rego_responses
+             where
+               questionshortname in ( {$questionshortnamein} )
+               and 
+               userid = ?",[Auth::id(),Auth::id()]);
+               // Remember there two parametes to bind!
+    
+    $duplicatedsections = DB::table('rego_sections')
+      ->select('sectionid','sectionduplicateforeach')
+      ->whereNotNull('sectionduplicateforeach')
+      ->get();
+    foreach($duplicatedsections as $section)
+    {
+      $json = DB::table('rego_responses')
+                ->where('questionshortname',$section->sectionduplicateforeach)
+                ->where('userid',Auth::id())
+                ->where('foritem','')
+                ->value('responsejson');
+      $guests = json_decode($json);
+      $guests[] = ''; // Don't forget yourself.
+      // Now $guests is an array of people being taken to the dinner.
+      // including yourself (who is the empty string).
+      // We need to delete the dietary requirements of any guests not in that list.
+      DB::table('rego_responses')
+        ->where('userid',Auth::id())
+        ->whereNotIn('foritem',$guests)
+        ->whereRaw('questionshortname in (
+                    select questionshortname
+                    from rego_questions
+                    where sectionid = ?)',$section->sectionid)
+        ->delete();
+    }
+    // This whole process could be more robust, but it works now.
+    // That is, in some situations, it might delete more than it should,
+    // but that's not going to happen with Adelaide IV's setup.
     DB::commit();
 
     return redirect('home/registration/'.$sectionid);

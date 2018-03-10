@@ -7,6 +7,49 @@
   }
 ?>
 
+@section('innercontent')
+  <h1>
+    Welcome, {{ $firstname }}
+    @if($iscommittee)
+      <br><small class="text-muted">Committee member</small>
+    @endif
+  </h1>
+  <p>This is where you can register for the festival and manage your personal information.</p>
+  <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
+  
+  @php
+    $regoitems = DB::table('v_user_rego_items')
+      ->select('itemname','price')
+      ->where('userid',Auth::id())
+      ->get();
+    $regoitemtotal = 0;
+  @endphp
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>$</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($regoitems as $regoitem)
+        @php $regoitemtotal += $regoitem->price; @endphp
+        <tr>
+          <td>{{ $regoitem->itemname }}</td>
+          <td>{{ $regoitem->price }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>Total</td>
+        <td>{{ $regoitemtotal }}</td>
+      </tr>
+    </tfoot>
+  </table>
+@endsection
+
+
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
@@ -25,40 +68,20 @@
             Registration details
           </div>
           @php
-            $q = "SELECT DISTINCT sectionid,
-                         sectionname,
-                         sectionord
-                    FROM rego_responses
-                         NATURAL JOIN
-                         rego_requirements
-                         JOIN rego_sections
-                         ON (doasksection = sectionshortname)
-                   WHERE userid = ?
-                         AND ";
-                         switch(config('database.default'))
-                         {
-                           case('pgsql'):
-                             $q .= "CASE
-                                    WHEN comparisonoperator = 'LIKE'
-                                    THEN responsejson::TEXT LIKE responsepattern
-                                    WHEN comparisonoperator = '@>'
-                                    THEN responsejson::JSONB @> ('\"'||responsepattern||'\"')::JSONB
-                                    END ";
-                             break;
-                           case('mysql'):
-                             // Wow, MySQL, just wow.
-                             $suba = "(comparisonoperator = 'LIKE')";
-                             $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
-                             $subc = "(comparisonoperator = '@>')";
-                             $subd = "(JSON_SEARCH(responsejson,'one',responsepattern) IS NOT NULL)";
-                             $subp = "((NOT $suba) OR $subb)";
-                             $subq = "($suba OR (NOT $subc) OR $subd)";
-                             $subr = "($suba OR $subc)";
-                             $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
-                             $q .= $subxnorpqr;
-                             break;
-                         }
-                  $q .= " ORDER BY sectionord";
+            $q = "SELECT
+                    sectionid,
+                    sectionname,
+                    sectionord
+                  from
+                    v_rego_required_sections
+                    natural join
+                    rego_sections
+                  where
+                    userid = ?
+                    and
+                    required = 'true'
+                  order by
+                    sectionord";
             $sections = DB::select($q,[Auth::id()]);
           @endphp
           <div id="collapse-registrationdetails"
@@ -71,6 +94,7 @@
             @endforeach
             </div>
           </div>
+{{--
           <div class="card-header border-primary rounded-0 bg-primary text-white"
                   id="header-personalinformation"
          data-toggle="collapse"
@@ -88,7 +112,7 @@
               <a class="list-group-item list-group-item-action text-muted" href="/home/personalinformation/miscellaneous">Miscellaneous personal information</a>
             </div>
           </div>
-
+--}}
 
           @if($iscommittee)
             <div class="card-header border-warning rounded-0 bg-warning"
@@ -122,17 +146,6 @@
     
     <div class="col-md-9">
     
-    @section('innercontent')
-      <h1>
-        Welcome, {{ $firstname }}
-        @if($iscommittee)
-          <br><small class="text-muted">Committee member</small>
-        @endif
-      </h1>
-      <p>This is where you can register for the festival and manage your personal information.</p>
-      <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
-    @endsection
-
     @yield('innercontent')
     
     </div>

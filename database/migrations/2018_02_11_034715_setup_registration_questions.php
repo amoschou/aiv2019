@@ -165,7 +165,7 @@ class SetupRegistrationQuestions extends Migration
         'questionshortname' => 'concession',
         'questiontext' => 'Do you have a valid concession?',
         'questiondescr' => 'For valid concession, students are enrolled full time at any Australian university during Semester Two, 2018 or Semester One, 2019 (or equivalent), and youths are born on or after 10 January 1989.',
-        'responseformat' => 'checkbox:Student|Youth',
+        'responseformat' => 'checkbox:Student^student|Youth^youth',
         'responsevalidationlogic' => 'required',
         'html5required' => False,
         'companionresponsevalidationlogic' => NULL,
@@ -500,12 +500,22 @@ class SetupRegistrationQuestions extends Migration
       'sectiondescr' => 'Guests are permitted only at the academic dinner. However, anybody is welcome to make their own social registration to attend other social events.'
     ],'sectionid');
     
+    // It doesn't look like that acdinner and acdinnerguest can be
+    // validated using the abstract approach like everything else here
+    // so one of the rules is done manually:
+    //
+    //   IF THERE'S AN ACADEMIC DINNER GUEST,
+    //   THEN YOU MUST BE GOING TO THE DINNER YOURSELF.
+    //
+    // Look at app/Http/Controllers/HomeController.php to see how this
+    // is implemented.
+    
     DB::table('rego_questions')->insert([
       [
         'questionord' => 1,
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
-        'questionshortname' => 'accdinner',
+        'questionshortname' => 'acdinner',
         'questiontext' => 'Will you be at the academic dinner?',
         'questiondescr' => NULL,
         'responseformat' => 'radio:Yes|No',
@@ -518,7 +528,7 @@ class SetupRegistrationQuestions extends Migration
       'questionord' => 2,
       'sectionid' => $sectionid,
       'subsectioncode' => NULL,
-      'questionshortname' => 'accdinnerguest',
+      'questionshortname' => 'acdinnerguest',
       'questiontext' => 'Name of your guest to the academic dinner',
       'questiondescr' => NULL,
       'responseformat' => 'checkbox:OtherText',
@@ -530,6 +540,20 @@ class SetupRegistrationQuestions extends Migration
     $accdinnerguestquestionshortname = DB::table('rego_questions')
                         ->where('questionid',$accdinnerguestquestionid)
                         ->value('questionshortname');
+    
+    DB::table('rego_questions')->insertGetId([
+      'questionord' => 3,
+      'sectionid' => $sectionid,
+      'subsectioncode' => NULL,
+      'questionshortname' => 'othersocial',
+      'questiontext' => 'Will you be at other social events?',
+      'questiondescr' => 'Includes access to the PCP, BBQ and some other events.',
+      'responseformat' => 'radio:Yes|No',
+      'responsevalidationlogic' => 'required',
+      'html5required' => True,
+      'companionresponsevalidationlogic' => NULL,
+    ],'questionid');
+    
                         
     // NEW SECTION
     
@@ -777,6 +801,7 @@ class SetupRegistrationQuestions extends Migration
         'responsevalidationlogic' => 'nullable|numeric|integer|min:1',
         'companionresponsevalidationlogic' => NULL,
       ],
+/*
       [
         'questionord' => 4,
         'sectionid' => $sectionid,
@@ -789,6 +814,7 @@ class SetupRegistrationQuestions extends Migration
         'responsevalidationlogic' => 'nullable|numeric|integer|min:0',
         'companionresponsevalidationlogic' => NULL,
       ],
+*/
     ]);
   }
 

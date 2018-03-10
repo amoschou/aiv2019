@@ -18,7 +18,9 @@
 /*
  * PUBLIC SITE ROUTES
  */
-
+ 
+Route::view('/form','registration.dev.formbuilder',[]);
+ 
 Route::get('/', 'PublicController@frontpage')->name('public.frontpage');
 Route::get('/adelaideiv', 'PublicController@adelaideiv')->name('adelaideiv');
 Route::get('/aivcfadelaide', 'PublicController@aivcfadelaide')->name('aivcfadelaide');
@@ -107,11 +109,81 @@ $fibsacronymlc = strtolower($fibsacronym);
 $fibsacronymasaname = ucfirst($fibsacronymlc);
 $fibsnameexpanded = env('FIBS_EXPANDED', 'Eff Eye Bee Ess');
 
+  function build_navitem($itemurl, $icon, $name)
+  {
+    $navitem = new \stdClass();
+    $navitem->itemurl = $itemurl;
+    $navitem->icon = $icon;
+    $navitem->name = $name;
+    return $navitem;
+  }
+
+  $navitems = [];
+  
+  $navitems[] = ['Activities'];
+
+  $navitems[0][] = build_navitem
+      (
+        'calendar',
+        'event',
+        'Calendar and events',
+        $fibsacronymlc
+      );
+  $navitems[0][] = build_navitem
+      (
+        'dailycommentary',
+        'event_note',
+        'Daily commentary',
+        $fibsacronymlc
+      );
+    
+  $navitems[] = ['Adelaide'];
+    
+  $navitems[1][] = build_navitem
+      (
+        'maps',
+        'map',
+        'Maps',
+        $fibsacronymlc
+      );
+  $navitems[1][] = build_navitem
+      (
+        'publictransport',
+        'directions_bus',
+        'Public transport',
+        $fibsacronymlc
+      );
+  $navitems[1][] = build_navitem
+      (
+        'dining',
+        'local_dining',
+        'Dining',
+        $fibsacronymlc
+      );
+    
+  $navitems[] = ['Reference'];
+  
+  $navitems[2][] = build_navitem
+      (
+        'faq',
+        'question_answer',
+        'Frequently asked questions',
+        $fibsacronymlc
+      );
+  $navitems[2][] = build_navitem
+      (
+        'fineprint',
+        'description',
+        'Fine print',
+        $fibsacronymlc
+      );
+
 $context = [
   'fibsacronym' => $fibsacronym,
   'fibsacronymlc' => $fibsacronymlc,
   'fibsacronymasaname' => $fibsacronymasaname,
   'fibsnameexpanded' => $fibsnameexpanded,
+  'navitems' => $navitems,
 ];
 
 $context = array_merge($textclasses,$context);
@@ -123,6 +195,7 @@ Route::view("/{$fibsacronymlc}/publictransport", 'festivalinformation.content.pu
 Route::view("/{$fibsacronymlc}/dining", 'festivalinformation.content.dining', $context)->name('festivalinformation.content.dining');
 Route::view("/{$fibsacronymlc}/fineprint", 'festivalinformation.content.fineprint', $context)->name('festivalinformation.content.fineprint');
 Route::view("/{$fibsacronymlc}/dailycommentary", 'festivalinformation.content.dailycommentary.index', $context)->name('festivalinformation.content.dailycommentary');
+Route::view("/{$fibsacronymlc}/faq", 'festivalinformation.content.faq', $context)->name('festivalinformation.content.faq');
 
 
 

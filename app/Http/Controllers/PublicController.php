@@ -213,15 +213,54 @@ class PublicController extends Controller
   }
   public function participatechoir()
   {
-    function tablecell($str = '',$head = False)
+    function tablecell($str = '',$class = NULL,$head = False)
     {
       $tdorth = $head ? 'th' : 'td' ;
-      return "<{$tdorth}>{$str}</{$tdorth}>";;
+      if($class === 'hilite')
+      {
+        $classstr = ' class="mdl-color-text--primary"';
+      }
+      else
+      {
+        $classstr = $class === NULL ? '' : " class=\"{$class}\"";
+      }
+      return "<{$tdorth}{$classstr}>{$str}</{$tdorth}>";;
     }
     $ttstudent = 'Enrolled full time at an Australian University during Semester Two 2018 or Semester One 2019 (or equivalent)';
     $ttyouth = 'Born on or after 10 January 1989';
     $ttstudent = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttstudent">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttstudent">' . $ttstudent. '</div>';
     $ttyouth = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttyouth">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttyouth">' . $ttyouth. '</div>';
+    if(config('app.env') === 'local')
+    {
+      $feesarray = [
+        'This section is not displayed online.',
+        '<table><tbody>
+        <tr>' . tablecell('',NULL,TRUE) . tablecell('Full experience','hilite',TRUE) . tablecell('Choral component',NULL,TRUE)             . tablecell('Social component',NULL,TRUE)                        . '</tr>
+        <tr>' . tablecell('',NULL,TRUE) . tablecell('<small>Includes all components</small>','hilite',TRUE)  . tablecell('<small>Includes camp</small>',NULL,TRUE) . tablecell('<small>Includes academic dinner</small>',NULL,TRUE) . '</tr>
+        <tr>' . tablecell('Students'.$ttstudent) . tablecell('$480','hilite') . tablecell('$359') . tablecell('$121') . '</tr>
+        <tr>' . tablecell('Youth'.$ttyouth)      . tablecell('$530','hilite') . tablecell('$404') . tablecell('$126') . '</tr>
+        <tr>' . tablecell('Full fee payers')     . tablecell('$580','hilite') . tablecell('$449') . tablecell('$131') . '</tr>
+        </tbody>
+        <tfoot><tr><td colspan="4">
+          <span class="mdl-typography--body-2 mdl-typography--body-2-color-contrast">First time singing at an IV?</span>
+          <br>
+          <span class="mdl-typography--headline">Take $100 off</span>
+          </td></tr></tfoot>
+        </table>',
+        '<ul>
+         <li>Any chorister who has never been a singing participant in an IV festival before can receive $100 the price of their registration. Full registration becomes $380 for students (or $259 choral only), youth $430 (or $304), full fee payers $480 (or $349).</li>
+         <li>Accommodation is included in camp. Choristers choosing to stay elsewhere will pay a rate that excludes the cost of accommodation.</li>
+         <li>Academic dinner tickets are normally bundled in the social component but can also be purchased separately at $120 each.</li>
+         <li>Merchandise and concert tickets are sold separately.</li>
+         </ul>',
+      ];
+    }
+    else
+    {
+      $feesarray = [
+        'We’re not yet ready to announce registration fees but we hope to do this very soon. Watch this space.'
+      ];
+    }
     $context = [
       'imagesource' => 'public/images/image-2.jpg',
       'activetab' => 'participate',
@@ -237,34 +276,15 @@ class PublicController extends Controller
         ],
         [
           'Fees',
-          [
-            'We’re not yet ready to announce registration fees but we hope to do this very soon. Watch this space.'
-          ]
-          /*
-          [
-            '<table><tbody>',
-
-            '<tr>' . tablecell('',TRUE) . tablecell('Full festival experience',TRUE) . tablecell('Choral component',TRUE)             . tablecell('Social component',TRUE)                        . '</tr>',
-            '<tr>' . tablecell('',TRUE) . tablecell('<small>Includes all components</small>',TRUE)  . tablecell('<small>Includes camp</small>',TRUE) . tablecell('<small>Includes academic dinner</small>',TRUE) . '</tr>',
-
-            '<tr>' . tablecell('Students'.$ttstudent) . tablecell('$480') . tablecell('$359') . tablecell('$121') . '</tr>',
-            '<tr>' . tablecell('Youth'.$ttyouth)      . tablecell('$530') . tablecell('$404') . tablecell('$126') . '</tr>',
-            '<tr>' . tablecell('Full fee payers')     . tablecell('$580') . tablecell('$449') . tablecell('$131') . '</tr>',
-            '</tbody></table>',
-            '<h4>Discounts and addons</h4>',
-            'Academic dinner tickets can also be purchased separately at $120 each.',
-            'Furthermore, any chorister who has not sung at an IV festival before will have an additional $100 off.',
-            
-          ]
-          */
+          $feesarray
         ],
         [
           'News bulletins',
           [
-            '<ul>',
-            '<li><a href="/documents/newsbulletins/adelaideiv2019news2.pdf">March 2018 edition</a></li>',
-            '<li><a href="/documents/newsbulletins/adelaideiv2019news1.pdf">January 2018 edition</a><br><small>Warning: January 2018 edition contains some outdated information, please check more recent news or the website for current information.</small></li>',
-            '</ul>',
+            '<ul>
+            <li><a href="/documents/newsbulletins/adelaideiv2019news2.pdf">March 2018 edition</a></li>
+            <li><a href="/documents/newsbulletins/adelaideiv2019news1.pdf">January 2018 edition</a><br><small>Note: January 2018 edition contains some outdated information, please check more recent news or the website for current information.</small></li>
+            </ul>',
           ],
         ],
         [

@@ -2,21 +2,21 @@
 
 
 @php
-                  function is_array_of_scalars($iv_array)
-                  {
-                    $iv_returnval = True;
-                    foreach($iv_array as $iv_array_thing)
-                    {
-                      if(!is_null($iv_array_thing))
-                      {
-                        if(!is_scalar($iv_array_thing))
-                        {
-                          $iv_returnval = False;
-                        }
-                      }
-                    }
-                    return $iv_returnval;
-                  }
+  function is_array_of_scalars($iv_array)
+  {
+    $iv_returnval = True;
+    foreach($iv_array as $iv_array_thing)
+    {
+      if(!is_null($iv_array_thing))
+      {
+        if(!is_scalar($iv_array_thing))
+        {
+          $iv_returnval = False;
+        }
+      }
+    }
+    return $iv_returnval;
+  }
   $hassubsections = 0 !== DB::table('rego_subsections')->where('sectionid',(int) $sectionid)->count();
   if($hassubsections)
   {

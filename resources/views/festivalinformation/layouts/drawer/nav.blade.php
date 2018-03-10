@@ -1,53 +1,39 @@
-<div id="icon-with-text-demo" class="mdc-list">
-  @php
-    $itemurl = 'calendar';
-    $itemclass = request()->getPathInfo() === "/{$fibsacronymlc}/{$itemurl}" ? ' mdc-list-item--selected' : '';
-  @endphp
-  <a class="mdc-list-item demo-drawer-list-item{{ $itemclass }}" href="/{{ $fibsacronymlc }}/{{ $itemurl }}">
-    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">event</i>Calendar and events
-  </a>
-  @php
-    $itemurl = 'dailycommentary';
-    $itemclass = request()->getPathInfo() === "/{$fibsacronymlc}/{$itemurl}" ? ' mdc-list-item--selected' : '';
-  @endphp
-  <a class="mdc-list-item demo-drawer-list-item{{ $itemclass }}" href="/{{ $fibsacronymlc }}/{{ $itemurl }}">
-    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">event_note</i>Daily commentary
-  </a>
-</div>
-<hr class="mdc-list-divider">
-<div class="mdc-list">
-  @php
-    $itemurl = 'maps';
-    $itemclass = request()->getPathInfo() === "/{$fibsacronymlc}/{$itemurl}" ? ' mdc-list-item--selected' : '';
-  @endphp
-  <a class="mdc-list-item demo-drawer-list-item{{ $itemclass }}" href="/{{ $fibsacronymlc }}/{{ $itemurl }}">
-    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">map</i>Maps
-  </a>
-  @php
-    $itemurl = 'publictransport';
-    $itemclass = request()->getPathInfo() === "/{$fibsacronymlc}/{$itemurl}" ? ' mdc-list-item--selected' : '';
-  @endphp
-  <a class="mdc-list-item demo-drawer-list-item{{ $itemclass }}" href="/{{ $fibsacronymlc }}/{{ $itemurl }}">
-    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">directions_bus</i>Public transport
-  </a>
-  @php
-    $itemurl = 'dining';
-    $itemclass = request()->getPathInfo() === "/{$fibsacronymlc}/{$itemurl}" ? ' mdc-list-item--selected' : '';
-  @endphp
-  <a class="mdc-list-item demo-drawer-list-item{{ $itemclass }}" href="/{{ $fibsacronymlc }}/{{ $itemurl }}">
-    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">local_dining</i>Dining
-  </a>
-</div>
-<hr class="mdc-list-divider">
-<div class="mdc-list">
-  @php
-    $itemurl = 'fineprint';
-    $itemclass = request()->getPathInfo() === "/{$fibsacronymlc}/{$itemurl}" ? ' mdc-list-item--selected' : '';
-  @endphp
-  <a class="mdc-list-item demo-drawer-list-item{{ $itemclass }}" href="/{{ $fibsacronymlc }}/{{ $itemurl }}">
-    <i class="material-icons mdc-list-item__graphic" aria-hidden="true">description</i>Fine print
-  </a>
-</div>
+@php
+
+  function generate_navitem_drawer($navitem)
+  {
+    $fibsacronymlc = strtolower(env('FIBS_ACRONYM'));
+    $itemclass = 'a';
+    $str = '';
+    $str .= "";
+    $str .= "";
+    $str .= '</a>';
+    return $str;
+  }
+
+@endphp
+
+
+@foreach($navitems as $navitemgroup)
+{{--
+  @if(!$loop->first)
+    <hr class="mdc-list-divider">
+  @endif
+--}}
+  <div id="icon-with-text-demo" class="mdc-list">
+    @foreach($navitemgroup as $navitem)
+      @if($loop->first)
+        <span class="mdc-list-item demo-drawer-list-item">
+          {{$navitem}}
+        </span>
+      @else
+        <a class="mdc-list-item demo-drawer-list-item{{ request()->getPathInfo() === "/{$fibsacronymlc}/{$navitem->itemurl}" ? ' mdc-list-item--selected' : '' }}" href="/{{$fibsacronymlc}}/{{$navitem->itemurl}}">
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">{{$navitem->icon}}</i>{{$navitem->name}}
+        </a>
+      @endif
+    @endforeach
+  </div>
+@endforeach
 
 {{--
 in iCal format (public)
