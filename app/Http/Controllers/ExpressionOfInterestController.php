@@ -60,15 +60,23 @@ class ExpressionOfInterestController extends Controller
         'email' => 'required|email',
         'phone' => 'required|string',
         'receipt' => 'required|string',
+        'subscribe' => 'nullable'
       ]);
       // Only continues if valid.
       $data = (object) $validatedData;
+      DB::beginTransaction();
       $data->expressionid = DB::table('expressionsofinterest')->insertGetId([
         'name' => $data->name,
         'email' => $data->email,
         'phone' => $data->phone,
         'receipt' => $data->receipt
       ],'expressionid');
+      $subscribe = ($data->subscribe ?? 'no') === 'yes';
+      DB::table('subscribeemail')->insert([
+        'email' => $data->email,
+        'subscribe' => $subscribe,
+      ]);
+      DB::commit();
       $createdat = DB::table('expressionsofinterest')->where('expressionid',$data->expressionid)->value('created_at');
       $data->date = date('d F Y',strtotime($createdat));
       $data->time = date('g:i A',strtotime($createdat));

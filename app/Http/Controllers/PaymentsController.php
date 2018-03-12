@@ -29,6 +29,7 @@ class PaymentsController extends Controller
     $validatedData = $request->validate([
       'name' => 'required|string',
       'email' => 'required|email',
+      'subscribe' => 'nullable',
       'phone' => 'string',
       'purpose' => 'required|string',
       'cardtype' => 'required|in:domestic,international',
@@ -38,6 +39,7 @@ class PaymentsController extends Controller
     ]);
     // Only continues if valid.
     $data = (object) $validatedData;
+    $data->subscribe = ($data->subscribe ?? 'no') === 'yes';
     $totalarray = explode('.',substr($data->total,1));
     $data->totalincents = ((int) $totalarray[0])*100 + ((int) $totalarray[1]);
     $context = [
@@ -55,6 +57,7 @@ class PaymentsController extends Controller
         $_POST['_token']
         $_POST['name']
         $_POST['email']
+        $_POST['subscribe']
         $_POST['phone']
         $_POST['purpose']
         $_POST['cardtype']
@@ -107,6 +110,7 @@ class PaymentsController extends Controller
       "metadata" => [
         "name" => $_POST['name'],
         "email" => $_POST['email'],
+        "subscribe" => $_POST['subscribe'],
         "phone" => $_POST['phone'],
         "purpose" => $_POST['purpose'],
         "cardtype" => $_POST['cardtype'],

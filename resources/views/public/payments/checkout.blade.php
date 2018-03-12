@@ -32,6 +32,10 @@
       <td>{{ $data->email }}</td>
     </tr>
     <tr>
+      <th class="mdl-data-table__cell--non-numeric">Subscribe</th>
+      <td>{{ $data->subscribe ? 'Yes' : 'No' }}</td>
+    </tr>
+    <tr>
       <th class="mdl-data-table__cell--non-numeric">Phone</th>
       <td>{{ $data->phone }}</td>
     </tr>
@@ -62,6 +66,7 @@
   {{ csrf_field() }}
   <input type="hidden" name="name" value="{{ $data->name }}">
   <input type="hidden" name="email" value="{{ $data->email }}">
+  <input type="hidden" name="subscribe" value="{{ $data->subscribe }}">
   <input type="hidden" name="phone" value="{{ $data->phone }}">
   <input type="hidden" name="purpose" value="{{ $data->purpose }}">
   <input type="hidden" name="cardtype" value="{{ $data->cardtype }}">

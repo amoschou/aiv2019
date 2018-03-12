@@ -131,6 +131,10 @@
       @endif
     </span>
   </div>
+  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="subscribe">
+    <input type="checkbox" id="subscribe" class="mdl-checkbox__input" checked name="subscribe" value="yes">
+    <span class="mdl-checkbox__label">Subscribe to learn about Adelaide IV news and events.</span>
+  </label>
   <div class="mdl-textfield @if ($errors->has('phone')) is-invalid @endif mdl-js-textfield mdl-textfield--floating-label">
     <input class="mdl-textfield__input" pattern=".+" type="tel" id="phone" name="phone" value="{{ old('phone') }}">
     <label class="mdl-textfield__label" for="phone">Phone number</label>

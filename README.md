@@ -16,6 +16,8 @@ These choices and being open source hopefully make it easier to adopt and adapt 
 * It is available on any good web host (and just about every of crummy web host too)
 * It is easy to learn
 * There are a lot of resources available for it.
+* It’s cheap.
+
 Although PHP doesn’t have the best reputation, the above points are worth a lot. The site
 is constructed with the Laravel framework and PHP 7.
 
@@ -30,3 +32,10 @@ To install a new copy of the site:
 6. Migrate the database.
 7. Direct the web server root to the public folder.
 
+## Adelaide IV’s environment
+
+* I develop using PostgreSQL but our production site uses MySQL.
+* Emails are handled with the Mailgun driver, but you could choose another that Laravel supports.
+* Credit and debit card payments are handled with Stripe.
+* We use NearlyFreeSpeech.NET to host. They are rock solid hosts (and I mean neutron star rock solid)
+and very good at what they do.
