@@ -143,7 +143,9 @@ class PublicController extends Controller
             . committeeperson('Phoebe Knight','Concert manager')
             . committeeperson('Waseem Kamleh','Librarian')
             . committeeperson('Timothy Sheehan','Camp officer')
+            . committeeperson('Genevie Spalding','Publicity officer')
             . committeeperson('Emily Filmer','Corporate sponsorship officer')
+            . committeeperson('Alistair Knight','Transport and billeting officer')
             . committeeperson('Simone Corletto and Brittany Radcliffe','Social secretaries',True)
             . committeeperson('Greg Read and Sean Tanner','General assistants',True)
             . '</ul>'
@@ -323,6 +325,3 @@ class PublicController extends Controller
     return view('public.index', $context);
   }
 }
-
-
-

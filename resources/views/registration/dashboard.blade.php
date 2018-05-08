@@ -14,6 +14,22 @@
       <br><small class="text-muted">Committee member</small>
     @endif
   </h1>
+  {{--
+  <div class="row">
+    <div class="col">
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Registration status</h4>
+        <p class="mb-0">Complete</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Financial status</h4>
+        <p class="mb-0">Not paid</p>
+      </div>
+    </div>
+  </div>
+  --}}
   <p>This is where you can register for the festival and manage your personal information.</p>
   <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
   

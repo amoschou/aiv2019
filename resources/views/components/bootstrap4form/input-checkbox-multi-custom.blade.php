@@ -21,11 +21,7 @@
   </div>
   <div id="{{ $question->questionshortname }}:custom">
     @php
-     $existingcustoms = json_decode(DB::table('rego_responses')
-                                      ->where('questionshortname',$question->questionshortname)
-                                      ->where('userid',Auth::id())
-                                      ->where('foritem',$foritem)
-                                      ->value('responsejson'));
+     $existingcustoms = json_decode(DB::table('rego_responses')->where('questionshortname',$question->questionshortname)->where('userid',Auth::id())->where('foritem',$foritem)->value('responsejson'));
     @endphp
     @foreach($existingcustoms->checkbox ?? [] as $key => $val)
       <div class="form-row">

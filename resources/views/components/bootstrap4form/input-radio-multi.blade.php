@@ -1,48 +1,63 @@
 <label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right pt-0">{!! $question->questiontext !!}</label>
 @php
   $answeritems = explode('|',$responseformat[1]);
+  $answeritemsdisplay = [];
+  $answeritemsinternal = [];
+  foreach($answeritems as $answeritem)
+  {
+    if($answeritem !== 'OtherText')
+    {
+      $answeritemarray = explode('^',$answeritem);
+      $answeritemarray[1] = $answeritemarray[1] ?? strtolower($answeritemarray[0]);
+      $answeritemsdisplay[] = $answeritemarray[0];
+      $answeritemsinternal[] = $answeritemarray[1];
+    }
+  }
   // Check for custom answer items and insert them now.
   if(in_array('OtherText',$answeritems))
   {
     $OtherKey = array_search('OtherText',$answeritems);
-    unset($answeritems[$OtherKey]);
     $a = DB::table('rego_responses')
-      ->where('userid',Auth::id())
-                 ->where('foritem',$foritem)
-      ->where('questionshortname',$question->questionshortname)
-      ->value('responsejson');
-    // Does it match any existing ones?
-    $key = array_search(strtolower(json_decode($a)),array_map('strtolower',$answeritems));
-    // If $key is false, then not found. Otherwise $key contains the index.
-    // If it's not found, then add it to the list
-    if($key === FALSE)
+             ->where('userid',Auth::id())
+             ->where('foritem',$foritem)
+             ->where('questionshortname',$question->questionshortname)
+             ->value('responsejson');
+    $a = json_decode($a);
+    if(!is_null($a))
     {
-      $answeritems[] = json_decode($a);
+      // Does it match any existing ones?
+      $key = array_search(strtolower($a),$answeritemsinternal);
+      // If $key is false, then not found. Otherwise $key contains the index.
+      // If it's not found, then add it to the list
+      if($key === FALSE)
+      {
+        $answeritemsdisplay[] = $a;
+        $answeritemsinternal[] = $a;
+      }
     }
-    $answeritems[] = 'OtherText';
+    $answeritemsdisplay[] = 'othertext';
+    $answeritemsinternal[] = 'othertext';
   }
-  // Some duplicates might still exist. We'll check for these
-  // as we go using $checkboxduplicates.
-  $checkboxduplicates = [];
 @endphp
 <div class="col-md-5">
-  @foreach ($answeritems as $answeritem)
+  @foreach ($answeritemsinternal as $key => $answeritemsinternal)
     @php
-      $answeritemarray = explode('^',$answeritem);
-      $answeritemarray[1] = $answeritemarray[1] ?? strtolower($answeritemarray[0]);
+      $internal = $answeritemsinternal;
+      $display = $answeritemsdisplay[$key];
     @endphp
-    @if($answeritemarray[0] === 'OtherText')
+    @if($internal === 'othertext')
       @php
-        $othertextradio = $answeritemarray[1] === (old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
+        $othertextradio = $internal === (old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
                                                                                                 ->where('userid',Auth::id())
                  ->where('foritem',$foritem)
                                                                                                 ->where('questionshortname',$question->questionshortname)
                                                                                                 ->value('responsejson')));
-        $othertexttext = old($question->questionshortname . ':' . $answeritemarray[1])
+        $othertexttext = old($question->questionshortname . ':' . $internal)
+                         ?? ''
                          ?? json_decode(DB::table('rego_responses_nofk')
                                           ->where('userid',Auth::id())
                  ->where('foritem',$foritem)
-                                          ->where('attributename',$question->questionshortname . ':' . $answeritemarray[1])
+                                          ->where('attributename',$question->questionshortname . ':' . $internal)
                                           ->value('responsejson'));
         $othertexterror = $othertextradio && ($othertexttext === '' || is_null($othertexttext));
       @endphp
@@ -52,11 +67,12 @@
             <div class="pretty p-icon p-toggle p-plain pr-0 mr-0">
               <input type="radio"
                      name="{{ $question->questionshortname }}"
-                    value="{{ $answeritemarray[1] }}"
+                    value="{{ $internal }}"
                aria-label="Radio button for following text input"
                       @if ($othertextradio)
                         checked
-                      @endif>
+                      @endif
+              >
               <div class="state p-on">
                 <i class="icon material-icons text-primary">radio_button_checked</i>
                 <label></label>
@@ -73,10 +89,11 @@
                      @if ($errors->has($question->questionshortname) || $othertexterror)
                        is-invalid
                      @endif"
-               name="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}"
+               name="{{ $question->questionshortname }}:{{ $internal }}"
          aria-label="Text input with radio button"
         placeholder="Other"
-              value="{{ $othertexttext }}">
+              value="{{ $othertexttext }}"
+        >
         <div class="invalid-feedback">
           @if ($errors->has($question->questionshortname))
             @foreach ($errors->get($question->questionshortname) as $message)
@@ -94,12 +111,12 @@
           <input class="form-check-input @if ($errors->has($question->questionshortname)) is-invalid @endif"
                   type="radio"
                   name="{{ $question->questionshortname }}"
-                    id="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}"
-                 value="{{ $answeritemarray[1] }}"
+                    id="{{ $question->questionshortname }}:{{ $internal }}"
+                 value="{{ $internal }}"
                  @if ($question->html5required)
                    required
                  @endif
-                 @if (strtolower($answeritemarray[1]) === strtolower((old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
+                 @if (strtolower($internal) === strtolower((old($question->questionshortname) ?? json_decode(DB::table('rego_responses')
                                                                                                   ->where('userid',Auth::id())
                    ->where('foritem',$foritem)
                                                                                                   ->where('questionshortname',$question->questionshortname)
@@ -109,14 +126,14 @@
 
           <div class="state p-on">
             <i class="icon material-icons text-primary">radio_button_checked</i>
-            <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
-              {{ $answeritemarray[0] }}
+            <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $internal }}">
+              {{ $display }}
             </label>
           </div>
           <div class="state p-off">
             <i class="icon material-icons text-secondary">radio_button_unchecked</i>
-            <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $answeritemarray[1] }}">
-              {{ $answeritemarray[0] }}
+            <label class="form-check-label" for="{{ $question->questionshortname }}:{{ $internal }}">
+              {{ $display }}
             </label>
           </div>
         </div>

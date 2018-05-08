@@ -91,69 +91,57 @@ class CreateResponseViews extends Migration
     DB::table('rego_purchaseitems')->insert([
       [
         'itemshortname' => 'rego_choral',
-        'itemname' => 'Registration: Choral',
-        'price' => 99,
+        'itemname' => 'Registration: Choral participation',
+        'price' => 425,
         'itemord' => 0
       ],
       [
         'itemshortname' => 'rego_social',
-        'itemname' => 'Registration: Social',
-        'price' => 11,
+        'itemname' => 'Registration: Social participation',
+        'price' => 20,
         'itemord' => 1
       ],
       [
-        'itemshortname' => 'rego_camp_mealsandaccomm',
-        'itemname' => 'Registration: Camp (Meals and accommodation)',
-        'price' => 350,
-        'itemord' => 2
-      ],
-      [
-        'itemshortname' => 'rego_camp_mealsanddayvisit',
-        'itemname' => 'Registration: Camp (Meals and day visits)',
-        'price' => 225,
+        'itemshortname' => 'rego_accom',
+        'itemname' => 'Registration: Camp accommodation',
+        'price' => 125,
         'itemord' => 2
       ],
       [
         'itemshortname' => 'rego_acdinner',
         'itemname' => 'Registration: Academic dinner',
-        'price' => 120,
+        'price' => 130,
         'itemord' => 3
       ],
       [
-        'itemshortname' => 'discount_choral_youth',
-        'itemname' => 'Registration discount: Choral (Youth)',
-        'price' => -45,
+        'itemshortname' => 'conc_youth',
+        'itemname' => 'Youth concession',
+        'price' => -100,
         'itemord' => 4
       ],
       [
-        'itemshortname' => 'discount_choral_student',
-        'itemname' => 'Registration discount: Choral (Student)',
-        'price' => -90,
-        'itemord' => 4
-      ],
-      [
-        'itemshortname' => 'discount_social_youth',
-        'itemname' => 'Registration discount: Social (Youth)',
-        'price' => -5,
+        'itemshortname' => 'conc_student',
+        'itemname' => 'Student concession',
+        'price' => -250,
         'itemord' => 5
       ],
       [
-        'itemshortname' => 'discount_social_student',
-        'itemname' => 'Registration discount: Social (Student)',
-        'price' => -10,
-        'itemord' => 5
-      ],
-      [
-        'itemshortname' => 'discount_fresher',
+        'itemshortname' => 'disc_fresher',
         'itemname' => 'Registration discount: Fresher',
         'price' => -100,
         'itemord' => 6
       ],
       [
-        'itemshortname' => 'guest_acdinner',
-        'itemname' => 'Guest: Academic dinner',
-        'price' => 120,
-        'itemord' => 7
+        'itemshortname' => 'fee_late',
+        'itemname' => 'Late fee',
+        'price' => 50,
+        'itemord' =>7
+      ],
+      [
+        'itemshortname' => 'rego_acdinner_guest',
+        'itemname' => 'Registration: Academic dinner (Guest)',
+        'price' => 130,
+        'itemord' => 8
       ],
       [
         'itemshortname' => 'merch_tshirt',
@@ -210,6 +198,17 @@ class CreateResponseViews extends Migration
         'itemord' => NULL
       ]
     ]);
+
+
+
+
+
+
+
+
+
+
+
     DB::table('rego_flags')->insert([
       [
         'questionshortname' => 'doing',
@@ -217,24 +216,28 @@ class CreateResponseViews extends Migration
         'responsematch' => 'singing',
         'purchaseitemshortname' => 'rego_choral',
       ],
+/*
       [
         'questionshortname' => 'doing',
         'matchtype' => '?',
         'responsematch' => 'social',
         'purchaseitemshortname' => 'rego_social',
       ],
+*/
       [
         'questionshortname' => 'othersocial',
         'matchtype' => '?',
         'responsematch' => 'yes',
         'purchaseitemshortname' => 'rego_social',
       ],
-      [
+/*
+      [      
         'questionshortname' => 'doing',
         'matchtype' => '?',
         'responsematch' => 'social',
         'purchaseitemshortname' => 'rego_acdinner',
       ],
+*/
       [
         'questionshortname' => 'acdinner',
         'matchtype' => '?',
@@ -247,20 +250,20 @@ class CreateResponseViews extends Migration
         'questionshortname' => 'concession',
         'matchtype' => '?',
         'responsematch' => 'youth',
-        'purchaseitemshortname' => 'discount_choral_youth',
+        'purchaseitemshortname' => 'conc_youth',
       ],
       [
         'questionshortname' => 'doing',
         'matchtype' => '?',
         'responsematch' => 'singing',
-        'purchaseitemshortname' => 'discount_choral_youth',
+        'purchaseitemshortname' => 'conc_youth',
       ],
       // If student is one of your concessions, then the youth discount is not applied
       [
         'questionshortname' => 'concession',
         'matchtype' => 'not?',
         'responsematch' => 'student',
-        'purchaseitemshortname' => 'discount_choral_youth',
+        'purchaseitemshortname' => 'conc_youth',
       ],
 
 
@@ -268,81 +271,49 @@ class CreateResponseViews extends Migration
         'questionshortname' => 'concession',
         'matchtype' => '?',
         'responsematch' => 'student',
-        'purchaseitemshortname' => 'discount_choral_student',
+        'purchaseitemshortname' => 'conc_student',
       ],
       [
         'questionshortname' => 'doing',
         'matchtype' => '?',
         'responsematch' => 'singing',
-        'purchaseitemshortname' => 'discount_choral_student',
-      ],
-
-
-      [
-        'questionshortname' => 'concession',
-        'matchtype' => '?',
-        'responsematch' => 'youth',
-        'purchaseitemshortname' => 'discount_social_youth',
-      ],
-      [
-        'questionshortname' => 'doing',
-        'matchtype' => '?',
-        'responsematch' => 'social',
-        'purchaseitemshortname' => 'discount_social_youth',
-      ],
-      // If student is one of your concessions, then the youth discount is not applied
-      [
-        'questionshortname' => 'concession',
-        'matchtype' => 'not?',
-        'responsematch' => 'student',
-        'purchaseitemshortname' => 'discount_social_youth',
-      ],
-      [
-        'questionshortname' => 'othersocial',
-        'matchtype' => '?',
-        'responsematch' => 'yes',
-        'purchaseitemshortname' => 'discount_social_youth',
-      ],
-
-
-      [
-        'questionshortname' => 'concession',
-        'matchtype' => '?',
-        'responsematch' => 'student',
-        'purchaseitemshortname' => 'discount_social_student',
-      ],
-      [
-        'questionshortname' => 'doing',
-        'matchtype' => '?',
-        'responsematch' => 'social',
-        'purchaseitemshortname' => 'discount_social_student',
-      ],
-      [
-        'questionshortname' => 'othersocial',
-        'matchtype' => '?',
-        'responsematch' => 'yes',
-        'purchaseitemshortname' => 'discount_social_student',
+        'purchaseitemshortname' => 'conc_student',
       ],
       [
         'questionshortname' => 'fresher',
         'matchtype' => '?',
         'responsematch' => 'yes',
-        'purchaseitemshortname' => 'discount_fresher',
+        'purchaseitemshortname' => 'disc_fresher',
       ],
       [
         'questionshortname' => 'doing',
         'matchtype' => '?',
         'responsematch' => 'singing',
-        'purchaseitemshortname' => 'discount_fresher',
+        'purchaseitemshortname' => 'disc_fresher',
       ],
       [
         'questionshortname' => 'acdinnerguest',
         'matchtype' => 'COUNTFROMZERO',
         'responsematch' => '%',
-        'purchaseitemshortname' => 'guest_acdinner',
+        'purchaseitemshortname' => 'rego_acdinner_guest',
       ],
     ]);
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Note: PostgreSQL has a ? operator but this plays havock with
+    // Laravel’s binding mechanism. Fortunately, jsonb_exists() saves
+    // the day.
     DB::statement("
       CREATE VIEW v_user_rego_items AS
       WITH a AS
@@ -366,9 +337,9 @@ class CreateResponseViews extends Migration
           purchaseitemshortname as itemshortname,
           case
             when matchtype = '?'
-            then responsejson::jsonb ? responsematch
+            then jsonb_exists(responsejson::jsonb,responsematch)
             when matchtype = 'not?'
-            then NOT (responsejson::jsonb ? responsematch)
+            then NOT (jsonb_exists(responsejson::jsonb,responsematch))
             else
             false
           end as result,
@@ -454,6 +425,7 @@ class CreateResponseViews extends Migration
         ");
         break;
       case('mysql'):
+         // Wow MySQL, just wow.
          $suba = "(comparisonoperator = 'LIKE')";
          $subb = "(CAST(responsejson AS CHAR) LIKE responsepattern)";
          $subc = "(comparisonoperator = '?')";
@@ -498,10 +470,10 @@ class CreateResponseViews extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('v_rego_required_sections');
-    Schema::dropIfExists('v_user_rego_items');
+    DB::statement('DROP VIEW IF EXISTS v_rego_required_sections');
+    DB::statement('DROP VIEW IF EXISTS v_user_rego_items');
     Schema::dropIfExists('rego_flags');
     Schema::dropIfExists('rego_purchaseitems');
-    DB::statement('DROP VIEW v_rego_fileuploads');
+    DB::statement('DROP VIEW IF EXISTS v_rego_fileuploads');
   }
 }

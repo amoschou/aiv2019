@@ -211,4 +211,8 @@ Route::get('/post', 'PostController@get')->name('get');
 Route::post('/post', 'PostController@post')->name('post');
 
 Route::get('/testing', 'TestingController@index')->name('testing');
+Route::get('/ml', 'TestingController@ml')->name('testing');
+
+Route::get('/lists/info@aiv.org.au/{random}', 'TestingController@subscribe')->name('subscribe');
+
 

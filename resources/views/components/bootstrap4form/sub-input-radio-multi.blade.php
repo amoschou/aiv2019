@@ -1,4 +1,4 @@
-<label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right">{!! $question->questiontext !!}</label>
+<label for="{{ $question->questionshortname }}" class="col-md-3 col-form-label text-md-right pt-0">{!! $question->questiontext !!}</label>
 @php
   $subquestions = explode('|',$responseformat[1]);
   $globalradios = explode('|',$responseformat[2]);

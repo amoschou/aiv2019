@@ -233,6 +233,7 @@ class HomeController extends Controller
   
   public function registrationformpost (Request $request,$sectionid)
   {
+var_dump($_POST);
     $sectionid = (int) $sectionid;
     $validationarray = [];
     $questions = DB::table('rego_questions')
@@ -248,6 +249,18 @@ class HomeController extends Controller
         $exploded = explode(':',$question->responseformat,2);
         switch($exploded[0])
         {
+          case('radio'):
+            $radiochoices = explode('|',$exploded[1]);
+            if(in_array('OtherText',$radiochoices,TRUE))
+            {
+              $validationarray[$question->questionshortname] = 'string|nullable';
+              $validationarray[$question->questionshortname . ':othertext'] = 'string|nullable|required_if:' . $question->questionshortname . ',OtherText';
+            }
+            else
+            {
+              $validationarray[$question->questionshortname] = $question->responsevalidationlogic;
+            }
+            break;
           case('files'):
             $exploded = explode(':',$question->responseformat,3);
 //            var_dump($exploded);
@@ -404,6 +417,8 @@ class HomeController extends Controller
     $data = $request->only(collect($rules)->keys()->map(function ($rule) {
                 return Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule;
             })->unique()->toArray());
+    
+//    var_dump($data); die();
     
     foreach($subquestionradioquestionshortnames as $questionshortname)
     {
