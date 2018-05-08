@@ -284,7 +284,9 @@ class PublicController extends Controller
           'News bulletins',
           [
             '<ul>
-            <li><a href="/documents/newsbulletins/adelaideiv2019news2.pdf">March 2018 edition</a></li>
+            <li><a href="/documents/newsbulletins/adelaideiv2019news4.pdf">May 2018 edition: Pricing, important dates and Committee information</a></li>
+            <li><a href="/documents/newsbulletins/adelaideiv2019news3.pdf">April 2018 edition: Transport, billeting and accommodation information</a></li>
+            <li><a href="/documents/newsbulletins/adelaideiv2019news2.pdf">March 2018 edition: Repertoire and conductor information</a></li>
             <li><a href="/documents/newsbulletins/adelaideiv2019news1.pdf">January 2018 edition</a><br><small>Note: January 2018 edition contains some outdated information, please check more recent news or the website for current information.</small></li>
             </ul>',
           ],
