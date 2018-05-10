@@ -240,40 +240,42 @@ class PublicController extends Controller
     $ttyouth = 'Born on or after 10 January 1989';
     $ttstudent = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttstudent">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttstudent">' . $ttstudent. '</div>';
     $ttyouth = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttyouth">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttyouth">' . $ttyouth. '</div>';
+    $feesarraylocal = [
+      'This section is not displayed online.',
+      '<table><tbody>
+      <tr>' . tablecell('Complete registration',NULL,TRUE) . tablecell('Early ','hilite',TRUE) . tablecell('Late',NULL,TRUE) . '</tr>
+      <tr>' . tablecell('Pay a $50 deposit',NULL) . tablecell('by 16/09/2018','mdl-color-text--primary outertablecell') . tablecell('after 16/09/2018','outertablecell') . '</tr>
+      <tr>' . tablecell('Students'.$ttstudent) . tablecell('$450','hilite') . tablecell('$500') . '</tr>
+      <tr>' . tablecell('Youth'.$ttyouth)      . tablecell('$600','hilite') . tablecell('$650') . '</tr>
+      <tr>' . tablecell('General') . tablecell('$700','hilite') . tablecell('$750') . '</tr>
+      </tbody>
+      <tfoot><tr><td colspan="4">
+        <span class="mdl-typography--body-2 mdl-typography--body-2-color-contrast">First time singing at an IV?</span>
+        <br>
+        <span class="mdl-typography--headline">Take $100 off</span>
+        </td></tr></tfoot>
+      </table>',
+      '<ul>
+       <li>Any chorister who has never been a singing participant in an IV festival before can receive $100 the price of their registration, courtesy of the AICSA trust fund. Complete registration with a deposit made by 16/09/2018 becomes $350 for students, youth $500, general $600.</li>
+       <li>Complete registration includes:<ul><li>Choral participation and camp</li><li>Academic dinner</li><li>Post concert party and farewell barbecue</li></ul></li>
+       <li>Social registration is $150 and is available to those who don’t wish to sing in the concert, but want to attend social events including the academic dinner.</li>
+       <li>Registration options will also be available for those who don’t wish to participate in the academic dinner and/or those who don’t wish to stay overnight at camp.</li>
+       <li>Academic dinner tickets are normally bundled in the social component but can also be purchased separately at $130 each.</li>
+       <li>Merchandise and concert tickets are sold separately.</li>
+       </ul>',
+    ];
+    $feesarraynotready = [
+      'We’re not yet ready to announce registration fees but we hope to do this very soon. Watch this space.'
+    ];
     if(config('app.env') === 'local')
     {
-      $feesarraylocal = [
-        'This section is not displayed online.',
-        '<table><tbody>
-        <tr>' . tablecell('Complete registration',NULL,TRUE) . tablecell('Early ','hilite',TRUE) . tablecell('Late',NULL,TRUE) . '</tr>
-        <tr>' . tablecell('Pay a $50 deposit',NULL) . tablecell('by 16/09/2018','mdl-color-text--primary outertablecell') . tablecell('after 16/09/2018','outertablecell') . '</tr>
-        <tr>' . tablecell('Students'.$ttstudent) . tablecell('$450','hilite') . tablecell('$500') . '</tr>
-        <tr>' . tablecell('Youth'.$ttyouth)      . tablecell('$600','hilite') . tablecell('$650') . '</tr>
-        <tr>' . tablecell('General') . tablecell('$700','hilite') . tablecell('$750') . '</tr>
-        </tbody>
-        <tfoot><tr><td colspan="4">
-          <span class="mdl-typography--body-2 mdl-typography--body-2-color-contrast">First time singing at an IV?</span>
-          <br>
-          <span class="mdl-typography--headline">Take $100 off</span>
-          </td></tr></tfoot>
-        </table>',
-        '<ul>
-         <li>Any chorister who has never been a singing participant in an IV festival before can receive $100 the price of their registration, courtesy of the AICSA trust fund. Complete registration with a deposit made by 16/09/2018 becomes $350 for students, youth $500, general $600.</li>
-         <li>Complete registration includes:<ul><li>Choral participation and camp</li><li>Academic dinner</li><li>Post concert party and farewell barbecue</li></ul></li>
-         <li>Social registration is $150 and is available to those who don’t wish to sing in the concert, but want to attend social events including the academic dinner.</li>
-         <li>Registration options will also be available for those who don’t wish to participate in the academic dinner and/or those who don’t wish to stay overnight at camp.</li>
-         <li>Academic dinner tickets are normally bundled in the social component but can also be purchased separately at $130 each.</li>
-         <li>Merchandise and concert tickets are sold separately.</li>
-         </ul>',
-      ];
+      $feesarray = $feesarraylocal;
     }
     else
     {
-      $feesarray = [
-        'We’re not yet ready to announce registration fees but we hope to do this very soon. Watch this space.'
-      ];
+      $feesarray = $feesarraynotready;
+      $feesarray = $feesarraylocal;
     }
-    $feesarray = $feesarraylocal ?? $feesarray;
     $context = [
       'imagesource' => 'public/images/image-2.jpg',
       'activetab' => 'participate',
