@@ -273,7 +273,7 @@ class PublicController extends Controller
         'We’re not yet ready to announce registration fees but we hope to do this very soon. Watch this space.'
       ];
     }
-    $feesarray = $feesarraylocal;
+    $feesarray = $feesarraylocal ?? $feesarray;
     $context = [
       'imagesource' => 'public/images/image-2.jpg',
       'activetab' => 'participate',
