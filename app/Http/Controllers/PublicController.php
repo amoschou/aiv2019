@@ -109,13 +109,20 @@ class PublicController extends Controller
   }
   public function aivcfadelaide()
   {
-    function committeeperson($Name,$Subtitle,$Plural = False)
+    function committeeperson($Name,$Subtitle,$Photograph,$Plural = False)
     {
       $out = '
         <li class="mdl-list__item mdl-list__item--two-line">
-          <span class="mdl-list__item-primary-content">
-            <i class="material-icons mdl-list__item-avatar">' . ($Plural ? 'people' : 'person') . '</i>
-            <span>' . $Name . '</span>
+          <span class="mdl-list__item-primary-content">';
+      if(is_null($Photograph))
+      {
+        $out .= '<i class="material-icons mdl-list__item-avatar">' . ($Plural ? 'people' : 'person') . '</i>';
+      }
+      else
+      {
+        $out .= '<img class="mdl-list__item-avatar" src="/documents/photographs/committee/' . $Photograph . '.jpg">';
+      }
+      $out .='<span>' . $Name . '</span>
             <span class="mdl-list__item-sub-title">' . $Subtitle . '</span>
           </span>
         </li>';
@@ -137,17 +144,18 @@ class PublicController extends Controller
           'Committee',
           [
             '<ul class="demo-list-two mdl-list">'
-            . committeeperson('Riana Chakravarti','Convenor')
-            . committeeperson('Andrew Moschou','Treasurer')
-            . committeeperson('David Shields','Secretary')
-            . committeeperson('Phoebe Knight','Concert manager')
-            . committeeperson('Waseem Kamleh','Librarian')
-            . committeeperson('Timothy Sheehan','Camp officer')
-            . committeeperson('Genevie Spalding','Publicity officer')
-            . committeeperson('Emily Filmer','Corporate sponsorship officer')
-            . committeeperson('Alistair Knight','Transport and billeting officer')
-            . committeeperson('Simone Corletto and Brittany Radcliffe','Social secretaries',True)
-            . committeeperson('Greg Read and Sean Tanner','General assistants',True)
+            . committeeperson('Riana Chakravarti','Convenor','riana')
+            . committeeperson('Andrew Moschou','Treasurer','andrew')
+            . committeeperson('David Shields','Secretary','david')
+            . committeeperson('Phoebe Knight','Concert manager','phoebe')
+            . committeeperson('Waseem Kamleh','Librarian','waseem')
+            . committeeperson('Timothy Sheehan','Camp officer','tim')
+            . committeeperson('Genevie Spalding','Publicity officer','eve')
+            . committeeperson('Emily Filmer','Corporate sponsorship officer','emily')
+            . committeeperson('Alistair Knight','Transport and billeting officer','alistair')
+            . committeeperson('Simone Corletto','Social secretary','simone')
+            . committeeperson('Brittany Radcliffe','Social secretary','brittany')
+            . committeeperson('Greg Read and Sean Tanner','General assistants',NULL,True)
             . '</ul>'
           ]
         ]
@@ -234,14 +242,14 @@ class PublicController extends Controller
     $ttyouth = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttyouth">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttyouth">' . $ttyouth. '</div>';
     if(config('app.env') === 'local')
     {
-      $feesarray = [
+      $feesarraylocal = [
         'This section is not displayed online.',
         '<table><tbody>
-        <tr>' . tablecell('',NULL,TRUE) . tablecell('Full experience','hilite',TRUE) . tablecell('Choral component',NULL,TRUE)             . tablecell('Social component',NULL,TRUE)                        . '</tr>
-        <tr>' . tablecell('',NULL,TRUE) . tablecell('<small>Includes all components</small>','hilite',TRUE)  . tablecell('<small>Includes camp</small>',NULL,TRUE) . tablecell('<small>Includes academic dinner</small>',NULL,TRUE) . '</tr>
-        <tr>' . tablecell('Students'.$ttstudent) . tablecell('$480','hilite') . tablecell('$359') . tablecell('$121') . '</tr>
-        <tr>' . tablecell('Youth'.$ttyouth)      . tablecell('$530','hilite') . tablecell('$404') . tablecell('$126') . '</tr>
-        <tr>' . tablecell('Full fee payers')     . tablecell('$580','hilite') . tablecell('$449') . tablecell('$131') . '</tr>
+        <tr>' . tablecell('Complete registration',NULL,TRUE) . tablecell('Early ','hilite',TRUE) . tablecell('Late',NULL,TRUE) . '</tr>
+        <tr>' . tablecell('Pay a $50 deposit',NULL) . tablecell('by 16/09/2018','mdl-color-text--primary outertablecell') . tablecell('after 16/09/2018','outertablecell') . '</tr>
+        <tr>' . tablecell('Students'.$ttstudent) . tablecell('$450','hilite') . tablecell('$500') . '</tr>
+        <tr>' . tablecell('Youth'.$ttyouth)      . tablecell('$600','hilite') . tablecell('$650') . '</tr>
+        <tr>' . tablecell('General') . tablecell('$700','hilite') . tablecell('$750') . '</tr>
         </tbody>
         <tfoot><tr><td colspan="4">
           <span class="mdl-typography--body-2 mdl-typography--body-2-color-contrast">First time singing at an IV?</span>
@@ -250,9 +258,11 @@ class PublicController extends Controller
           </td></tr></tfoot>
         </table>',
         '<ul>
-         <li>Any chorister who has never been a singing participant in an IV festival before can receive $100 the price of their registration. Full registration becomes $380 for students (or $259 choral only), youth $430 (or $304), full fee payers $480 (or $349).</li>
-         <li>Accommodation is included in camp. Choristers choosing to stay elsewhere will pay a rate that excludes the cost of accommodation.</li>
-         <li>Academic dinner tickets are normally bundled in the social component but can also be purchased separately at $120 each.</li>
+         <li>Any chorister who has never been a singing participant in an IV festival before can receive $100 the price of their registration, courtesy of the AICSA trust fund. Complete registration with a deposit made by 16/09/2018 becomes $350 for students, youth $500, general $600.</li>
+         <li>Complete registration includes:<ul><li>Choral participation and camp</li><li>Academic dinner</li><li>Post concert party and farewell barbecue</li></ul></li>
+         <li>Social registration is $150 and is available to those who don’t wish to sing in the concert, but want to attend social events including the academic dinner.</li>
+         <li>Registration options will also be available for those who don’t wish to participate in the academic dinner and/or those who don’t wish to stay overnight at camp.</li>
+         <li>Academic dinner tickets are normally bundled in the social component but can also be purchased separately at $130 each.</li>
          <li>Merchandise and concert tickets are sold separately.</li>
          </ul>',
       ];
@@ -263,6 +273,7 @@ class PublicController extends Controller
         'We’re not yet ready to announce registration fees but we hope to do this very soon. Watch this space.'
       ];
     }
+    $feesarray = $feesarraylocal;
     $context = [
       'imagesource' => 'public/images/image-2.jpg',
       'activetab' => 'participate',
