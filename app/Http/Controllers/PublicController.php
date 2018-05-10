@@ -241,7 +241,6 @@ class PublicController extends Controller
     $ttstudent = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttstudent">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttstudent">' . $ttstudent. '</div>';
     $ttyouth = ' <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored material-icons" id="ttyouth">info</button><div class="mdl-tooltip mdl-tooltip--large" for="ttyouth">' . $ttyouth. '</div>';
     $feesarraylocal = [
-      'This section is not displayed online.',
       '<table><tbody>
       <tr>' . tablecell('Complete registration',NULL,TRUE) . tablecell('Early ','hilite',TRUE) . tablecell('Late',NULL,TRUE) . '</tr>
       <tr>' . tablecell('Pay a $50 deposit',NULL) . tablecell('by 16/09/2018','mdl-color-text--primary outertablecell') . tablecell('after 16/09/2018','outertablecell') . '</tr>
