@@ -445,6 +445,7 @@ class CreateResponseViews extends Migration
          $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
 
         DB::statement("
+          CREATE VIEW v_rego_required_sections AS
           (
             SELECT
               userid,
