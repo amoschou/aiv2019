@@ -308,82 +308,91 @@ class CreateResponseViews extends Migration
 
 
 
-
-
-
-    // Note: PostgreSQL has a ? operator but this plays havock with
-    // Laravel’s binding mechanism. Fortunately, jsonb_exists() saves
-    // the day.
-    DB::statement("
-      CREATE VIEW v_user_rego_items AS
-      WITH a AS
-      (
-        select
-          id as userid,
-          questionshortname,
-          matchtype,
-          responsematch,
-          purchaseitemshortname
-        from
-          rego_flags
-          cross join
-          iv_users
-      ),
-      b AS
-      (
-        select
-          questionshortname,
-          matchtype,
-          purchaseitemshortname as itemshortname,
-          case
-            when matchtype = '?'
-            then jsonb_exists(responsejson::jsonb,responsematch)
-            when matchtype = 'not?'
-            then NOT (jsonb_exists(responsejson::jsonb,responsematch))
-            else
-            false
-          end as result,
-          responseid,
-          userid
-        from
-          a
-          left join
-          rego_responses
-          using (questionshortname,userid)
-        order by
-          userid
-      ),
-      c as
-      (
-        SELECT
-          userid,
-          itemshortname,
-          Bool_and(COALESCE(result,'f')) as include,
-          itemord
-        FROM
-          b
-          join
-          rego_purchaseitems using (itemshortname)
-        GROUP BY
-          userid,
-          itemshortname,
-          itemord
-      )
-      select
-        userid,
-        itemshortname,
-        itemname,
-        price,
-        itemord
-      from
-        c
-        natural join
-        rego_purchaseitems
-      where
-        include = 't'
-      order by
-        userid,
-        itemord");
+    switch(config('database.default'))
+    {
+      case('pgsql'):
+        // Note: PostgreSQL has a ? operator but this plays havock with
+        // Laravel’s binding mechanism. Fortunately, jsonb_exists() saves
+        // the day.
+        DB::statement("
+          CREATE VIEW v_user_rego_items AS
+          WITH a AS
+          (
+            select
+              id as userid,
+              questionshortname,
+              matchtype,
+              responsematch,
+              purchaseitemshortname
+            from
+              rego_flags
+              cross join
+              iv_users
+          ),
+          b AS
+          (
+            select
+              questionshortname,
+              matchtype,
+              purchaseitemshortname as itemshortname,
+              case
+                when matchtype = '?'
+                then jsonb_exists(responsejson::jsonb,responsematch)
+                when matchtype = 'not?'
+                then NOT (jsonb_exists(responsejson::jsonb,responsematch))
+                else
+                false
+              end as result,
+              responseid,
+              userid
+            from
+              a
+              left join
+              rego_responses
+              using (questionshortname,userid)
+            order by
+              userid
+          ),
+          c as
+          (
+            SELECT
+              userid,
+              itemshortname,
+              Bool_and(COALESCE(result,'f')) as include,
+              itemord
+            FROM
+              b
+              join
+              rego_purchaseitems using (itemshortname)
+            GROUP BY
+              userid,
+              itemshortname,
+              itemord
+          )
+          select
+            userid,
+            itemshortname,
+            itemname,
+            price,
+            itemord
+          from
+            c
+            natural join
+            rego_purchaseitems
+          where
+            include = 't'
+          order by
+            userid,
+            itemord");
+        break;
+      case('mysql'):
+        break;
+    }
+    
+    
+    
+    
+    
     
     switch(config('database.default'))
     {
