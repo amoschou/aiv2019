@@ -29,7 +29,7 @@ Route::get('/participate', 'PublicController@participate')->name('participate');
 Route::get('/participate/fundraising', 'PublicController@participatefundraising')->name('participatefundraising');
 Route::get('/participate/choir', 'PublicController@participatechoir')->name('participatechoir');
 
-Route::get('/participate/choir/register', 'ExpressionOfInterestController@create')->name('register');
+// Route::get('/participate/choir/register', 'ExpressionOfInterestController@create')->name('register');
 Route::post('/participate/choir/register', 'ExpressionOfInterestController@store');
 Route::get('/participate/choir/register/thanks', 'ExpressionOfInterestController@show')->name('register.thanks');
 

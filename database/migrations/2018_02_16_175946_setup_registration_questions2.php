@@ -14,7 +14,7 @@ class SetupRegistrationQuestions2 extends Migration
   public function up()
   {
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 12,
+      'sectionord' => 200,
       'sectionname' => 'Permission',
       'sectionshortname' => 'permission'
     ],'sectionid');

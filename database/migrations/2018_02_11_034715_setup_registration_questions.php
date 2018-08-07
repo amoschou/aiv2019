@@ -503,7 +503,7 @@ class SetupRegistrationQuestions extends Migration
 
     // Billeting
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 63,
+      'sectionord' => 65,
       'sectionname' => 'Billeting accommodation',
       'sectionshortname' => 'billetingaccommodation',
       'sectiondescr' => 'Note: Billeting is available only to student choristers.'
@@ -648,7 +648,7 @@ class SetupRegistrationQuestions extends Migration
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'hosttransport',
-        'questiontext' => 'Address',
+        'questiontext' => 'Public transport',
         'questiondescr' => NULL,
         'responseformat' => 'checkbox:Trains are nearby^Trains|Trams are nearby^Trams|Busses are nearby^Busses|Direct route to the city^Direct',
         'responsevalidationlogic' => 'required',

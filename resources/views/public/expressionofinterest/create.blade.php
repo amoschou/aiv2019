@@ -24,6 +24,9 @@
   @section('receiptmessage')
   @stop
 
+
+
+{{--
   <form action="/participate/choir/register" method="POST">
     {{ csrf_field() }}
     <div class="mdl-textfield @if ($errors->has('name')) is-invalid @endif mdl-js-textfield mdl-textfield--floating-label">
@@ -81,6 +84,7 @@
       </button>
     </p>
   </form>
+--}}
 
 
 @endsection
