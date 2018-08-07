@@ -16,7 +16,7 @@ class SetupRegistrationQuestions extends Migration
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 1,
+      'sectionord' => 10,
       'sectionname' => 'Essential details',
       'sectionshortname' => 'essential',
     ],'sectionid');
@@ -91,7 +91,7 @@ class SetupRegistrationQuestions extends Migration
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 2,
+      'sectionord' => 20,
       'sectionname' => 'Personal details',
       'sectionshortname' => 'personal',
       'sectiondescr' => 'We encourage you to provide your mobile number. Sometimes it is more appropriate to contact you this way, especially if an urgent response is required. It also lets us SMS you.',
@@ -182,12 +182,24 @@ class SetupRegistrationQuestions extends Migration
         'html5required' => False,
         'companionresponsevalidationlogic' => NULL,
       ],
+      [
+        'questionord' => 8,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'specialrequirements',
+        'questiontext' => 'Do you have any special requirements we need to be made aware of?',
+        'questiondescr' => 'e.g. access to a fridge to store medication, service dog, wheelchair access',
+        'responseformat' => 'textarea',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
     ]);
     
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 3,
+      'sectionord' => 30,
       'sectionname' => 'Emergency contact details',
       'sectionshortname' => 'emergency',
       'sectiondescr' => 'The primary emergency contact is the person not attending the festival who you would like us to contact first should you experience an emergency.',
@@ -247,7 +259,7 @@ class SetupRegistrationQuestions extends Migration
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 4,
+      'sectionord' => 40,
       'sectionname' => 'Choral experience',
       'sectionshortname' => 'choral'
     ],'sectionid');
@@ -306,7 +318,7 @@ class SetupRegistrationQuestions extends Migration
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 5,
+      'sectionord' => 50,
       'sectionname' => 'Travel details',
       'sectionshortname' => 'travel',
       'sectiondescr' => 'Although we are asking for travel details, this is only informative, so we know around about when you’ll arrive and leave. That’s all. In ordinary circumstances, we expect you to make it from the airport into the city with your luggage on your own, similarly returning to the airport for departure. Unless you have special needs, <strong>we are not offering airport pickups and dropoffs</strong> because registration is easily and cheaply accessible by public transport from the airport.',
@@ -456,45 +468,259 @@ class SetupRegistrationQuestions extends Migration
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 6,
-      'sectionname' => 'Camp, billeting and accommodation',
-      'sectionshortname' => 'cba'
+      'sectionord' => 60,
+      'sectionname' => 'Accommodation',
+      'sectionshortname' => 'accommodation'
     ],'sectionid');
     
-    $subsectioncode = DB::table('rego_subsections')->insert([
-      'subsectionord' => 1,
-      'sectionid' => $sectionid,
-      'subsectioncode' => 1,
-      'subsectionname' => 'Camp',
-      'subsectiondescr' => NULL,
-    ],'subsectioncode');
-    $subsectioncode = DB::table('rego_subsections')->insert([
-      'subsectionord' => 2,
-      'sectionid' => $sectionid,
-      'subsectioncode' => 2,
-      'subsectionname' => 'Billeting',
-      'subsectiondescr' => NULL,
-    ],'subsectioncode');
-    $subsectioncode = DB::table('rego_subsections')->insert([
-      'subsectionord' => 3,
-      'sectionid' => $sectionid,
-      'subsectioncode' => 3,
-      'subsectionname' => 'Accommodation',
-      'subsectiondescr' => NULL,
-    ],'subsectioncode');
+    // Camp questions
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 1,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'sleepingatcamp',
+        'questiontext' => 'Sleeping at camp',
+        'questiondescr' => 'If you are not sleeping at camp, be sure to arrange your own accommodation and commute to and from camp every day.',
+        'responseformat' => 'radio:Yes|No',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 2,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'accommodation',
+        'questiontext' => 'If you are not a student or if you are not requesting billeting, where are you staying during time outside camp (i.e. 10th–11th, 15th–20th January)',
+        'questiondescr' => NULL,
+        'responseformat' => 'textarea',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
+
+    // Billeting
+    $sectionid = DB::table('rego_sections')->insertGetId([
+      'sectionord' => 63,
+      'sectionname' => 'Billeting accommodation',
+      'sectionshortname' => 'billetingaccommodation',
+      'sectiondescr' => 'Note: Billeting is available only to student choristers.'
+    ],'sectionid');
+    
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 1,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'billetingrequest',
+        'questiontext' => 'I would like to be billeting on these nights:',
+        'questiondescr' => 'We will endeavour to find a place for all student choristers.',
+        'responseformat' => 'checkbox:Thursday, 10th^10th|Tuesday, 15th^15th|Wednesday, 16th^16th|Thursday, 17th^17th|Friday, 18th^18th|Saturday, 19th^19th',
+        'responsevalidationlogic' => 'required',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 2,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'billetingwhitelist',
+        'questiontext' => 'I would like to be billeted with:',
+        'questiondescr' => NULL,
+        'responseformat' => 'textarea',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 3,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'billetingblacklist',
+        'questiontext' => 'I do not want to be billeted with:',
+        'questiondescr' => NULL,
+        'responseformat' => 'textarea',
+        'responsevalidationlogic' => 'string|nullable',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 4,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'guestsmoketolerance',
+        'questiontext' => 'I can be billeted in a house with smokers',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Yes, I don’t mind smoke^yes|Yes, if they smoke outside^Yes (Outside)|No',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 5,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'guestpettolerance',
+        'questiontext' => 'I can be billeted in a house with allergenic pets',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Yes, I don’t experience pet allergies^yes|Yes, if they are not highly allergenic^Yes (Mildly allergenic)|Yes, if they are separated from living areas^Yes (Separated)|No',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 6,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'guesthousedynamic',
+        'questiontext' => 'I don’t mind staying in a:',
+        'questiondescr' => NULL,
+        'responseformat' => 'checkbox:Quiet house|Moderately noisy house|Party house',
+        'responsevalidationlogic' => 'required',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 7,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'guesthousecomposition',
+        'questiontext' => 'I would prefer to stay with people who are:',
+        'questiondescr' => NULL,
+        'responseformat' => 'checkbox:Students|Wokers|Female|Male|Queer friendly',
+        'responsevalidationlogic' => 'required',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
 
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 7,
+      'sectionord' => 70,
       'sectionname' => 'Billeting details for hosts',
-      'sectionshortname' => 'billeting'
+      'sectionshortname' => 'billeting',
+      'sectiondescr' => 'Hosts will need to provide sleeping space, bathroom, access (e.g. lending a spare key or being available to unlock in evenings) and luggage storage. It is customary to offer breakfast, no other meals are necessary. You can expect a gift from your guests.',
     ],'sectionid');
     
+    DB::table('rego_questions')->insert([
+      [
+        'questionord' => 1,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostoffer',
+        'questiontext' => 'I can host student choristers in my home on these nights:',
+        'questiondescr' => NULL,
+        'responseformat' => 'checkbox:Thursday, 10th^10th|Tuesday, 15th^15th|Wednesday, 16th^16th|Thursday, 17th^17th|Friday, 18th^18th|Saturday, 19th^19th',
+        'responsevalidationlogic' => 'required|min:1',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 2,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostsituation',
+        'questiontext' => 'Describe the accommodation situation  at your house:',
+        'questiondescr' => NULL,
+        'responseformat' => 'textarea',
+        'responsevalidationlogic' => 'string|required',
+        'questiondescr' => 'Example: We have a spare room with a double bed, a couch that one person can sleep on, and enough floor space for two more people.',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 3,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostaddress',
+        'questiontext' => 'Address',
+        'questiondescr' => NULL,
+        'responseformat' => 'textarea',
+        'responsevalidationlogic' => 'string|required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 4,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hosttransport',
+        'questiontext' => 'Address',
+        'questiondescr' => NULL,
+        'responseformat' => 'checkbox:Trains are nearby^Trains|Trams are nearby^Trams|Busses are nearby^Busses|Direct route to the city^Direct',
+        'responsevalidationlogic' => 'required',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 5,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostsmoking',
+        'questiontext' => 'Smoking',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Strictly non smoking^No|Outside only^outside|Permitted^Yes',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 6,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostserviceanimal',
+        'questiontext' => 'Serive animal friendly',
+        'questiondescr' => NULL,
+        'responseformat' => 'radio:Yes|No',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 6,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostpets',
+        'questiontext' => 'This house keeps roaming pets',
+        'questiondescr' => 'Roaming pets include cats, dogs, indoor birds, etc.',
+        'responseformat' => 'radio:Yes (Not allergenic)|Yes (Mildly allergenic)|Yes (Highly allergenic)|No',
+        'responsevalidationlogic' => 'required',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 7,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostdynamic',
+        'questiontext' => 'This house can be',
+        'questiondescr' => NULL,
+        'responseformat' => 'checkbox:Quiet house|Moderately noisy house|Party house',
+        'responsevalidationlogic' => 'required|min:1',
+        'html5required' => True,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+      [
+        'questionord' => 8,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'hostpeople',
+        'questiontext' => 'The people living here are:',
+        'questiondescr' => NULL,
+        'responseformat' => 'checkbox:Students|Workers|Female|Male|Queer friendly',
+        'responsevalidationlogic' => 'required',
+        'html5required' => False,
+        'companionresponsevalidationlogic' => NULL,
+      ],
+    ]);
+
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 8,
+      'sectionord' => 80,
       'sectionname' => 'Social event details',
       'sectionshortname' => 'social',
       'sectiondescr' => 'Guests are permitted only at the academic dinner. However, anybody is welcome to make their own social registration to attend other social events.'
@@ -558,7 +784,7 @@ class SetupRegistrationQuestions extends Migration
     // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 9,
+      'sectionord' => 90,
       'sectionname' => 'Dietary requirements',
       'sectionshortname' => 'food',
       'sectionduplicateforeach' => $accdinnerguestquestionshortname
@@ -747,7 +973,7 @@ class SetupRegistrationQuestions extends Migration
           // NEW SECTION
     
     $sectionid = DB::table('rego_sections')->insertGetId([
-      'sectionord' => 10,
+      'sectionord' => 100,
       'sectionname' => 'Merchandise sales',
       'sectionshortname' => 'merchandise'
     ],'sectionid');
@@ -758,7 +984,7 @@ class SetupRegistrationQuestions extends Migration
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'photo',
-        'questiontext' => 'Adelaide IV festival photograph',
+        'questiontext' => 'Adelaide IV 2019 festival photograph',
         'questiondescr' => '$15 each',
         'responseformat' => 'text:number',
         'html5required' => False,
@@ -770,7 +996,7 @@ class SetupRegistrationQuestions extends Migration
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'cd',
-        'questiontext' => 'Adelaide IV festival concert CD recording',
+        'questiontext' => 'Adelaide IV 2019 festival concert recording (USB medium)',
         'questiondescr' => '$15 each',
         'responseformat' => 'text:number',
         'html5required' => False,
@@ -782,9 +1008,9 @@ class SetupRegistrationQuestions extends Migration
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'bottle',
-        'questiontext' => 'Adelaide IV festival water bottle',
-        'questiondescr' => 'Select the type of water bottle you’d like to buy (Large $22, Small $17) and add it to the list. Write in the custom text to be printed on it, or leave the text field blank.',
-        'responseformat' => 'text-var-custom:text:Small red^Small red|Small green^Small green|Small blue^Small blue|Large red^Large red|Large green^Large green|Large blue^Large blue',
+        'questiontext' => 'Adelaide IV 2019 festival water bottle',
+        'questiondescr' => 'Select the type of water bottle you’d like to buy (Large 740&nbsp;mL $20, Small 500&nbsp;mL $18) and add it to the list. Write in the custom text (we suggest your first name) to be printed on it, or leave the text field blank.',
+        'responseformat' => 'text-var-custom:text:Small red^Small red|Small green^Small green|Small blue^Small blue|Small orange^Small orange|Small black^Small black|Large red^Large red|Large green^Large green|Large blue^Large blue|Large orange^Large orange|Large black^Large black',
         'html5required' => False,
         'responsevalidationlogic' => 'string|nullable',
         'companionresponsevalidationlogic' => NULL,
@@ -795,8 +1021,8 @@ class SetupRegistrationQuestions extends Migration
         'subsectioncode' => NULL,
         'questionshortname' => 'tshirt',
         'questiontext' => 'Adelaide IV festival T&nbsp;shirt',
-        'questiondescr' => '$20 each',
-        'responseformat' => 'text-var:number:Extra small^xs|Small^s|Medium^m|Large^l|Extra large^xl|Size 8^s8|Size 10^s10|Size 12^s12|Size 14^s14|Size 16^s16|Size 18^s18|Size 20^s20',
+        'questiondescr' => '$30 each',
+        'responseformat' => 'text-var:number:Extra small^xs|Small^s|Medium^m|Large^l|Extra large^xl|Size 6^s6|Size 8^s8|Size 10^s10|Size 12^s12|Size 14^s14|Size 16^s16|Size 18^s18|Size 20^s20|Size 22^s22|Size 24^s24',
         'html5required' => False,
         'responsevalidationlogic' => 'nullable|numeric|integer|min:1',
         'companionresponsevalidationlogic' => NULL,

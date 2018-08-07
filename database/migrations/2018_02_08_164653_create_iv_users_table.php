@@ -18,6 +18,7 @@ class CreateIvUsersTable extends Migration
       case('pgsql'):
         Schema::create('iv_users', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('accountref')->unique();
             $table->text('email');
             $table->text('username');
             $table->boolean('confirmed');
@@ -31,6 +32,7 @@ class CreateIvUsersTable extends Migration
       case('mysql'):
         Schema::create('iv_users', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('accountref')->unique();
             $table->string('email');
             $table->string('username');
             $table->boolean('confirmed');

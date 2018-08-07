@@ -163,7 +163,7 @@ class SetupRegistration extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists('rego_mustask');
+//    Schema::dropIfExists('rego_mustask');
     Schema::dropIfExists('rego_responses_nofk');
     Schema::dropIfExists('rego_responses');
     Schema::dropIfExists('rego_questions');

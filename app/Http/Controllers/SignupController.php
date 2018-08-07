@@ -106,8 +106,18 @@ class SignupController extends Controller
         $data->id = DB::table('iv_users')->insertGetId([
           'email' => $data->email,
           'username' => $data->username,
-          'confirmed' => false
+          'confirmed' => false,
+          'accountref' => '',
         ]);
+
+        $doesntexist = False;
+        while(!$doesntexist)
+        {
+          $accountref = 'AR'.random_int(1000,9999).chr(random_int(65,90));
+          $doesntexist = DB::table('iv_users')->where('accountref',$accountref)->doesntExist();
+        }
+        DB::table('iv_users')->where('id',$data->id)->update(['accountref' => $accountref]);
+        
         $data->token = $this->b62str(40);
         DB::table('iv_user_logins')->insert([
           'id' => $data->id,

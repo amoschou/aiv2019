@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class PaymentsController extends Controller
 {
-  public function variableamountget()
+  public function variableamountget(Request $request)
   {
     $context = [
       'imagesource' => 'public/images/image-1.jpg',
@@ -20,7 +20,8 @@ class PaymentsController extends Controller
             'If you are expressing your interest to be a chorister in the festival, then write <strong>Preregistration</strong> in the purpose field. We suggest a payment about $50 to $100 (your choice) which will be used to offset your registration fee.',
           ]
         ],
-      ]
+      ],
+      'ref' => $request->get('ref'),
     ];
     return view('public.payments.variableamount', $context);
   }

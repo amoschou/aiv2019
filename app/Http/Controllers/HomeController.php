@@ -233,7 +233,7 @@ class HomeController extends Controller
   
   public function registrationformpost (Request $request,$sectionid)
   {
-var_dump($_POST);
+//var_dump($_POST);
     $sectionid = (int) $sectionid;
     $validationarray = [];
     $questions = DB::table('rego_questions')
@@ -263,13 +263,12 @@ var_dump($_POST);
             break;
           case('files'):
             $exploded = explode(':',$question->responseformat,3);
-//            var_dump($exploded);
+            var_dump($exploded);
 //            $validationarray[$question->questionshortname . '.file.*'] = ;
             $checkboxes = $request->all()['concessionproof']['checkbox'] ?? [];
             $files = $request->all()['concessionproof']['file'] ?? [];
-//           var_dump($checkboxes);
-//           var_dump($files);
-//die();
+           var_dump($checkboxes);
+           var_dump($files);
             foreach($checkboxes as $key => $val)
             {
               if($val === 'hiddeninput')
@@ -284,11 +283,13 @@ var_dump($_POST);
                 }
                 else
                 {
-                  $validationarray[$question->questionshortname . '.checkbox.' . $key] = 'string|nullable';
-                  $validationarray[$question->questionshortname . '.file.' . $key] = $question->responsevalidationlogic . '|required_with:' . $question->questionshortname . '.checkbox.' . $key;
+                    $validationarray[$question->questionshortname . '.checkbox.' . $key] = 'string|nullable';
+                    $validationarray[$question->questionshortname . '.file.' . $key] = $question->responsevalidationlogic . '|required_with:' . $question->questionshortname . '.checkbox.' . $key;
                 }
               }
             }
+//var_dump($validationarray);
+//die();
             break;
           case('text-var-custom'):
             $exploded = explode(':',$question->responseformat,3);
@@ -413,6 +414,9 @@ var_dump($_POST);
     //  }
     
     $v->validate();
+    
+//    echo "If you can see this message, then validation succeeded."; die();
+    
     $rules = $v->getRules();
     $data = $request->only(collect($rules)->keys()->map(function ($rule) {
                 return Str::contains($rule, '.') ? explode('.', $rule)[0] : $rule;

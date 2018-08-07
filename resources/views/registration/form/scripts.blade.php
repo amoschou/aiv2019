@@ -16,7 +16,7 @@
     htmlstr = htmlstr + '                                      <input type="checkbox"';
     htmlstr = htmlstr + '                                             name="' + questionshortname + '[checkbox][' + i + ']"';
     htmlstr = htmlstr + '                                       aria-label="Checkbox for following text input"';
-    htmlstr = htmlstr + '                                              checked>';
+    htmlstr = htmlstr + '                                              checked>'; // value="save" ???
     htmlstr = htmlstr + '                                      <div class="state p-on">';
     htmlstr = htmlstr + '                                        <i class="icon material-icons text-primary">check_box</i>';
     htmlstr = htmlstr + '                                        <label></label>';

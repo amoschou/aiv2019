@@ -85,7 +85,13 @@ class CreateRegistrationRequirements extends Migration
         'questionshortname' => 'doing',
         'comparisonoperator' => '?',
         'responsepattern' => 'singing',
-        'doasksection' => 'cba',
+        'doasksection' => 'accommodation',
+      ],
+      [
+        'questionshortname' => 'concession',
+        'comparisonoperator' => '?',
+        'responsepattern' => 'student',
+        'doasksection' => 'billetingaccommodation',
       ],
       [
         'questionshortname' => 'doing',

@@ -33,6 +33,7 @@
   <p>This is where you can register for the festival and manage your personal information.</p>
   <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
   
+  {{--
   @php
     $regoitems = DB::table('v_user_rego_items')
       ->select('itemname','price')
@@ -63,6 +64,25 @@
       </tr>
     </tfoot>
   </table>
+  --}}
+  
+  <h2>Payments</h2>
+  
+  @php
+    $accountref = DB::table('iv_users')->select('accountref')->where('id',Auth::id())->first()->accountref;
+  @endphp
+  <div class="alert alert-success" role="alert">
+    <p>Your account reference number is:</p>
+    <p class="h4">{{ $accountref }}</p>
+    <hr>
+    <p class="mb-0">Remember to include your account reference number whenever you make a payment.</p>
+  </div>
+
+  <p>Payments can be made by debit/credit card (Including iternational cards) at <a href="/payments/checkout?ref={{ $accountref }}">https://www.aiv.org.au/payments/checkout?ref={{ $accountref }}</a></p>
+  <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Number&nbsp;027885840.</p>
+  
+  <p>Fees are available from <a href="/participate/choir">https://www.aiv.org.au/participate/choir</a> and the cost of any merchandise sales or music sales are additional.</p>
+  
 @endsection
 
 
