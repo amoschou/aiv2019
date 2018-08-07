@@ -497,6 +497,7 @@ class CreateResponseViews extends Migration
             ) b
             using (userid,sectionid)
           )
+          order by userid;
 
         ");
 /*
