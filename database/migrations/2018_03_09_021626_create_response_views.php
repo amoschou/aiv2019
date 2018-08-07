@@ -443,6 +443,7 @@ class CreateResponseViews extends Migration
          $subq = "($suba OR (NOT $subc) OR $subd)";
          $subr = "($suba OR $subc)";
          $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
+/*
          DB::statement("
             CREATE VIEW v_rego_required_sections AS
             SELECT
@@ -468,6 +469,7 @@ class CreateResponseViews extends Migration
             using (userid,sectionid)
             order by userid
           ");
+*/
         break;
     }
   }
