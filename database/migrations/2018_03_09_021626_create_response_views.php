@@ -443,6 +443,61 @@ class CreateResponseViews extends Migration
          $subq = "($suba OR (NOT $subc) OR $subd)";
          $subr = "($suba OR $subc)";
          $subxnorpqr = "(($subp AND $subq AND $subr) OR ((NOT $subp) AND (NOT $subq) AND (NOT $subr)))";
+
+        DB::statement("
+          (
+            SELECT
+              userid,
+              sectionid,
+              coalesce(required,'false') as required
+            from
+            (
+              SELECT DISTINCT
+                     userid,
+                     sectionid,
+                     'true' as required
+                FROM rego_responses
+                     NATURAL JOIN
+                     rego_requirements
+                     JOIN rego_sections
+                     ON (doasksection = sectionshortname)
+               WHERE {$subxnorpqr}
+            ) a
+            LEFT JOIN
+            (
+              select id as userid,sectionid
+              from iv_users cross join rego_sections
+            ) b
+            using (userid,sectionid)
+          )
+          UNION
+          (
+            SELECT
+              userid,
+              sectionid,
+              coalesce(required,'false') as required
+            from
+            (
+              SELECT DISTINCT
+                     userid,
+                     sectionid,
+                     'true' as required
+                FROM rego_responses
+                     NATURAL JOIN
+                     rego_requirements
+                     JOIN rego_sections
+                     ON (doasksection = sectionshortname)
+               WHERE {$subxnorpqr}
+            ) a
+            RIGHT JOIN
+            (
+              select id as userid,sectionid
+              from iv_users cross join rego_sections
+            ) b
+            using (userid,sectionid)
+          )
+
+        ");
 /*
          DB::statement("
             CREATE VIEW v_rego_required_sections AS
