@@ -71,7 +71,7 @@
   @php
     $accountref = DB::table('iv_users')->select('accountref')->where('id',Auth::id())->first()->accountref;
   @endphp
-  <div class="alert alert-success" role="alert">
+  <div class="alert alert-success rounded-0" role="alert">
     <p>Your account reference number is:</p>
     <p class="h4">{{ $accountref }}</p>
     <hr>
@@ -94,7 +94,34 @@
 
       <div id="accordion">
         <div class="card border-primary rounded-0">
-          <div class="card-header border-primary rounded-0 bg-primary text-white"
+        
+          @php
+            $expansion = NULL;
+            $expansion = Request::is('home') ? 'accountinfo' : 'registrationdetails';
+          @endphp
+        
+          {{-- ACCOUNT INFORMATION --}}
+          <div class="card-header border-white rounded-0 bg-primary text-white"
+                  id="header-accountinfo"
+         data-toggle="collapse"
+         data-target="#collapse-accountinfo"
+       aria-expanded="true"
+       aria-controls="collapse-accountinfo"
+               style="cursor:pointer">
+            Account information
+          </div>
+          <div id="collapse-accountinfo"
+            class="collapse {{ $expansion === 'accountinfo' ? 'show' : '' }}"
+  aria-labelledby="header-accountinfo"
+      data-parent="#accordion">
+            <div class="list-group list-group-flush">
+              <a class="list-group-item list-group-item-action {{ Request::is('home') ? 'text-primary' : 'text-muted' }}" href="/home">Home</a>
+            </div>
+          </div>
+
+
+          {{-- REGISTRATION DETAILS --}}
+          <div class="card-header border-white border-0 rounded-0 bg-primary text-white"
                   id="header-registrationdetails"
          data-toggle="collapse"
          data-target="#collapse-registrationdetails"

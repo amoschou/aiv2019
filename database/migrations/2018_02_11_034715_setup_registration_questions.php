@@ -141,7 +141,7 @@ class SetupRegistrationQuestions extends Migration
         'questionshortname' => 'aicsachoirs',
         'questiontext' => 'Which (past or present) AICSA choirs do you associate with (presently or historically)?',
         'questiondescr' => NULL,
-        'responseformat' => 'checkbox:ACU^ACU|AUCS^AUCS|FUCS^FUCS|LaTUCS^LaTUCS|MADS^MADS|MonUCS^MonUCS|MUCS^MUCS|MUS^MUS|MuscUTS^MuscUTS|PUCS^PUCS|QUMS^QUMS|ROCS^ROCS|SCUNA^SCUNA|SUMS^SUMS|TUMS^TUMS',
+        'responseformat' => 'checkbox:ACU^ACU|AUCS^AUCS|FUCS^FUCS|LaTUCS^LaTUCS|MADS^MADS|MonUCS^MonUCS|MUCS^MUCS|MUS^MUS|MuscUTS^MuscUTS|PUCS^PUCS|QUMS^QUMS|ROCS^ROCS|SACCC^SACCC|SCUNA^SCUNA|SUMS^SUMS|TUMS^TUMS',
         'responsevalidationlogic' => 'required',
         'html5required' => False,
         'companionresponsevalidationlogic' => NULL,
