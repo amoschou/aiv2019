@@ -32,6 +32,7 @@
   --}}
   <p>This is where you can register for the festival and manage your personal information.</p>
   <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
+  <p>Registration sections that you need to respond to will remain highlighted until they are submitted.</p>
   
   {{--
   @php
@@ -71,7 +72,7 @@
   @php
     $accountref = DB::table('iv_users')->select('accountref')->where('id',Auth::id())->first()->accountref;
   @endphp
-  <div class="alert alert-success rounded-0" role="alert">
+  <div class="alert alert-info rounded-0" role="alert">
     <p>Your account reference number is:</p>
     <p class="h4">{{ $accountref }}</p>
     <hr>
@@ -82,11 +83,13 @@
   <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Number&nbsp;027885840.</p>
   
   <p>Fees are available from <a href="/participate/choir">https://www.aiv.org.au/participate/choir</a> and the cost of any merchandise sales or music sales are additional.</p>
+  <p>Complete payment by the published timeline (on page 2 of <a href="http://aiv2019.master/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>)</p>
   
 @endsection
 
 
 @section('content')
+@php $registrationiscomplete = True; @endphp
 <div class="container">
   <div class="row justify-content-center">
 
@@ -131,6 +134,13 @@
             Registration details
           </div>
           @php
+            $q = "select sectionid from rego_responses natural join rego_questions where userid = ? group by sectionid";
+            $tmp = DB::select($q,[Auth::id()]);
+            $submittedsections = [];
+            foreach($tmp as $a)
+            {
+              $submittedsections[] = $a->sectionid;
+            }
             $q = "SELECT
                     sectionid,
                     sectionname,
@@ -153,7 +163,11 @@
       data-parent="#accordion">
             <div class="list-group list-group-flush">
             @foreach($sections as $section)
-              <a class="list-group-item list-group-item-action {{ $section->sectionid === (int) $sectionid ? 'text-primary' : 'text-muted' }}" href="/home/registration/{{ $section->sectionid }}">{{ $section->sectionname }}</a>
+              @php
+                $tick = in_array($section->sectionid,$submittedsections);
+                $registrationiscomplete = !$tick ? False : $registrationiscomplete;
+              @endphp
+              <a class="list-group-item list-group-item-action {{ $section->sectionid === (int) $sectionid ? 'text-primary' : 'text-muted' }} {{ $tick ? '' : 'bg-warning' }}" href="/home/registration/{{ $section->sectionid }}">{{ $section->sectionname }}</a>
             @endforeach
             </div>
           </div>
@@ -209,6 +223,22 @@
     
     <div class="col-md-9">
     
+    @if($registrationiscomplete)
+      <div class="alert alert-success rounded-0" role="alert">
+        <p class="h4">Registration is complete</p>
+        <hr>
+        <p>Please make sure that your respones are all correct and complete your payment by the published timeline (on page 2 of <a href="http://aiv2019.master/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>).</p>
+        <p class="mb-0">You have agreed to follow the <a href="{{ route('conduct') }}">code of conduct</a>.</p>
+      </div>
+    @else
+      <div class="alert alert-danger rounded-0" role="alert">
+        <p class="h4">Registration is not yet finished</p>
+        <hr>
+        <p>Please save your responses to each section under <em>Registration details</em>.</p>
+        <p class="mb-0">By registering, you agree to follow the <a href="{{ route('conduct') }}">code of conduct</a>.</p>
+      </div>
+    @endif
+
     @yield('innercontent')
     
     </div>

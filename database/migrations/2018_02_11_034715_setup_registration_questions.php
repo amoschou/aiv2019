@@ -159,7 +159,7 @@ class SetupRegistrationQuestions extends Migration
         'companionresponsevalidationlogic' => 'multiothertext',
       ],
       [
-        'questionord' => 6,
+        'questionord' => 16,
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'concession',
@@ -171,7 +171,7 @@ class SetupRegistrationQuestions extends Migration
         'companionresponsevalidationlogic' => NULL,
       ],
       [
-        'questionord' => 7,
+        'questionord' => 17,
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'concessionproof',
@@ -183,7 +183,7 @@ class SetupRegistrationQuestions extends Migration
         'companionresponsevalidationlogic' => NULL,
       ],
       [
-        'questionord' => 8,
+        'questionord' => 18,
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'specialrequirements',
@@ -492,8 +492,8 @@ class SetupRegistrationQuestions extends Migration
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'accommodation',
-        'questiontext' => 'If you are not a student or if you are not requesting billeting, where are you staying during time outside camp (i.e. 10th–11th, 15th–20th January)',
-        'questiondescr' => NULL,
+        'questiontext' => 'Name and address of appartment/hotel for any accommodation you are staying at',
+        'questiondescr' => 'Billeting is available only to student choristers, you must organise your own accommodation if you are not a student.',
         'responseformat' => 'textarea',
         'responsevalidationlogic' => 'string|nullable',
         'html5required' => False,
@@ -943,32 +943,32 @@ class SetupRegistrationQuestions extends Migration
       ],
     ]);
 
-    $subsectionid = DB::table('rego_subsections')->insertGetId([
-      'subsectionord' => 4,
-      'sectionid' => $sectionid,
-      'subsectioncode' => 4,
-      'subsectionname' => 'Food preferences (non requirements)',
-      'subsectiondescr' => NULL,
-    ],'subsectionid');
-
-    $subsectioncode = DB::table('rego_subsections')
-                        ->where('subsectionid',$subsectionid)
-                        ->value('subsectioncode');
-      
-    DB::table('rego_questions')->insert([
-      [
-        'questionord' => 9,
-        'sectionid' => $sectionid,
-        'subsectioncode' => $subsectioncode,
-        'questionshortname' => 'foodprefs',
-        'questiontext' => 'If you have any food preferences that are not required, what are they?',
-        'questiondescr' => NULL,
-        'responseformat' => 'textarea',
-        'responsevalidationlogic' => 'string|nullable',
-        'html5required' => False,
-        'companionresponsevalidationlogic' => NULL,
-      ],
-    ]);
+//    $subsectionid = DB::table('rego_subsections')->insertGetId([
+//      'subsectionord' => 4,
+//      'sectionid' => $sectionid,
+//      'subsectioncode' => 4,
+//      'subsectionname' => 'Food preferences (non requirements)',
+//      'subsectiondescr' => NULL,
+//    ],'subsectionid');
+//
+//    $subsectioncode = DB::table('rego_subsections')
+//                        ->where('subsectionid',$subsectionid)
+//                        ->value('subsectioncode');
+//      
+//    DB::table('rego_questions')->insert([
+//      [
+//        'questionord' => 9,
+//        'sectionid' => $sectionid,
+//        'subsectioncode' => $subsectioncode,
+//        'questionshortname' => 'foodprefs',
+//        'questiontext' => 'If you have any food preferences that are not required, what are they?',
+//        'questiondescr' => NULL,
+//        'responseformat' => 'textarea',
+//        'responsevalidationlogic' => 'string|nullable',
+//        'html5required' => False,
+//        'companionresponsevalidationlogic' => NULL,
+//      ],
+//    ]);
 
           // NEW SECTION
     
@@ -1041,6 +1041,18 @@ class SetupRegistrationQuestions extends Migration
         'companionresponsevalidationlogic' => NULL,
       ],
 */
+      [
+        'questionord' => 3,
+        'sectionid' => $sectionid,
+        'subsectioncode' => NULL,
+        'questionshortname' => 'wineglass',
+        'questiontext' => 'Adelaide IV 2019 festival wine glass',
+        'questiondescr' => '$5 each. Note: One complimentary glass is already included in the ticket to the academic dinner, any ordered here are in addition to that one.',
+        'responseformat' => 'text:number',
+        'html5required' => False,
+        'responsevalidationlogic' => 'nullable|numeric|integer|min:1',
+        'companionresponsevalidationlogic' => NULL,
+      ],
     ]);
   }
 
