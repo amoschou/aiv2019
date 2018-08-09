@@ -122,7 +122,7 @@ class CreateMusicQuestions extends Migration
         'sectionid' => $sectionid,
         'subsectioncode' => NULL,
         'questionshortname' => 'scorewhitacre',
-        'questiontext' => 'Whitacre: <em>Seal lullaby</em>',
+        'questiontext' => 'Whitacre: <em>The seal lullaby</em>',
         'questiondescr' => '$5 to buy',
         'responseformat' => 'radio:Borrow|Buy|Bring',
         'html5required' => True,
