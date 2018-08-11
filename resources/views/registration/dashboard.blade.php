@@ -83,7 +83,7 @@
   <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Number&nbsp;027885840.</p>
   
   <p>Fees are available from <a href="/participate/choir">https://www.aiv.org.au/participate/choir</a> and the cost of any merchandise sales or music sales are additional.</p>
-  <p>Complete payment by the published timeline (on page 2 of <a href="http://aiv2019.master/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>)</p>
+  <p>Complete payment by the published timeline (on page 2 of <a href="/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>)</p>
   
 @endsection
 
