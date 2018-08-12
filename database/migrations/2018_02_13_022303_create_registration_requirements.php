@@ -117,6 +117,12 @@ class CreateRegistrationRequirements extends Migration
         'responsepattern' => 'billeting',
         'doasksection' => 'billeting',
       ],
+      [
+        'questionshortname' => 'doing',
+        'comparisonoperator' => '?',
+        'responsepattern' => 'singing',
+        'doasksection' => 'repertoire',
+      ]
     ]);
 
 

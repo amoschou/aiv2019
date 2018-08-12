@@ -296,6 +296,7 @@ class PublicController extends Controller
           'News bulletins',
           [
             '<ul>
+            <li><a href="/documents/newsbulletins/aurora-adelaideiv2019.pdf">Introductory information for everyone</a></li>
             <li><a href="/documents/newsbulletins/adelaideiv2019news4.pdf">May 2018 edition: Pricing, important dates and Committee information</a></li>
             <li><a href="/documents/newsbulletins/adelaideiv2019news3.pdf">April 2018 edition: Transport, billeting and accommodation information</a></li>
             <li><a href="/documents/newsbulletins/adelaideiv2019news2.pdf">March 2018 edition: Repertoire and conductor information</a></li>

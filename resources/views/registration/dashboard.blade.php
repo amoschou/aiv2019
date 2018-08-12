@@ -34,38 +34,39 @@
   <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
   <p>Registration sections that you need to respond to will remain highlighted until they are submitted.</p>
   
-  {{--
   @php
     $regoitems = DB::table('v_user_rego_items')
       ->select('itemname','price')
       ->where('userid',Auth::id())
       ->get();
     $regoitemtotal = 0;
+    var_dump(Auth::id()); die();
   @endphp
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Item</th>
-        <th>$</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach($regoitems as $regoitem)
-        @php $regoitemtotal += $regoitem->price; @endphp
+  @if(env('APP_ENV') === 'local' || Auth::id() === 1)
+    <table class="table table-sm">
+      <thead>
         <tr>
-          <td>{{ $regoitem->itemname }}</td>
-          <td>{{ $regoitem->price }}</td>
+          <th>Item</th>
+          <th class="text-right">$</th>
         </tr>
-      @endforeach
-    </tbody>
-    <tfoot>
-      <tr>
-        <td>Total</td>
-        <td>{{ $regoitemtotal }}</td>
-      </tr>
-    </tfoot>
-  </table>
-  --}}
+      </thead>
+      <tbody>
+        @foreach($regoitems as $regoitem)
+          @php $regoitemtotal += $regoitem->price; @endphp
+          <tr>
+            <td>{{ $regoitem->itemname }}</td>
+            <td class="text-right">{{ $regoitem->price }}</td>
+          </tr>
+        @endforeach
+      </tbody>
+      <tfoot class="bg-info font-weight-bold">
+        <tr>
+          <td>Total</td>
+          <td class="text-right">{{ number_format($regoitemtotal,2,'.','') }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  @endif
   
   <h2>Payments</h2>
   
@@ -79,7 +80,7 @@
     <p class="mb-0">Remember to include your account reference number whenever you make a payment.</p>
   </div>
 
-  <p>Payments can be made by debit/credit card (Including iternational cards) at <a href="/payments/checkout?ref={{ $accountref }}">https://www.aiv.org.au/payments/checkout?ref={{ $accountref }}</a></p>
+  <p>Payments can be made by debit/credit card (Including international cards) at <a href="/payments/checkout?ref={{ $accountref }}">https://www.aiv.org.au/payments/checkout?ref={{ $accountref }}</a></p>
   <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Number&nbsp;027885840.</p>
   
   <p>Fees are available from <a href="/participate/choir">https://www.aiv.org.au/participate/choir</a> and the cost of any merchandise sales or music sales are additional.</p>

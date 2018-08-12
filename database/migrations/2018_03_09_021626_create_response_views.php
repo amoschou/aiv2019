@@ -102,100 +102,148 @@ class CreateResponseViews extends Migration
         'itemord' => 1
       ],
       [
+        'itemshortname' => 'fee_camp',
+        'itemname' => 'Camp fee',
+        'price' => 200,
+        'itemord' => 2
+      ],
+      [
         'itemshortname' => 'rego_accom',
         'itemname' => 'Registration: Camp accommodation',
         'price' => 125,
-        'itemord' => 2
+        'itemord' => 3
+      ],
+      [
+        'itemshortname' => 'camp_linen',
+        'itemname' => 'Camp: Linen hire',
+        'price' => 18,
+        'itemord' => 4
       ],
       [
         'itemshortname' => 'rego_acdinner',
         'itemname' => 'Registration: Academic dinner',
         'price' => 130,
-        'itemord' => 3
-      ],
-      [
-        'itemshortname' => 'conc_youth',
-        'itemname' => 'Youth concession',
-        'price' => -100,
-        'itemord' => 4
-      ],
-      [
-        'itemshortname' => 'conc_student',
-        'itemname' => 'Student concession',
-        'price' => -250,
         'itemord' => 5
-      ],
-      [
-        'itemshortname' => 'disc_fresher',
-        'itemname' => 'Registration discount: Fresher',
-        'price' => -100,
-        'itemord' => 6
-      ],
-      [
-        'itemshortname' => 'fee_late',
-        'itemname' => 'Late fee',
-        'price' => 50,
-        'itemord' =>7
       ],
       [
         'itemshortname' => 'rego_acdinner_guest',
         'itemname' => 'Registration: Academic dinner (Guest)',
         'price' => 130,
+        'itemord' => 6
+      ],
+      [
+        'itemshortname' => 'conc_youth',
+        'itemname' => 'Youth concession',
+        'price' => -100,
+        'itemord' => 7
+      ],
+      [
+        'itemshortname' => 'conc_student',
+        'itemname' => 'Student concession',
+        'price' => -250,
         'itemord' => 8
       ],
       [
-        'itemshortname' => 'merch_tshirt',
-        'itemname' => 'Merchandise: T shirt (%)',
-        'price' => 20,
-        'itemord' => NULL
+        'itemshortname' => 'disc_fresher',
+        'itemname' => 'Registration discount: Fresher',
+        'price' => -100,
+        'itemord' => 9
       ],
       [
-        'itemshortname' => 'merch_bottle_large_2',
-        'itemname' => 'Merchandise: Large water bottle with two custom words (%, %)',
-        'price' => 24,
-        'itemord' => NULL
+        'itemshortname' => 'fee_late',
+        'itemname' => 'Late fee',
+        'price' => 50,
+        'itemord' => 10
       ],
       [
-        'itemshortname' => 'merch_bottle_large_1',
-        'itemname' => 'Merchandise: Large water bottle with one custom word (%, %)',
-        'price' => 22,
-        'itemord' => NULL
-      ],
-      [
-        'itemshortname' => 'merch_bottle_large_0',
-        'itemname' => 'Merchandise: Large water bottle without custom words (%, %)',
-        'price' => 20,
-        'itemord' => NULL
-      ],
-      [
-        'itemshortname' => 'merch_bottle_small_2',
-        'itemname' => 'Merchandise: Small water bottle with two custom words (%, %)',
-        'price' => 19,
-        'itemord' => NULL
-      ],
-      [
-        'itemshortname' => 'merch_bottle_small_1',
-        'itemname' => 'Merchandise: Small water bottle with one custom words (%, %)',
-        'price' => 17,
-        'itemord' => NULL
-      ],
-      [
-        'itemshortname' => 'merch_bottle_small_0',
-        'itemname' => 'Merchandise: Small water bottle without custom words (%, %)',
+        'itemshortname' => 'music_arnesen',
+        'itemname' => 'Music: Arnesen',
         'price' => 15,
-        'itemord' => NULL
+        'itemord' => 11
+      ],
+      [
+        'itemshortname' => 'music_part',
+        'itemname' => 'Music: Pärt',
+        'price' => 12,
+        'itemord' => 12
+      ],
+      [
+        'itemshortname' => 'music_esenvalds',
+        'itemname' => 'Music: Ešenvalds',
+        'price' => 7,
+        'itemord' => 13
+      ],
+      [
+        'itemshortname' => 'music_gjeilo',
+        'itemname' => 'Music: Gjeilo',
+        'price' => 4,
+        'itemord' => 14
+      ],
+      [
+        'itemshortname' => 'music_sandstrom',
+        'itemname' => 'Music: Sandström',
+        'price' => 4,
+        'itemord' => 15
+      ],
+      [
+        'itemshortname' => 'music_dove',
+        'itemname' => 'Music: Dove',
+        'price' => 5,
+        'itemord' => 16
+      ],
+      [
+        'itemshortname' => 'music_lauridsen2',
+        'itemname' => 'Music: Lauridsen 2',
+        'price' => 4,
+        'itemord' => 17
+      ],
+      [
+        'itemshortname' => 'music_lauridsen3',
+        'itemname' => 'Music: Lauridsen 3',
+        'price' => 3,
+        'itemord' => 18
+      ],
+      [
+        'itemshortname' => 'music_whitacre',
+        'itemname' => 'Music: Whitacre',
+        'price' => 5,
+        'itemord' => 19
       ],
       [
         'itemshortname' => 'merch_photo',
         'itemname' => 'Merchandise: Photograph',
         'price' => 15,
-        'itemord' => NULL
+        'itemord' => 20
       ],
       [
         'itemshortname' => 'merch_cd',
         'itemname' => 'Merchandise: CD recording',
         'price' => 15,
-        'itemord' => NULL
+        'itemord' => 21
+      ],
+      [
+        'itemshortname' => 'merch_wine',
+        'itemname' => 'Merchandise: Wine glass',
+        'price' => 5,
+        'itemord' => 22
+      ],
+      [
+        'itemshortname' => 'merch_bottle_large',
+        'itemname' => 'Merchandise: Large water bottle',
+        'price' => 20,
+        'itemord' => 23
+      ],
+      [
+        'itemshortname' => 'merch_bottle_small',
+        'itemname' => 'Merchandise: Small water bottle',
+        'price' => 18,
+        'itemord' => 24
+      ],
+      [
+        'itemshortname' => 'merch_tshirt',
+        'itemname' => 'Merchandise: T shirt',
+        'price' => 20,
+        'itemord' => 25
       ]
     ]);
 
@@ -216,28 +264,12 @@ class CreateResponseViews extends Migration
         'responsematch' => 'singing',
         'purchaseitemshortname' => 'rego_choral',
       ],
-/*
-      [
-        'questionshortname' => 'doing',
-        'matchtype' => '?',
-        'responsematch' => 'social',
-        'purchaseitemshortname' => 'rego_social',
-      ],
-*/
       [
         'questionshortname' => 'othersocial',
         'matchtype' => '?',
         'responsematch' => 'yes',
         'purchaseitemshortname' => 'rego_social',
       ],
-/*
-      [      
-        'questionshortname' => 'doing',
-        'matchtype' => '?',
-        'responsematch' => 'social',
-        'purchaseitemshortname' => 'rego_acdinner',
-      ],
-*/
       [
         'questionshortname' => 'acdinner',
         'matchtype' => '?',
@@ -279,6 +311,8 @@ class CreateResponseViews extends Migration
         'responsematch' => 'singing',
         'purchaseitemshortname' => 'conc_student',
       ],
+      
+      
       [
         'questionshortname' => 'fresher',
         'matchtype' => '?',
@@ -291,12 +325,122 @@ class CreateResponseViews extends Migration
         'responsematch' => 'singing',
         'purchaseitemshortname' => 'disc_fresher',
       ],
+      
+      
       [
         'questionshortname' => 'acdinnerguest',
-        'matchtype' => 'COUNTFROMZERO',
-        'responsematch' => '%',
+        'matchtype' => 'COUNT',
+        'responsematch' => '',
         'purchaseitemshortname' => 'rego_acdinner_guest',
       ],
+
+
+
+//// ADDITIONS FROM HERE
+      [
+        'questionshortname' => 'sleepingatcamp',
+        'matchtype' => 'not?',
+        'responsematch' => 'no',
+        'purchaseitemshortname' => 'rego_accom',
+      ],
+      [
+        'questionshortname' => 'sleepingatcamp',
+        'matchtype' => '?',
+        'responsematch' => 'yes, with linen hire',
+        'purchaseitemshortname' => 'camp_linen',
+      ],
+      [
+        'questionshortname' => 'scorearnesen',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_arnesen',
+      ],
+      [
+        'questionshortname' => 'scorepart',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_part',
+      ],
+      [
+        'questionshortname' => 'scoreesenvalds',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_esenvalds',
+      ],
+      [
+        'questionshortname' => 'scoregjeilo',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_gjeilo',
+      ],
+      [
+        'questionshortname' => 'scoresandstrom',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_sandstrom',
+      ],
+      [
+        'questionshortname' => 'scoredove',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_dove',
+      ],
+      [
+        'questionshortname' => 'scorelauridsenii',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_lauridsen2',
+      ],
+      [
+        'questionshortname' => 'scorelauridseniii',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_lauridsen3',
+      ],
+      [
+        'questionshortname' => 'scorewhitacre',
+        'matchtype' => '?',
+        'responsematch' => 'buy',
+        'purchaseitemshortname' => 'music_whitacre',
+      ],
+      
+      [
+        'questionshortname' => 'photo',
+        'matchtype' => 'INTEGER',
+        'responsematch' => '',
+        'purchaseitemshortname' => 'merch_photo',
+      ],
+      [
+        'questionshortname' => 'cd',
+        'matchtype' => 'INTEGER',
+        'responsematch' => '',
+        'purchaseitemshortname' => 'merch_cd',
+      ],
+      [
+        'questionshortname' => 'wineglass',
+        'matchtype' => 'INTEGER',
+        'responsematch' => '',
+        'purchaseitemshortname' => 'merch_wine',
+      ],
+      [
+        'questionshortname' => 'bottle',
+        'matchtype' => 'COUNTCHECKBOXWITHCHAR',
+        'responsematch' => 'S',
+        'purchaseitemshortname' => 'merch_bottle_small',
+      ],
+      [
+        'questionshortname' => 'bottle',
+        'matchtype' => 'COUNTCHECKBOXWITHCHAR',
+        'responsematch' => 'L',
+        'purchaseitemshortname' => 'merch_bottle_large',
+      ],
+      [
+        'questionshortname' => 'tshirt',
+        'matchtype' => 'SUMINTEGER',
+        'responsematch' => '',
+        'purchaseitemshortname' => 'merch_tshirt',
+      ]
+
     ]);
 
 
@@ -315,7 +459,7 @@ class CreateResponseViews extends Migration
         // Laravel’s binding mechanism. Fortunately, jsonb_exists() saves
         // the day.
         DB::statement("
-          CREATE VIEW v_user_rego_items AS
+          CREATE VIEW v_user_rego_items_1 AS
           WITH a AS
           (
             select
@@ -341,7 +485,7 @@ class CreateResponseViews extends Migration
                 when matchtype = 'not?'
                 then NOT (jsonb_exists(responsejson::jsonb,responsematch))
                 else
-                false
+                'f'
               end as result,
               responseid,
               userid
@@ -373,6 +517,8 @@ class CreateResponseViews extends Migration
             userid,
             itemshortname,
             itemname,
+            price as unitprice,
+            1 as qty,
             price,
             itemord
           from
@@ -384,8 +530,221 @@ class CreateResponseViews extends Migration
           order by
             userid,
             itemord");
+        DB::statement("
+                  CREATE VIEW v_user_rego_items_2 AS
+WITH A AS
+(
+
+select userid,questionshortname,'' as char,json_array_length((responsejson::jsonb - 'hiddeninput')::json) as qty from rego_responses where questionshortname in (SELECT questionshortname FROM rego_flags WHERE matchtype = 'COUNT')
+
+union
+
+SELECT userid,questionshortname,'' as char,(responsejson#>>'{}')::INTEGER as qty FROM rego_responses WHERE questionshortname in (SELECT questionshortname FROM rego_flags WHERE matchtype = 'INTEGER')
+
+union
+
+select userid,questionshortname,'' as char,sum(value::INTEGER) as qty from rego_responses, json_each_text(responsejson) where questionshortname IN (select questionshortname FROM rego_flags WHERE matchtype = 'SUMINTEGER') group by userid,questionshortname
+
+union
+
+SELECT userid,questionshortname,SUBSTRING(value FROM 1 FOR 1) AS size,COUNT(value) AS qty FROM rego_responses,json_each_text(responsejson#>'{checkbox}') WHERE questionshortname in (select questionshortname from rego_flags where matchtype = 'COUNTCHECKBOXWITHCHAR') group by userid,questionshortname,size
+
+),
+B AS (
+SELECT
+  userid,
+  purchaseitemshortname as itemshortname,
+ qty
+FROM
+  A
+  JOIN
+  rego_flags ON (
+    A.questionshortname = rego_flags.questionshortname
+    AND responsematch = char
+  )
+)
+SELECT
+  userid,
+  itemshortname,
+  itemname,
+  price as unitprice,
+  qty,
+  qty*price as price,
+  itemord
+FROM
+  B
+  NATURAL JOIN
+  rego_purchaseitems
+WHERE qty IS NOT NULL
+ORDER BY
+  userid,
+  itemord");
+        DB::statement("CREATE VIEW v_user_rego_items as select * from v_user_rego_items_1 union select * from v_user_rego_items_2 order by userid,itemord");
         break;
       case('mysql'):
+        DB::statement("
+          CREATE VIEW v_user_rego_items_1 AS
+          select
+            userid,
+            itemshortname,
+            itemname,
+            price as unitprice,
+            1 as qty,
+            price,
+            itemord
+          from
+            (
+              SELECT
+                userid,
+                itemshortname,
+                min(result) as include,
+                itemord
+              FROM
+                (
+                  select
+                    questionshortname,
+                    matchtype,responsematch,responsejson,
+                    purchaseitemshortname as itemshortname,
+                    case
+                      when matchtype = '?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NOT NULL
+                      then 1
+                      when matchtype = 'not?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NULL
+                      then 1
+                      else
+                      0
+                    end as result,
+                    responseid,
+                    userid
+                  from
+                  (
+                    select
+                      id as userid,
+                      questionshortname,
+                      matchtype,
+                      responsematch,
+                      purchaseitemshortname
+                    from
+                      rego_flags
+                      cross join
+                      iv_users
+                  ) a
+                    left join
+                    rego_responses
+                    using (questionshortname,userid)
+                  order by
+                    userid
+                ) b
+                join
+                rego_purchaseitems using (itemshortname)
+              GROUP BY
+                userid,
+                itemshortname,
+                itemord
+            ) c
+            natural join
+            rego_purchaseitems
+          where
+            include = 1
+          order by
+            userid,
+            itemord");
+        DB::statement("
+          CREATE VIEW v_user_rego_items_2 AS
+          WITH A AS (
+            (
+              select userid,questionshortname,'' as `char`,json_length(json_remove(responsejson,json_unquote(json_search(responsejson,'one','hiddeninput')))) as qty from rego_responses where questionshortname in (select questionshortname from rego_flags where matchtype = 'COUNT')
+            )
+            union
+            (
+              SELECT userid,questionshortname,'' as `char`, json_unquote(responsejson) as qty FROM rego_responses WHERE questionshortname in (SELECT questionshortname FROM rego_flags WHERE matchtype = 'INTEGER')
+            )
+            union
+            (
+              SELECT
+                userid,
+                questionshortname,
+                '' as `char`,
+                sum(json_unquote(JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']')))) AS qty
+              FROM rego_responses
+                   JOIN
+                   ( SELECT seq AS idx FROM seq_0_to_99 ) AS indexes
+              WHERE
+                JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']')) IS NOT NULL
+                AND
+                questionshortname in (select questionshortname from rego_flags where matchtype = 'SUMINTEGER')
+              GROUP BY
+                userid,questionshortname
+              ORDER BY
+                userid,foritem,questionshortname
+            )
+            union
+            (
+              select
+                userid,
+                questionshortname,
+                substr(bottletypes from 1 for 1) as `char`,
+                count(bottletypes) qty
+              from
+              (
+                select
+                  userid,
+                  questionshortname,
+                  COALESCE(
+                    json_unquote(json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx))),
+                    json_unquote(json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')))
+                  ) AS bottletypes
+                from
+                  rego_responses
+                  join
+                  ( SELECT seq AS idx FROM seq_0_to_99 ) AS indexes
+                where
+                  questionshortname in (
+                    select questionshortname from rego_flags
+                    where matchtype = 'COUNTCHECKBOXWITHCHAR'
+                  )
+                  and
+                  (
+                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx)) is not null
+                    or
+                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')) is not null
+                  )
+              ) U
+              group by
+                userid,
+                questionshortname,
+                `char`
+            )
+          )
+          SELECT
+            userid,
+            itemshortname,
+            itemname,
+            price as unitprice,
+            qty,
+            qty*price as price,
+            itemord
+          FROM
+            (
+              SELECT
+                userid,
+                purchaseitemshortname as itemshortname,
+                qty
+              FROM
+                A
+                JOIN
+                rego_flags ON (
+                  A.questionshortname = rego_flags.questionshortname
+                  AND responsematch = `char`
+                )
+            ) B
+            NATURAL JOIN
+            rego_purchaseitems
+          WHERE
+            qty IS NOT NULL
+          ORDER BY
+            userid,
+            itemord");
+        DB::statement("CREATE VIEW v_user_rego_items as select * from v_user_rego_items_1 union select * from v_user_rego_items_2 order by userid,itemord");
         break;
     }
     

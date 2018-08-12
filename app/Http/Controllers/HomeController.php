@@ -360,7 +360,7 @@ class HomeController extends Controller
             $validationarray[$question->questionshortname . ":" . $exploded[0]] = $exploded[1];
             break;
           default:
-            echo "Something is wrong.";
+            echo "Something is wrong aaa.";
             die();
         }
       }
