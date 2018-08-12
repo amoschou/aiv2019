@@ -669,7 +669,7 @@ ORDER BY
                    JOIN
                    ( SELECT seq AS idx FROM seq_0_to_99 ) AS indexes
               WHERE
-                JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']')) IS NOT NULL
+                json_unquote(JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']'))) <> 'null'
                 AND
                 questionshortname in (select questionshortname from rego_flags where matchtype = 'SUMINTEGER')
               GROUP BY
@@ -704,9 +704,9 @@ ORDER BY
                   )
                   and
                   (
-                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx)) is not null
+                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx)) <> 'null'
                     or
-                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')) is not null
+                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')) <> 'null'
                   )
               ) U
               group by
@@ -736,11 +736,13 @@ ORDER BY
                   A.questionshortname = rego_flags.questionshortname
                   AND responsematch = `char`
                 )
+              WHERE
+                qty <> 'null'
             ) B
             NATURAL JOIN
             rego_purchaseitems
           WHERE
-            qty IS NOT NULL
+            qty <> 'null'
           ORDER BY
             userid,
             itemord");

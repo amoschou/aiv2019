@@ -35,11 +35,11 @@
   <p>Registration sections that you need to respond to will remain highlighted until they are submitted.</p>
   
   @php
-    $regoitems = DB::table('v_user_rego_items')
-      ->select('itemname','price')
-      ->where('userid',Auth::id())
-      ->get();
-    $regoitemtotal = 0;
+//    $regoitems = DB::table('v_user_rego_items')
+//      ->select('itemname','price')
+//      ->where('userid',Auth::id())
+//      ->get();
+//    $regoitemtotal = 0;
 //    var_dump(Auth::id()); die();
   @endphp
   @if(env('APP_ENV') === 'local')
