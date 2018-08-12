@@ -40,9 +40,9 @@
       ->where('userid',Auth::id())
       ->get();
     $regoitemtotal = 0;
-    var_dump(Auth::id()); die();
+//    var_dump(Auth::id()); die();
   @endphp
-  @if(env('APP_ENV') === 'local' || Auth::id() === 1)
+  @if(env('APP_ENV') === 'local')
     <table class="table table-sm">
       <thead>
         <tr>
