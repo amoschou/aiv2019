@@ -81,7 +81,7 @@
   </div>
 
   <p>Payments can be made by debit/credit card (Including international cards) at <a href="/payments/checkout?ref={{ $accountref }}">https://www.aiv.org.au/payments/checkout?ref={{ $accountref }}</a></p>
-  <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Number&nbsp;027885840.</p>
+  <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Account number&nbsp;027885840, Account name&nbsp;<em>AIVCF Adelaide</em>.</p>
   
   <p>Fees are available from <a href="/participate/choir">https://www.aiv.org.au/participate/choir</a> and the cost of any merchandise sales or music sales are additional.</p>
   <p>Complete payment by the published timeline (on page 2 of <a href="/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>)</p>
@@ -228,7 +228,7 @@
       <div class="alert alert-success rounded-0" role="alert">
         <p class="h4">Registration is complete</p>
         <hr>
-        <p>Please make sure that your respones are all correct and complete your payment by the published timeline (on page 2 of <a href="http://aiv2019.master/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>).</p>
+        <p>Please make sure that your respones are all correct and complete your payment by the published timeline (on page 2 of <a href="/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>).</p>
         <p class="mb-0">You have agreed to follow the <a href="{{ route('conduct') }}">code of conduct</a>.</p>
       </div>
     @else

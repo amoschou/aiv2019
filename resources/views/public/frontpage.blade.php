@@ -41,10 +41,9 @@
     Choristers from all over Australia are taking part in the festival.
   </div>
   <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="/participate/choir">Read more</a>
-    {{--
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="/participate/choir/register">Sign up</a>
-    --}}
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="/documents/newsbulletins/aurora-adelaideiv2019.pdf">Download information</a><br>
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="/participate/choir">Read more</a><br>
+    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="/home">Sign up</a>
   </div>
 </div>
 
