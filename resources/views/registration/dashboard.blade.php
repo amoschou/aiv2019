@@ -36,7 +36,11 @@
   
   @if(env('APP_ENV') === 'local' || Auth::id() === 1)
     @php
-      $regoitems = DB::table('v_user_rego_items')
+      $regoitems1 = DB::table('v_user_rego_items_1')
+        ->select('itemname','price')
+        ->where('userid',Auth::id())
+        ->get();
+      $regoitems2 = DB::table('v_user_rego_items_2')
         ->select('itemname','price')
         ->where('userid',Auth::id())
         ->get();
@@ -50,7 +54,14 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($regoitems as $regoitem)
+        @foreach($regoitems11 as $regoitem)
+          @php $regoitemtotal += $regoitem->price; @endphp
+          <tr>
+            <td>{{ $regoitem->itemname }}</td>
+            <td class="text-right">{{ $regoitem->price }}</td>
+          </tr>
+        @endforeach
+        @foreach($regoitems2 as $regoitem)
           @php $regoitemtotal += $regoitem->price; @endphp
           <tr>
             <td>{{ $regoitem->itemname }}</td>
