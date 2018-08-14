@@ -34,7 +34,7 @@
   <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
   <p>Registration sections that you need to respond to will remain highlighted until they are submitted.</p>
   
-  @if(env('APP_ENV') === 'local' || Auth::id() === 1)
+  @if(env('APP_ENV') === 'local' || Auth::id() === 1 || True)
     @php
       $regoitems1 = DB::table('v_user_rego_items_1')
         ->select('itemname','price')

@@ -675,8 +675,16 @@ ORDER BY
                        then 1
                        when matchtype = 'not?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NULL
                        then 1
-                       when matchtype = 'not?radio' AND JSON_SEARCH(responsejson,'one',responsematch) IS NOT NULL
-                       then 1
+    when
+      matchtype = 'not?radio'
+      AND
+      responsejson IS NULL
+    then 0
+    when
+      matchtype = 'not?radio'
+      AND
+      JSON_SEARCH(responsejson,'one',responsematch) IS NULL
+    then 1
                        else
                        0
                      end as result,
