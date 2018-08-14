@@ -650,71 +650,6 @@ ORDER BY
             itemord");
         DB::statement("
           CREATE VIEW v_user_rego_items_2 AS
-          WITH A AS (
-            (
-              select userid,questionshortname,'' as `char`,json_length(json_remove(responsejson,json_unquote(json_search(responsejson,'one','hiddeninput')))) as qty from rego_responses where questionshortname in (select questionshortname from rego_flags where matchtype = 'COUNT')
-            )
-            union
-            (
-              SELECT userid,questionshortname,'' as `char`, json_unquote(responsejson) as qty FROM rego_responses WHERE questionshortname in (SELECT questionshortname FROM rego_flags WHERE matchtype = 'INTEGER')
-            )
-            union
-            (
-              SELECT
-                userid,
-                questionshortname,
-                '' as `char`,
-                sum(json_unquote(JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']')))) AS qty
-              FROM rego_responses
-                   JOIN
-                   ( SELECT seq AS idx FROM seq_0_to_99 ) AS indexes
-              WHERE
-                json_unquote(JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']'))) <> 'null'
-                AND
-                questionshortname in (select questionshortname from rego_flags where matchtype = 'SUMINTEGER')
-              GROUP BY
-                userid,questionshortname
-              ORDER BY
-                userid,foritem,questionshortname
-            )
-            union
-            (
-              select
-                userid,
-                questionshortname,
-                substr(bottletypes from 1 for 1) as `char`,
-                count(bottletypes) qty
-              from
-              (
-                select
-                  userid,
-                  questionshortname,
-                  COALESCE(
-                    json_unquote(json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx))),
-                    json_unquote(json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')))
-                  ) AS bottletypes
-                from
-                  rego_responses
-                  join
-                  ( SELECT seq AS idx FROM seq_0_to_99 ) AS indexes
-                where
-                  questionshortname in (
-                    select questionshortname from rego_flags
-                    where matchtype = 'COUNTCHECKBOXWITHCHAR'
-                  )
-                  and
-                  (
-                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx)) <> 'null'
-                    or
-                    json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')) <> 'null'
-                  )
-              ) U
-              group by
-                userid,
-                questionshortname,
-                `char`
-            )
-          )
           SELECT
             userid,
             itemshortname,
@@ -730,19 +665,103 @@ ORDER BY
                 purchaseitemshortname as itemshortname,
                 qty
               FROM
-                A
+                (
+                              (
+                                select
+                                  userid,
+                                  questionshortname,
+                                  '' as `char`,
+                                  json_length(json_remove(responsejson,json_unquote(json_search(responsejson,'one','hiddeninput')))) as qty
+                                from
+                                  rego_responses
+                                where
+                                  questionshortname in (
+                                    select questionshortname from rego_flags where matchtype = 'COUNT'
+                                  )
+                                  and
+                                  json_length(json_remove(responsejson,json_unquote(json_search(responsejson,'one','hiddeninput')))) > 0
+                              )
+                              union
+                              (
+                                SELECT
+                                  userid,
+                                  questionshortname,
+                                  '' as `char`,
+                                  cast(json_unquote(responsejson) as integer) as qty
+                                FROM
+                                  rego_responses
+                                WHERE
+                                  questionshortname in (
+                                    SELECT questionshortname FROM rego_flags WHERE matchtype = 'INTEGER'
+                                  )
+                                  AND
+                                  json_unquote(responsejson) <> 'null'
+                              )
+                              union
+                              (
+                                SELECT
+                                  userid,
+                                  questionshortname,
+                                  '' as `char`,
+                                  sum(cast(json_unquote(JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']'))) as int)) AS qty
+                                FROM rego_responses
+                                     JOIN
+                                     ( SELECT seq AS idx FROM seq_0_to_99 ) AS indexes
+                                WHERE
+                                  json_unquote(JSON_EXTRACT(json_extract(responsejson,'$.*'), CONCAT('$[', idx, ']'))) <> 'null'
+                                  AND
+                                  questionshortname in (select questionshortname from rego_flags where matchtype = 'SUMINTEGER')
+                                GROUP BY
+                                  userid,questionshortname
+                                ORDER BY
+                                  userid,foritem,questionshortname
+                              )
+                              union
+                              (
+                                select
+                                  userid,
+                                  questionshortname,
+                                  substr(bottletypes from 1 for 1) as `char`,
+                                  count(bottletypes) qty
+                                from
+                                (
+                                  select
+                                    userid,
+                                    questionshortname,
+                                    COALESCE(
+                                      json_unquote(json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx))),
+                                      json_unquote(json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')))
+                                    ) AS bottletypes
+                                  from
+                                    rego_responses
+                                    join
+                                    ( SELECT seq AS idx FROM seq_0_to_99 ) AS indexes
+                                  where
+                                    questionshortname in (
+                                      select questionshortname from rego_flags
+                                      where matchtype = 'COUNTCHECKBOXWITHCHAR'
+                                    )
+                                    and
+                                    (
+                                      json_extract(json_extract(responsejson,'$.checkbox'), concat('$.',idx)) <> 'null'
+                                      or
+                                      json_extract(json_extract(responsejson,'$.checkbox'), concat('$[',idx,']')) <> 'null'
+                                    )
+                                ) U
+                                group by
+                                  userid,
+                                  questionshortname,
+                                  `char`
+                              )
+                ) V
                 JOIN
                 rego_flags ON (
-                  A.questionshortname = rego_flags.questionshortname
+                  V.questionshortname = rego_flags.questionshortname
                   AND responsematch = `char`
                 )
-              WHERE
-                qty <> 'null'
             ) B
             NATURAL JOIN
             rego_purchaseitems
-          WHERE
-            qty <> 'null'
           ORDER BY
             userid,
             itemord");
