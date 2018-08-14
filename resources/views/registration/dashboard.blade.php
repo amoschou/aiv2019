@@ -34,14 +34,14 @@
   <p>Use the navigation on the left (or above on small screens) to find your way around here.</p>
   <p>Registration sections that you need to respond to will remain highlighted until they are submitted.</p>
   
-  @php
-    $regoitems = DB::table('v_user_rego_items')
-      ->select('itemname','price')
-      ->where('userid',Auth::id())
-      ->get();
-    $regoitemtotal = 0;
-  @endphp
   @if(env('APP_ENV') === 'local' || Auth::id() === 1)
+    @php
+      $regoitems = DB::table('v_user_rego_items')
+        ->select('itemname','price')
+        ->where('userid',Auth::id())
+        ->get();
+      $regoitemtotal = 0;
+    @endphp
     <table class="table table-sm">
       <thead>
         <tr>
