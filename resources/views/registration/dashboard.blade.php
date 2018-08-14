@@ -54,7 +54,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach($regoitems11 as $regoitem)
+        @foreach($regoitems1 as $regoitem)
           @php $regoitemtotal += $regoitem->price; @endphp
           <tr>
             <td>{{ $regoitem->itemname }}</td>
