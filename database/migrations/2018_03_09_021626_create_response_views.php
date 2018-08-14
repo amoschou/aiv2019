@@ -589,7 +589,7 @@ ORDER BY
             itemshortname,
             itemname,
             price as unitprice,
-            1 as qty,
+            cast(1 as int) as qty,
             price,
             itemord
           from
@@ -597,14 +597,13 @@ ORDER BY
               SELECT
                 userid,
                 itemshortname,
-                min(result) as includeswitch,
-                itemord
+                min(result) as includeswitch
               FROM
-                (
+                ( ---- b
                   select
+                    userid,
                     questionshortname,
-                    matchtype,responsematch,responsejson,
-                    purchaseitemshortname as itemshortname,
+                    itemshortname,
                     cast(case
                       when matchtype = '?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NOT NULL
                       then 1
@@ -612,34 +611,32 @@ ORDER BY
                       then 1
                       else
                       0
-                    end as integer) as result,
-                    responseid,
-                    userid
+                    end as integer) as result
                   from
-                  (
+                  ( ---- a
                     select
-                      id as userid,
+                      userid,
                       questionshortname,
                       matchtype,
                       responsematch,
-                      purchaseitemshortname
+                      purchaseitemshortname as itemshortname,
+                      responsejson
                     from
                       rego_flags
-                      cross join
-                      iv_users
+                        cross join
+                      (select id as userid from iv_users) z
+                        left join
+                      rego_responses
+                        using (questionshortname,userid)
+                    where
+                      matchtype in ('?','not?')
                   ) a
-                    left join
-                    rego_responses
-                    using (questionshortname,userid)
                   order by
                     userid
                 ) b
-                join
-                rego_purchaseitems using (itemshortname)
               GROUP BY
                 userid,
-                itemshortname,
-                itemord
+                itemshortname
             ) c
             natural join
             rego_purchaseitems
