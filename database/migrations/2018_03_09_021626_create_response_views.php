@@ -582,6 +582,7 @@ ORDER BY
         DB::statement("CREATE VIEW v_user_rego_items as select * from v_user_rego_items_1 union select * from v_user_rego_items_2 order by userid,itemord");
         break;
       case('mysql'):
+/*
         DB::statement("
           CREATE VIEW v_user_rego_items_1 AS
           select
@@ -645,6 +646,76 @@ ORDER BY
           order by
             userid,
             itemord");
+*/
+        DB::statement("
+           CREATE VIEW v_user_rego_items_1 AS
+           select
+             userid,
+             itemshortname,
+             itemname,
+             price as unitprice,
+             1 as qty,
+             price,
+             itemord
+           from
+             (
+               SELECT
+                 userid,
+                 itemshortname,
+                 min(result) as include,
+                 itemord
+               FROM
+                 (
+                   select
+                     questionshortname,
+                     matchtype,responsematch,responsejson,
+                     purchaseitemshortname as itemshortname,
+                     case
+                       when matchtype = '?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NOT NULL
+                       then 1
+                       when matchtype = 'not?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NULL
+                       then 1
+                       when matchtype = 'not?radio' AND JSON_SEARCH(responsejson,'one',responsematch) IS NOT NULL
+                       then 1
+                       else
+                       0
+                     end as result,
+                     responseid,
+                     userid
+                   from
+                   (
+                     select
+                       id as userid,
+                       questionshortname,
+                       matchtype,
+                       responsematch,
+                       purchaseitemshortname
+                     from
+                       rego_flags
+                       cross join
+                       iv_users
+                   ) a
+                     left join
+                     rego_responses
+                     using (questionshortname,userid)
+                   order by
+                     userid
+                 ) b
+                 join
+                 rego_purchaseitems using (itemshortname)
+               GROUP BY
+                 userid,
+                 itemshortname,
+                 itemord
+             ) c
+             natural join
+             rego_purchaseitems
+           where
+             include = 1
+           order by
+             userid,
+             itemord");
+
         DB::statement("
           CREATE VIEW v_user_rego_items_2 AS
           SELECT
