@@ -502,7 +502,7 @@ class CreateResponseViews extends Migration
             SELECT
               userid,
               itemshortname,
-              Bool_and(COALESCE(result,'f')) as include,
+              Bool_and(COALESCE(result,'f')) as includeswitch,
               itemord
             FROM
               b
@@ -526,7 +526,7 @@ class CreateResponseViews extends Migration
             natural join
             rego_purchaseitems
           where
-            include = 't'
+            includeswitch = 't'
           order by
             userid,
             itemord");
@@ -597,7 +597,7 @@ ORDER BY
               SELECT
                 userid,
                 itemshortname,
-                min(result) as include,
+                min(result) as includeswitch,
                 itemord
               FROM
                 (
@@ -605,14 +605,14 @@ ORDER BY
                     questionshortname,
                     matchtype,responsematch,responsejson,
                     purchaseitemshortname as itemshortname,
-                    case
+                    cast(case
                       when matchtype = '?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NOT NULL
                       then 1
                       when matchtype = 'not?' AND JSON_SEARCH(responsejson,'one',responsematch) IS NULL
                       then 1
                       else
                       0
-                    end as result,
+                    end as integer) as result,
                     responseid,
                     userid
                   from
@@ -644,7 +644,7 @@ ORDER BY
             natural join
             rego_purchaseitems
           where
-            include = 1
+            includeswitch = 1
           order by
             userid,
             itemord");

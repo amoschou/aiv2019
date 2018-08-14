@@ -36,13 +36,10 @@
   
   @if(env('APP_ENV') === 'local' || Auth::id() === 1)
     @php
-      $regoitems = DB::table('v_user_rego_items_1')->selectRaw('itemname,price')
-        ->whereRaw('userid = '.Auth::id())
+      $regoitems = DB::table('v_user_rego_items_2')
+        ->select('itemname','price')
+        ->where('userid',Auth::id())
         ->get();
-//      $regoitems = DB::table('v_user_rego_items_1')
-//        ->select('itemname','price')
-//        ->where('userid',Auth::id())
-//        ->get();
       $regoitemtotal = 0;
     @endphp
     <table class="table table-sm">
