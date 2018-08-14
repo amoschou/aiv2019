@@ -36,7 +36,7 @@
   
   @if(env('APP_ENV') === 'local' || Auth::id() === 1)
     @php
-      $regoitems = DB::table('v_user_rego_items')
+      $regoitems = DB::table('v_user_rego_items_1')
         ->select('itemname','price')
         ->where('userid',Auth::id())
         ->get();
