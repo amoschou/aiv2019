@@ -642,4 +642,23 @@ class HomeController extends Controller
   
   
   
+  
+    public function invoice (Request $request)
+    {
+      $firstname = json_decode(DB::table('rego_responses')->where('questionshortname','firstname')->where('userid',Auth::id())->value('responsejson'));
+      $lastname = json_decode(DB::table('rego_responses')->where('questionshortname','lastname')->where('userid',Auth::id())->value('responsejson'));
+      $address = json_decode(DB::table('rego_responses')->where('questionshortname','post')->where('userid',Auth::id())->value('responsejson'));
+      $context = [
+        'sectionid' => NULL,
+        'iscommittee' => $request->user()->iscommittee,
+        'name' => "$firstname $lastname",
+        'address' => $address,
+        'email' => $request->user()->email,
+        'accountref' => $request->user()->accountref
+      ];
+      return view('registration.business.invoice',$context);
+    }
+
+  
+  
 }

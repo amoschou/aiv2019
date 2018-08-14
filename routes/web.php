@@ -75,6 +75,8 @@ Route::get('/home/registration/{questionshortname}/{key}/{filename}', 'HomeContr
 
 Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpost')->name('home.form.post');
 
+Route::get('/home/invoice', 'HomeController@invoice')->name('home.invoice');
+
 
 Route::get(
   '/home/committee',

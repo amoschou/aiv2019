@@ -68,7 +68,7 @@ class SetupRegistrationQuestions extends Migration
         'subsectioncode' => NULL,
         'questionshortname' => 'doing',
         'questiontext' => 'How are you participating in this festival?',
-        'questiondescr' => NULL,
+        'questiondescr' => '‘As a chorister’ includes camp and singing only. ‘At social events’ includes the academic dinner, PCP and BBQ.',
         'responseformat' => 'checkbox:As a chorister^singing|At social events^social|Hosting billeted choristers^billeting',
         'html5required' => True,
         'responsevalidationlogic' => 'required',

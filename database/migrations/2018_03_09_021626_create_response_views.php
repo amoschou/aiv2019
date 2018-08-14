@@ -103,8 +103,8 @@ class CreateResponseViews extends Migration
       ],
       [
         'itemshortname' => 'fee_camp',
-        'itemname' => 'Camp fee',
-        'price' => 200,
+        'itemname' => 'Registration: Camp and accommodation excluding choral participation',
+        'price' => 325,
         'itemord' => 2
       ],
       [
@@ -440,6 +440,12 @@ class CreateResponseViews extends Migration
         'responsematch' => '',
         'purchaseitemshortname' => 'merch_tshirt',
       ]
+      [
+        'questionshortname' => 'doing',
+        'matchtype' => '?',
+        'responsematch' => 'camp',
+        'purchaseitemshortname' => 'fee_camp',
+      ]
 
     ]);
 
@@ -535,7 +541,17 @@ class CreateResponseViews extends Migration
 WITH A AS
 (
 
-select userid,questionshortname,'' as char,json_array_length((responsejson::jsonb - 'hiddeninput')::json) as qty from rego_responses where questionshortname in (SELECT questionshortname FROM rego_flags WHERE matchtype = 'COUNT')
+select
+  userid,
+  questionshortname,
+  '' as char,
+  json_array_length((responsejson::jsonb - 'hiddeninput')::json) as qty
+from
+  rego_responses
+where
+  questionshortname in (
+    SELECT questionshortname FROM rego_flags WHERE matchtype = 'COUNT'
+  )
 
 union
 
@@ -547,7 +563,48 @@ select userid,questionshortname,'' as char,sum(value::INTEGER) as qty from rego_
 
 union
 
-SELECT userid,questionshortname,SUBSTRING(value FROM 1 FOR 1) AS size,COUNT(value) AS qty FROM rego_responses,json_each_text(responsejson#>'{checkbox}') WHERE questionshortname in (select questionshortname from rego_flags where matchtype = 'COUNTCHECKBOXWITHCHAR') group by userid,questionshortname,size
+
+select
+  userid,
+  questionshortname,
+  SUBSTRING(value FROM 1 FOR 1) AS size,
+  COUNT(value) as qty
+from
+  rego_responses,
+  json_array_elements_text(responsejson#>'{checkbox}')
+where
+  questionshortname in (
+    select questionshortname from rego_flags
+    where matchtype = 'COUNTCHECKBOXWITHCHAR'
+  )
+  and
+  json_typeof(responsejson#>'{checkbox}') = 'array'
+GROUP BY
+  userid,
+  questionshortname,
+  size
+union
+select
+  userid,
+  questionshortname,
+  SUBSTRING(value FROM 1 FOR 1) AS size,
+  COUNT(value) as qty
+from
+  rego_responses,
+  json_each_text(responsejson#>'{checkbox}')
+where
+  questionshortname in (
+    select questionshortname from rego_flags
+    where matchtype = 'COUNTCHECKBOXWITHCHAR'
+  )
+  and
+  json_typeof(responsejson#>'{checkbox}') = 'object'
+GROUP BY
+  userid,
+  questionshortname,
+  size
+
+
 
 ),
 B AS (
@@ -575,7 +632,7 @@ FROM
   B
   NATURAL JOIN
   rego_purchaseitems
-WHERE qty IS NOT NULL
+WHERE qty IS NOT NULL and qty <> 0
 ORDER BY
   userid,
   itemord");
