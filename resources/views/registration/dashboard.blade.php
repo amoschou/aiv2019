@@ -10,13 +10,13 @@
   {{--
     <div class="row">
       <div class="col">
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-success rounded-0" role="alert">
           <h4 class="alert-heading">Registration status</h4>
           <p class="mb-0">Complete</p>
         </div>
       </div>
       <div class="col">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger rounded-0" role="alert">
           <h4 class="alert-heading">Financial status</h4>
           <p class="mb-0">Not paid</p>
         </div>
@@ -35,6 +35,7 @@
         ->get();
       $regoitemtotal = 0;
     @endphp
+    {{--
     <table class="table table-sm">
       <thead>
         <tr>
@@ -58,6 +59,7 @@
         </tr>
       </tfoot>
     </table>
+    --}}
   @endif
   
   <h2>Payments</h2>
@@ -66,9 +68,11 @@
     $accountref = DB::table('iv_users')->select('accountref')->where('id',Auth::id())->first()->accountref;
   @endphp
   <div class="alert alert-info rounded-0" role="alert">
-    <p>Your account reference number is:</p>
-    <p class="h4">{{ $accountref }}</p>
+    <p class="">Total amount payable:</p>
+    <p class="lead">${{ DB::table('v_user_rego_items')->where('userid',Auth::id())->sum('price') }}</p>
     <hr>
+    <p class="">Your account reference number is:</p>
+    <p class="lead">{{ $accountref }}</p>
     <p class="mb-0">Remember to include your account reference number whenever you make a payment.</p>
   </div>
 

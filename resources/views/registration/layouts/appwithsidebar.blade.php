@@ -150,7 +150,25 @@
     @if($registrationiscomplete)
       <div class="alert alert-success rounded-0" role="alert">
         <p class="h4">Registration is complete</p>
-        <hr>
+        <p>Your included activities and events are:</p>
+        @php
+          switch()
+          {
+            case('pgsql'):
+              $caststring = '::TEXT';
+              break;
+            case('mysql'):
+              $caststring = '';
+              break;
+          }
+          $q = "with a as (select userid,checklistdescr,'Yes' as tickbox from rego_checklist natural join v_user_rego_items order by userid,checklistord), b as (select distinct checklistdescr,checklistord from rego_checklist), c as (select id as userid from iv_users) select userid,checklistdescr,coalesce(TEXT{$caststring},'No') as tickbox from (b cross join c) left join a using (userid,checklistdescr) where userid = ? order by userid,checklistord";
+          $checklist = DB::select($q,[Auth::id()]);
+        @endphp
+        <table class="table table-sm">
+          @foreach($checklist as $checklistitem)
+            <tr><td class="pl-0">{{ $checklistitem->checklistdescr }}</td><td class="pr-0">{{ $checklistitem->tickbox }}</td></tr>
+          @endforeach
+        </table>
         <p>Please make sure that your respones are all correct and complete your payment by the published timeline (on page 2 of <a href="/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>).</p>
         <p class="mb-0">You have agreed to follow the <a href="{{ route('conduct') }}">code of conduct</a>.</p>
       </div>
