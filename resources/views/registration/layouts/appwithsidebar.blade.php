@@ -152,7 +152,7 @@
         <p class="h4">Registration is complete</p>
         <p>Your included activities and events are:</p>
         @php
-          switch()
+          switch(config('database.default'))
           {
             case('pgsql'):
               $caststring = '::TEXT';
