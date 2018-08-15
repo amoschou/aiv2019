@@ -83,9 +83,11 @@
           <p class="card-text">This form works for both signing up on your first visit and logging in afterwards.</p>
           <p class="card-text">We don’t use passwords; instead, check your email for access.</p>
         </div>
+{{--
         <div class="card-footer border-primary bg-warning">
           <p class="card-text">Emails are failing to deliver to Hotmail and other Microsoft addresses, if you are having trouble and are using one of these addresses, please consider registering under a different address. We apologise for the inconvenience.</p>
         </div>
+--}}
       </div>
     </div>
   </div>
