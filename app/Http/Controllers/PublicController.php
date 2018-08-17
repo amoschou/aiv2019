@@ -120,7 +120,7 @@ class PublicController extends Controller
         [
           'Opening night party',
           [
-            'The theme of our festival is Northern Lights, and we invite you to bring a costume to match—think astronomical, think celestial bodies, think cool natural phenomena. The sky’s the limit! This will be held on the first night of <a href="#">camp</a>.',
+            'The theme of our festival is Northern Lights, and we invite you to bring a costume to match—think astronomical, think celestial bodies, think cool natural phenomena. The sky’s the limit! This will be held on the first night of <a href="/camp">camp</a>.',
           ],
         ],
         [
@@ -168,7 +168,7 @@ class PublicController extends Controller
           'Camp',
           [
             'A big part of the IV rehearsal process is the rehearsal camp. This doesn’t involve tents and bonfires, but marshmallows and singalongs are perfectly acceptable! It’s the part of the festival where we travel to a location together, stay there for a few nights, and buckle down to some intensive rehearsing. We generally rehearse for six hours a day, with breaks in between for meals.',
-            'Not only is camp a big help in learning the music, it’s a big factor in creating the social atmosphere of an IV—there are <a href="#">social events</a> every evening, accommodation is in shared dormitories to help you get to know your new friends, and we spend time together in rehearsals, at meal times, and at breaks. You’re guaranteed to make friends and have fun!',
+            'Not only is camp a big help in learning the music, it’s a big factor in creating the social atmosphere of an IV—there are <a href="/social">social events</a> every evening, accommodation is in shared dormitories to help you get to know your new friends, and we spend time together in rehearsals, at meal times, and at breaks. You’re guaranteed to make friends and have fun!',
             'Our camp will be held in <strong>Nunyara Conference Centre</strong> in Belair in the Adelaide Hills, 20 minutes from the Adelaide CBD. The historic building, with its spacious grounds and spectacular views of the city, is named after the Kaurna word for ‘place of healing’. Camp is held over four nights from <strong>11–15 January</strong>.',
             'The rest of the rehearsals will be held on the North Terrace campus of the University of Adelaide in the CBD. Our rehearsal policy doesn’t differentiate between camp and non-camp rehearsals, and you will need to ensure you attend the majority of the rehearsals at both locations. Trust us—they’re lots of fun, you won’t want to miss out!',
           ],
@@ -178,7 +178,7 @@ class PublicController extends Controller
           [
             'If you’re a student, you’ll be staying in the home of one of our friendly Adelaide choristers during the time that you’re not at camp. If you’re not a student, you will need to arrange your own accommodation. We can recommend St Ann’s College or Aquinas College, but you’re free to choose another place if you wish.',
             'If you are based in Adelaide, you may wish to help us out by hosting one of our lovely student registrants during the time they’re not at camp.',
-            'Either way, our <a href="#">transport and billeting officer</a> is the person to talk to if you need help!',
+            'Either way, our <a href="/committee">transport and billeting officer</a> is the person to talk to if you need help!',
           ],
         ],
       ]
@@ -203,8 +203,8 @@ class PublicController extends Controller
         [
           'Experience',
           [
-            'Any amount of experience with singing and reading music will certainly assist you with learning the repertoire for the concert more easily. However, IV is designed to be an immersive experience, and the idea is that we all start on an equal footing, and learn together. Additionally, a big part of our rehearsal structure involves <a href="#">camp</a>, which helps to really consolidate the learning process.',
-            'IVs are incredibly fun, with an equal emphasis on intensive rehearsals, producing a high-quality concert that we can be proud to be a part of, and enjoyable <a href="#">social activities</a> that will ensure you make lifelong friendships. You’ll meet experienced choristers, nervous freshers, and lots of people in between, and we all come together to create something beautiful, and have a lot of fun doing it.',
+            'Any amount of experience with singing and reading music will certainly assist you with learning the repertoire for the concert more easily. However, IV is designed to be an immersive experience, and the idea is that we all start on an equal footing, and learn together. Additionally, a big part of our rehearsal structure involves <a href="/camp">camp</a>, which helps to really consolidate the learning process.',
+            'IVs are incredibly fun, with an equal emphasis on intensive rehearsals, producing a high-quality concert that we can be proud to be a part of, and enjoyable <a href="/social">social activities</a> that will ensure you make lifelong friendships. You’ll meet experienced choristers, nervous freshers, and lots of people in between, and we all come together to create something beautiful, and have a lot of fun doing it.',
             'Music and good times—what more could a chorister ask for?',
           ]
         ]
@@ -248,10 +248,10 @@ class PublicController extends Controller
           [
             'We’d like to invite you to participate in the 70th Australian Intervarsity Choral Festival, to be held in January 2019 in Adelaide!',
             'We’ve been hard at work hand-crafting a solid gold festival for all of you, as befits a big anniversary year. We hope it will be filled with fun, friendship, good times, and of course—music!',
-            'The theme of our festival is the Northern Lights. This is reflected in both our <a href="#">music</a> and our <a href="#">social events</a>, and we encourage you to get into the celestial spirit!',
+            'The theme of our festival is the Northern Lights. This is reflected in both our <a href="/concert">music</a> and our <a href="/social">social events</a>, and we encourage you to get into the celestial spirit!',
             'We’ve got some amazing repertoire planned, featuring lots of wonderful modern choral music, and including an Australian première performance of a major work—the Norwegian composer Kim Arnesen’s Grammy-nominated <em>Magnificat</em>. We will be working with some excellent musicians, and performing in a beautiful venue.',
             'But that’s not all—we have a full calendar of fun social activities in the works, from casual pub nights all the way up to the dazzling academic dinner. We’ll also be holding a rehearsal camp with lots of fun events that we know you’ll love being a part of.',
-            'Please read through our website for details—in particular, please check out our bulletin sheets. Feel free to <a href="#">get in touch with us</a> if you have any questions.',
+            'Please read through our website for details—in particular, please check out our bulletin sheets. Feel free to <a href="/contact">get in touch with us</a> if you have any questions.',
             'It’s a pleasure to invite you to join us in Adelaide, and we look forward to meeting you next January!',
           ]
         ]
