@@ -40,8 +40,6 @@
       data-parent="#accordion">
             <div class="list-group list-group-flush">
               <a class="list-group-item list-group-item-action {{ Request::is('home') ? 'text-primary' : 'text-muted' }}" href="/home">Home</a>
-            </div>
-            <div class="list-group list-group-flush">
               <a class="list-group-item list-group-item-action {{ Request::is('home/invoice') ? 'text-primary' : 'text-muted' }}" href="/home/invoice">Invoice</a>
             </div>
           </div>

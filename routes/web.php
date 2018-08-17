@@ -22,8 +22,15 @@
 Route::view('/form','registration.dev.formbuilder',[]);
  
 Route::get('/', 'PublicController@frontpage')->name('public.frontpage');
+Route::get('/about', 'PublicController@about')->name('public.about');
+Route::get('/camp', 'PublicController@camp')->name('public.camp');
+Route::get('/social', 'PublicController@social')->name('public.social');
+Route::get('/fees', 'PublicController@fees')->name('public.fees');
+Route::get('/bulletins', 'PublicController@bulletins')->name('public.bulletins');
+Route::get('/committee', 'PublicController@aivcfadelaide')->name('aivcfadelaide');
+
+
 Route::get('/adelaideiv', 'PublicController@adelaideiv')->name('adelaideiv');
-Route::get('/aivcfadelaide', 'PublicController@aivcfadelaide')->name('aivcfadelaide');
 
 Route::get('/participate', 'PublicController@participate')->name('participate');
 Route::get('/participate/fundraising', 'PublicController@participatefundraising')->name('participatefundraising');
