@@ -26,7 +26,7 @@
         <div class="portfolio-logo"></div>
       </a>
       <span class="mdl-layout__title mdl-layout--large-screen-only">70th Australian Intervarsity Choral Festival, Adelaide: 10–20 January 2019</span>
-      <span class="mdl-layout__title mdl-layout--SMALL-screen-only">70th AIVCF, Adelaide: 10–20 January 2019</span>
+      <span class="mdl-layout__title mdl-layout--small-screen-only">70th AIVCF, Adelaide: 10–20 January 2019</span>
     </span>
   </div>
   <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
