@@ -22,7 +22,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-              <li><a class="nav-link" href="{{ url('/') }}">Main site</a></li>
+              <li><a class="nav-link" href="{{ url('/choristers') }}">Main site</a></li>
           </ul>
           <ul class="navbar-nav ml-auto">
             @guest

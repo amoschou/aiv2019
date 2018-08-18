@@ -6,6 +6,24 @@ use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
+  public function choristers()
+  {
+    $context = [
+      'imagesource' => 'public/images/image-2.jpg',
+      'activetab' => 'choristers',
+      'titletext' => 'Choristers',
+      'essay' => [
+        [
+          'Register',
+          [
+            'You can register for AIV using the form at <a href="/home">www.aiv.org.au/home</a>.',
+            'This is also the place to go if you wish to order merchandise, host interstate student choristers, or attend our social events.',
+          ]
+        ],
+      ]
+    ];
+    return view('public.index', $context);
+  }
   public function bulletins()
   {
     $context = [
@@ -369,7 +387,7 @@ class PublicController extends Controller
             . committeeperson('Phoebe Knight','Concert manager','phoebe')
             . committeeperson('Waseem Kamleh','Librarian','waseem')
             . committeeperson('Timothy Sheehan','Camp officer','tim')
-            . committeeperson('Genevie Spalding','Publicity officer','eve')
+            . committeeperson('Genevieve Spalding','Publicity officer','eve')
             . committeeperson('Emily Filmer','Grants and merchandise officer','emily')
             . committeeperson('Alistair Knight','Transport and billeting officer','alistair')
             . committeeperson('Simone Corletto','Social secretary','simone')
@@ -391,7 +409,7 @@ class PublicController extends Controller
         [
           'Participate',
           [
-            'You can register for AIV using the form at <a href="https://www.aiv.org.au/home">www.aiv.org.au/home</a>.',
+            'You can register for AIV using the form at <a href="/home">www.aiv.org.au/home</a>.',
             'This is also the place to go if you wish to order merchandise, host interstate student choristers, or attend our social events.',
           ]
         ],
