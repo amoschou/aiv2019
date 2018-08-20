@@ -348,7 +348,7 @@ class PublicController extends Controller
     function committeeperson($Name,$Subtitle,$Email,$hasPhoto = True,$Plural = False)
     {
       $out = '
-        <li class="mdl-list__item mdl-list__item--two-line">
+        <li class="mdl-list__item mdl-list__item--three-line">
           <span class="mdl-list__item-primary-content">';
       if($hasPhoto)
       {
@@ -359,7 +359,7 @@ class PublicController extends Controller
         $out .= '<i class="material-icons mdl-list__item-avatar">' . ($Plural ? 'people' : 'person') . '</i>';
       }
       $out .='<span>' . $Name . '</span>
-            <span class="mdl-list__item-sub-title">' . $Subtitle . '<br>' . $Email . '@aiv.org.au</span>
+            <span class="mdl-list__item-text-body">' . $Subtitle . '<br>' . $Email . '@aiv.org.au</span>
           </span>
         </li>';
       return $out;

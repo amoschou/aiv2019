@@ -168,6 +168,7 @@
           @endforeach
         </table>
         <p>Please make sure that your responses are all correct and complete your payment by the published timeline (on page 2 of <a href="/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>).</p>
+        <p>If there seems to be an error here, review your answers in ‘Essential details’.</p>
         <p class="mb-0">You have agreed to follow the <a href="{{ route('conduct') }}">code of conduct</a>.</p>
       </div>
     @else
