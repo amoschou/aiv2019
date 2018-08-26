@@ -22,7 +22,7 @@ class PublicController extends Controller
         ],
       ]
     ];
-    return view('public.index', $context);
+    return view('public.choristers.index', $context);
   }
   public function bulletins()
   {

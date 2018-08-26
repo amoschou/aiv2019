@@ -85,6 +85,7 @@
             <div class="mdl-grid portfolio-copy">
               <div class="mdl-cell mdl-cell--12-col mdl-card__supporting-text no-padding ">
                 @yield('cellsupportingtext')
+                @yield('extracontent')
               </div>
             </div>
           </div>
