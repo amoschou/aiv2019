@@ -1,8 +1,6 @@
 @extends('public.index')
 
 @section('extracontent')
-<h3>Who’s coming</h3>
-<p>So far, we have choristers joining the festival from the following cities and choirs.</p>
 @php
   $q0 = "WITH a AS (
           SELECT *
@@ -34,29 +32,31 @@
           count DESC";
   $citycount = DB::select($q0,[]);
   $choircount = DB::select($q,[]);
-//$citycount = [];
-//$choircount = [];
 @endphp
-  <table>
+<h3>Who’s coming</h3>
+<p>So far, we have choristers joining the festival from the following cities:</p>
+  <table class=mdl-data-table mdl-js-data-table">
     <thead>
-      <tr><th>City</th><th>Choristers</th></tr>
+      <tr><th class="mdl-data-table__cell--non-numeric">City</th><th>Choristers</th></tr>
     </thead>
     <tbody>
       @foreach($citycount as $cityrow)
         <tr>
-          <th>{{ $cityrow->city }}</th><td>{{ $cityrow->numfrom }}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{ $cityrow->city }}</td><td>{{ $cityrow->numfrom }}</td>
         </tr>
       @endforeach
     </tbody>
   </table>
-  <table>
+  <p></p>
+<p>Made up from members of the following choirs:</p>
+  <table class=mdl-data-table mdl-js-data-table">
     <thead>
-      <tr><th>Choir</th><th>Choristers</th></tr>
+      <tr><th class="mdl-data-table__cell--non-numeric">Choir</th><th>Choristers</th></tr>
     </thead>
     <tbody>
       @foreach($choircount as $choirrow)
         <tr>
-          <th>{{ $choirrow->choirprintname }}</th><td>{{ $choirrow->count }}</td>
+          <td class="mdl-data-table__cell--non-numeric">{{ $choirrow->choirprintname }}</td><td>{{ $choirrow->count }}</td>
         </tr>
       @endforeach
     </tbody>
