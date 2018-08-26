@@ -4,6 +4,7 @@
 <h3>Who’s coming</h3>
 <p>So far, we have choristers joining the festival from the following cities and choirs.</p>
 @php
+
   $q = "SELECT
           choirname,
           choirshortname,
