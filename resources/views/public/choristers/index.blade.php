@@ -12,7 +12,8 @@
           count(userid) as count
         FROM (
           SELECT userid,choirname,choirshortname,concat(choirshortname,' (',choirname,')') as choirprintname FROM f_aicsachoirs
-          UNION SELECT userid,choirname,choirshortname,choirname as choirprintname FROM f_nonaicsachoirs
+          UNION
+          SELECT userid,choirname,choirshortname,concat(choirname,'') as choirprintname FROM f_nonaicsachoirs
         ) T
         GROUP BY
           choirname,
