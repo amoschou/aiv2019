@@ -32,6 +32,7 @@
           count DESC";
   $citycount = DB::select($q0,[]);
   $choircount = DB::select($q,[]);
+  $citytotal = 0;
 @endphp
 <h3>Who’s coming</h3>
 <p>So far, we have choristers joining the festival from the following cities:</p>
@@ -41,10 +42,14 @@
     </thead>
     <tbody>
       @foreach($citycount as $cityrow)
+        @php $citytotal = $citytotal + $cityrow->numfrom; @endphp
         <tr>
           <td class="mdl-data-table__cell--non-numeric">{{ $cityrow->city }}</td><td>{{ $cityrow->numfrom }}</td>
         </tr>
       @endforeach
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Other/unknown</td><td>{{ (DB::table('v_cols_essential')->where('doing_singing',1)->count()) - $citytotal }}</td>
+        </tr>
     </tbody>
   </table>
   <p></p>
@@ -62,3 +67,4 @@
     </tbody>
   </table>
 @stop
+
