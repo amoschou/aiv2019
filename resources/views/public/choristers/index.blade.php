@@ -14,12 +14,10 @@
           SELECT userid,1/count(choirshortname) AS scaled
           FROM a
           GROUP BY userid
-        ), c AS (
+        )
           SELECT city,ROUND(SUM(scaled)) as numfrom
           FROM a NATURAL JOIN b
-          GROUP BY city
-        )
-        SELECT * FROM c";
+          GROUP BY city";
   $q = "SELECT
           choirprintname,
           count(userid) as count
@@ -36,6 +34,8 @@
           count DESC";
   $citycount = DB::select($q0,[]);
   $choircount = DB::select($q,[]);
+//$citycount = [];
+//$choircount = [];
 @endphp
   <table>
     <thead>
