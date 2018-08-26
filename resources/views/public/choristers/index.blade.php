@@ -21,8 +21,9 @@
         ORDER BY
           count DESC";
 
-  $choircount = DB::select($q,[]);
+//  $choircount = DB::select($q,[]);
 @endphp
+{{--
   <table>
     <thead>
       <tr><th>Choir</th><th>Choristers</th></tr>
@@ -35,4 +36,5 @@
       @endforeach
     </tbody>
   </table>
+--}}
 @stop
