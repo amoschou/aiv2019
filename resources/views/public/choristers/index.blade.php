@@ -4,7 +4,7 @@
 <h3>Who’s coming</h3>
 <p>So far, we have choristers joining the festival from the following cities and choirs.</p>
 @php
-  $q = "WITH a AS (
+  $q0 = "WITH a AS (
           SELECT *
           FROM f_aicsachoirs
           UNION
@@ -20,21 +20,6 @@
           GROUP BY city
         )
         SELECT * FROM c";
-  $citycount = DB::select($q,[]);
-@endphp
-  <table>
-    <thead>
-      <tr><th>Choir</th><th>Choristers</th></tr>
-    </thead>
-    <tbody>
-      @foreach($citycount as $cityrow)
-        <tr>
-          <th>{{ $cityrow->city }}</th><td>{{ $cityrow->numfrom }}</td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-@php
   $q = "SELECT
           choirprintname,
           count(userid) as count
@@ -49,8 +34,21 @@
           choirprintname
         ORDER BY
           count DESC";
+  $citycount = DB::select($q0,[]);
   $choircount = DB::select($q,[]);
 @endphp
+  <table>
+    <thead>
+      <tr><th>City</th><th>Choristers</th></tr>
+    </thead>
+    <tbody>
+      @foreach($citycount as $cityrow)
+        <tr>
+          <th>{{ $cityrow->city }}</th><td>{{ $cityrow->numfrom }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
   <table>
     <thead>
       <tr><th>Choir</th><th>Choristers</th></tr>
