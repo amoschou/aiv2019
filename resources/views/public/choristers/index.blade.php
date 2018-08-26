@@ -21,7 +21,7 @@
         ORDER BY
           count DESC";
 
-//  $choircount = DB::select($q,[]);
+  $choircount = DB::select($q,[]);
 @endphp
 {{--
   <table>
