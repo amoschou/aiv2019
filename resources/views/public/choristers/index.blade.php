@@ -2,6 +2,17 @@
 
 @section('extracontent')
 @php
+  $q1 = "SELECT
+            CONCAT(UCASE(LEFT(voice,1)),SUBSTRING(VOICE,2)) AS voice,
+            COUNT(userid) as choristers
+          FROM
+            v_cols_choral
+          GROUP BY
+            voice ORDER BY
+            CASE voice WHEN 'soprano' THEN 1
+                       WHEN 'alto' THEN 2
+                       WHEN 'tenor' THEN 3
+                       WHEN 'bass' THEN 4 END";
   $q0 = "WITH a AS (
           SELECT *
           FROM f_aicsachoirs
@@ -30,11 +41,26 @@
           choirprintname
         ORDER BY
           count DESC";
+  $voicecount = DB::select($q1,[]);
   $citycount = DB::select($q0,[]);
   $choircount = DB::select($q,[]);
   $citytotal = 0;
 @endphp
 <h3>Who’s coming</h3>
+<p>The choir looks like:</p>
+  <table class=mdl-data-table mdl-js-data-table">
+    <thead>
+      <tr><th class="mdl-data-table__cell--non-numeric">Voice</th><th>Choristers</th></tr>
+    </thead>
+    <tbody>
+      @foreach($voicecount as $voicerow)
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">{{ $voicerow->voice }}</td><td>{{ $voicerow->choristers }}</td>
+        </tr>
+      @endforeach
+    </tbody>
+  </table>
+  <p></p>
 <p>So far, we have choristers joining the festival from the following cities:</p>
   <table class=mdl-data-table mdl-js-data-table">
     <thead>
