@@ -127,15 +127,16 @@ class HomeController extends Controller
   
   
   
-  public function bulkdata(Request $request, $sectionid)
+  public function privateinformationsection(Request $request, $sectionid)
   {
     $sectionshortname = DB::table('rego_sections')->where('sectionid',(int) $sectionid)->value('sectionshortname');
     $context = [
       'sectionshortname' => $sectionshortname,
       'accordionshow' => 'bulkdata',
       'iscommittee' => $request->user()->iscommittee,
+      'sectionid' => $sectionid
     ];
-    return view('registration.bulkdata',$context);
+    return view('registration.privateinformation.section',$context);
   }
   
   

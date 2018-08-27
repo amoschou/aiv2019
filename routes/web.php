@@ -85,6 +85,9 @@ Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpo
 
 Route::get('/home/invoice', 'HomeController@invoice')->name('home.invoice');
 
+Route::get('/home/privateinformation/section/{sectionid}', 'HomeController@privateinformationsection')->name('home.privateinformation.section')->middleware('committee');
+
+
 
 Route::get(
   '/home/committee',
