@@ -33,7 +33,7 @@
         FROM (
           SELECT userid,choirname,choirshortname,CONCAT(choirshortname,' (',choirname,')') as choirprintname FROM f_aicsachoirs
           UNION
-          SELECT userid,choirname,choirshortname,choirname as choirprintname FROM f_nonaicsachoirs
+          SELECT userid,choirname,choirshortname,CONCAT('',choirname) as choirprintname FROM f_nonaicsachoirs
         ) T
         GROUP BY
           choirname,
