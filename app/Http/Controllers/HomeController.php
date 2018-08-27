@@ -127,7 +127,7 @@ class HomeController extends Controller
   
   
   
-  public function privateinformationsection(Request $request, $sectionid)
+  public function personalinformationsection(Request $request, $sectionid)
   {
     $sectionshortname = DB::table('rego_sections')->where('sectionid',(int) $sectionid)->value('sectionshortname');
     $context = [
@@ -136,7 +136,7 @@ class HomeController extends Controller
       'iscommittee' => $request->user()->iscommittee,
       'sectionid' => $sectionid
     ];
-    return view('registration.privateinformation.section',$context);
+    return view('registration.personalinformation.section',$context);
   }
   
   

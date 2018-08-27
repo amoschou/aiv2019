@@ -110,14 +110,14 @@ aria-labelledby="header-registrationdetails"
 
       {{-- COMMITTEE SECTION DETAILS --}}
       @if($iscommittee)
-        <div class="card-header border-warning rounded-0 bg-warning"
+        <div class="card-header border-danger rounded-0 bg-danger text-white"
                 id="header-bulkdata"
        data-toggle="collapse"
        data-target="#collapse-bulkdata"
      aria-expanded="true"
      aria-controls="collapse-bulkdata"
              style="cursor:pointer">
-          Private information
+          Personal information
         </div>
         @php
           $sections = DB::table('rego_sections')->select('sectionid','sectionname','sectionshortname')->get();
@@ -128,7 +128,7 @@ aria-labelledby="header-bulkdata"
     data-parent="#accordion">
           <div class="list-group list-group-flush">
             @foreach($sections as $section)
-              <a class="list-group-item list-group-item-action" href="/home/privateinformation/section/{{ $section->sectionid }}">{{ $section->sectionname }}</a>
+              <a class="list-group-item list-group-item-action" href="/home/personalinformation/section/{{ $section->sectionid }}">{{ $section->sectionname }}</a>
             @endforeach
           </div>
         </div>
