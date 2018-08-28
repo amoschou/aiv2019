@@ -57,43 +57,48 @@
   $citytotal = 0;
 @endphp
 <h3>Who’s coming</h3>
+<h4>Adelaide IV festival choir</h4>
 <p>The choir looks like:</p>
 <ul class="mdl-list">
-  <li class="mdl-list__item mdl-list__item--two-line">
-    @foreach($voicecount as $row)
+  @foreach($voicecount as $row)
+    <li class="mdl-list__item mdl-list__item--two-line">
       <span class="mdl-list__item-primary-content">
         <span>{{ $row->voice }}</span>
         <span class="mdl-list__item-sub-title">{{ $row->choristers }}</span>
       </span>
-    @endforeach
-  </li>
+    </li>
+  @endforeach
 </ul>
+<h4>Origin cities of choristers</h4>
 <p>So far, we have choristers joining the festival from the following cities:</p>
 <ul class="mdl-list">
-  <li class="mdl-list__item mdl-list__item--two-line">
-    @foreach($citycount as $row)
+  @foreach($citycount as $row)
+    <li class="mdl-list__item mdl-list__item--two-line">
       @php $citytotal = $citytotal + $row->numfrom; @endphp
       <span class="mdl-list__item-primary-content">
         <span>{{ $row->city }}</span>
         <span class="mdl-list__item-sub-title">{{ $row->numfrom }}</span>
       </span>
-    @endforeach
-      <span class="mdl-list__item-primary-content">
-        <span>Other/unknown</span>
-        <span class="mdl-list__item-sub-title">{{ (DB::table('v_cols_essential')->where('doing_singing',1)->count()) - $citytotal }}</span>
-      </span>
+    </li>
+  @endforeach
+  <li class="mdl-list__item mdl-list__item--two-line">
+    <span class="mdl-list__item-primary-content">
+      <span>Other/unknown</span>
+      <span class="mdl-list__item-sub-title">{{ (DB::table('v_cols_essential')->where('doing_singing',1)->count()) - $citytotal }}</span>
+    </span>
   </li>
 </ul>
+<h4>Origin choirs of choristers</h4>
 <p>Made up from members of the following choirs:</p>
 <ul class="mdl-list">
-  <li class="mdl-list__item mdl-list__item--two-line">
-    @foreach($choircount as $row)
+  @foreach($choircount as $row)
+    <li class="mdl-list__item mdl-list__item--two-line">
       <span class="mdl-list__item-primary-content">
         <span>{{ $row->choirprintname }}</span>
         <span class="mdl-list__item-sub-title">{{ $row->count }}</span>
       </span>
-    @endforeach
-  </li>
+    </li>
+  @endforeach
 </ul>
 
 {{--
