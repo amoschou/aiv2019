@@ -11,6 +11,11 @@
       @endphp
       @break
     @case(2)
+      @php
+        $q = "SELECT id,firstname,lastname,phonebefore,phoneduring,post,student,youth,specialrequirements,ivhistory FROM v_cols_personal natural join v_cols_essential order by lastname,firstname,student,youth";
+        $c = ['id','firstname','lastname','phonebefore','phoneduring','post','student','youth','specialrequirements','ivhistory'];
+        $h = ['ID','First name','Last name','Phone before','Phone during','Post','Student','Youth','Special requirements','IV history'];
+      @endphp
       @break
     @case(3)
       @bre4k

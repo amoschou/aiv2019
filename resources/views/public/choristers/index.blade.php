@@ -2,8 +2,17 @@
 
 @section('extracontent')
 @php
+  switch(config('database.default'))
+  {
+    case('pgsql'):
+      $initcapvoice = "initcap(voice)";
+      break;
+    case('mysql'):
+      $initcapvoice = "CONCAT(UCASE(LEFT(voice,1)),SUBSTRING(VOICE,2))";
+      break;
+  }
   $q1 = "SELECT
-            CONCAT(UCASE(LEFT(voice,1)),SUBSTRING(VOICE,2)) AS voice,
+            {$initcapvoice} AS voice,
             COUNT(userid) as choristers
           FROM
             v_cols_choral
