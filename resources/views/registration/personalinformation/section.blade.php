@@ -21,7 +21,7 @@
       @break
     @case(4)
       @php
-        $q = "SELECT userid as id,firstname,lastname,voice,divisi,sometimessoprano,sometimesalto,sometimestenor,sometimesbass FROM v_cols_choral natural join v_cols_essential order by voice,divisi,lastname,firstname,sometimessoprano,sometimesalto,sometimestenor,sometimesbass";
+        $q = "SELECT userid as id,firstname,lastname,voice,divisi,sometimessoprano,sometimesalto,sometimestenor,sometimesbass FROM v_cols_choral join v_cols_essential on (id=userid) order by voice,divisi,lastname,firstname,sometimessoprano,sometimesalto,sometimestenor,sometimesbass";
         $c = ['id','firstname','lastname','voice','divisi','sometimessoprano','sometimesalto','sometimestenor','sometimesbass'];
         $h = ['ID','First name','Last name','Voice','Divisi line','Also S','Also A','Also T','Also B'];
       @endphp
