@@ -18,7 +18,12 @@
       @endphp
       @break
     @case(3)
-      @bre4k
+      @php
+        $q = "SELECT userid as id,firstname,lastname,voice,divisi,sometimessoprano,sometimesalto,sometimestenor,sometimesbass FROM v_cols_personal natural join v_cols_essential order by lastname,firstname,student,youth";
+        $c = ['id','firstname','lastname','voice','divisi','sometimessoprano','sometimesalto','sometimestenor','sometimesbass'];
+        $h = ['ID','First name','Last name','Voice','Divisi line','Also S','Also A','Also T','Also B'];
+      @endphp
+      @break
     @case(4)
       @break
     @case(5)
