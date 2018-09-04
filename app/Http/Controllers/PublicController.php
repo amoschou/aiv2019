@@ -6,6 +6,14 @@ use Illuminate\Http\Request;
 
 class PublicController extends Controller
 {
+  public function merchandise()
+  {
+    $context = [
+      'activetab' => 'merchandise',
+    ];
+    return view('public.merchandise.index', $context);
+  }
+
   public function choristers()
   {
     $context = [

@@ -30,6 +30,7 @@ Route::get('/choristers/fees', 'PublicController@fees')->name('public.choristers
 Route::get('/choristers/bulletins', 'PublicController@bulletins')->name('public.choristers.bulletins');
 Route::get('/committee', 'PublicController@aivcfadelaide')->name('aivcfadelaide');
 
+Route::get('/merchandise', 'PublicController@merchandise')->name('merchandise');
 
 Route::get('/adelaideiv', 'PublicController@adelaideiv')->name('adelaideiv');
 

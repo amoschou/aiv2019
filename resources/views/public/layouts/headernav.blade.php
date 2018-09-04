@@ -35,6 +35,7 @@
       <a class="mdl-navigation__link <?php activetab($activetab,'about') ?>" href="/about">About</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'concert') ?>" href="/concert">Concert</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'choristers') ?>" href="/choristers">Choristers</a>
+      <a class="mdl-navigation__link <?php activetab($activetab,'merchandise') ?>" href="/merchandise">Merchandise</a>
 <!--
       <a class="mdl-navigation__link <?php activetab($activetab,'camp') ?>" href="/camp">Camp</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'social') ?>" href="/social">Social</a>
@@ -62,6 +63,7 @@
     <a class="mdl-navigation__link <?php activetab($activetab,'about') ?>" href="/about">About</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'concert') ?>" href="/concert">Concert</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'choristers') ?>" href="/choristers">Choristers</a>
+    <a class="mdl-navigation__link <?php activetab($activetab,'merchandise') ?>" href="/merchandise">Merchandise</a>
 <!--
     <a class="mdl-navigation__link <?php activetab($activetab,'camp') ?>" href="/camp">Camp</a>
     <a class="mdl-navigation__link <?php activetab($activetab,'social') ?>" href="/social">Social</a>
