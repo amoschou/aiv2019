@@ -63,6 +63,27 @@
     @endforeach
   </table>
   
+  @php
+    $q = "
+    
+    WITH a AS (
+              SELECT userid, questionshortname, json_unquote(responsejson) as act
+              FROM rego_responses
+              WHERE questionshortname in
+              ('scorearnesen','scorepart','scoreesenvalds','scoregjeilo','scoresandstrom','scoredove','scorelauridsenii','scorelauridseniii','scorewhitacre')
+          )
+          
+          select
+            userid,firstname,lastname,
+            questionshortname,act
+          from
+            a join v_cols_essential on (id=userid)
+          ORDER BY
+            action,questionshortname
+    ";
+  $c = ['userid','firstname','lastname','questionshortname','act'];
+  $h = ['ID','First name','Last name','Repertoire','Action'];
+  @endphp
     
   <table id="datatable" class="table table-sm table-striped table-bordered">
     <thead class="thead-dark">
