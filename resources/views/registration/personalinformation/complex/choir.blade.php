@@ -41,8 +41,8 @@
             b
           GROUP BY questionshortname
   ";
-  $c = ['questionshortname','action','frequency'];
-  $h = ['Repertoire','Action','Frequency'];
+  $c = ['questionshortname','buy','borrow','bring'];
+  $h = ['Repertoire','Buy','Borrow','Bring'];
   @endphp
   
   <table id="datatable" class="table table-sm table-striped table-bordered">
