@@ -38,7 +38,7 @@ aria-labelledby="header-accountinfo"
 
 
       {{-- REGISTRATION DETAILS --}}
-      <div class="card-header border-white border-0 rounded-0 bg-primary text-white"
+      <div class="card-header border-white rounded-0 bg-primary text-white"
               id="header-registrationdetails"
      data-toggle="collapse"
      data-target="#collapse-registrationdetails"
@@ -110,14 +110,14 @@ aria-labelledby="header-registrationdetails"
 
       {{-- COMMITTEE SECTION DETAILS --}}
       @if($iscommittee)
-        <div class="card-header border-danger rounded-0 bg-danger text-white"
+        <div class="card-header border-danger border-white rounded-0 bg-danger text-white"
                 id="header-bulkdata"
        data-toggle="collapse"
        data-target="#collapse-bulkdata"
      aria-expanded="true"
      aria-controls="collapse-bulkdata"
              style="cursor:pointer">
-          Personal information
+          Simple personal information
         </div>
         @php
           $sections = DB::table('rego_sections')->select('sectionid','sectionname','sectionshortname')->get();
@@ -127,9 +127,34 @@ aria-labelledby="header-registrationdetails"
 aria-labelledby="header-bulkdata"
     data-parent="#accordion">
           <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/person">By individual</a>
             @foreach($sections as $section)
               <a class="list-group-item list-group-item-action" href="/home/personalinformation/section/{{ $section->sectionid }}">{{ $section->sectionname }}</a>
             @endforeach
+          </div>
+        </div>
+        <div class="card-header border-danger rounded-0 bg-danger text-white"
+                id="header-complexdata"
+       data-toggle="collapse"
+       data-target="#collapse-complexdata"
+     aria-expanded="true"
+     aria-controls="collapse-complexdata"
+             style="cursor:pointer">
+          Complex personal information
+        </div>
+        <div id="collapse-complexdata"
+          class="collapse"
+aria-labelledby="header-complexdata"
+    data-parent="#accordion">
+          <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/choir">Choir</a>
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/social">Social</a>
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/billeting">Billeting</a>
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/camp">Camp</a>
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/concessions">Concessions</a>
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/repertoire">Repertoire</a>
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/dietaryrequirements">Dietary requirements</a>
+            <a class="list-group-item list-group-item-action" href="/home/personalinformation/complex/merchandise">Merchandise</a>
           </div>
         </div>
       @endif
