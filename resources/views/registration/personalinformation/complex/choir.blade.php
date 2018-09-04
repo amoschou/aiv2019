@@ -17,7 +17,7 @@
   $scorekeyslist = '';
   $comma = '';
   foreach($scorekeys as $key) {
-    $scorekeyslist += $comma . "'score". $key ."'";
+    $scorekeyslist .= $comma . "'score". $key ."'";
     $comma = ',';
   }
   $q = "
