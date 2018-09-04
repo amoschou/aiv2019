@@ -79,7 +79,7 @@
           from
             a join v_cols_essential on (id=userid)
           ORDER BY
-            action,questionshortname
+            act,questionshortname
     ";
   $c = ['userid','firstname','lastname','questionshortname','act'];
   $h = ['ID','First name','Last name','Repertoire','Action'];
