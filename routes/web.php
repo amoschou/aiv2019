@@ -90,7 +90,7 @@ Route::get('/home/personalinformation/section/{sectionid}', 'HomeController@pers
 
 
 
-Route::get('/home/personalinformation/complex/choir', 'PersonalInformationController@complexchoir')->name('home.personalinformation.complex.choir')->middleware('committee');
+Route::get('/home/personalinformation/complex/repertoire', 'PersonalInformationController@complexchoir')->name('home.personalinformation.complex.choir')->middleware('committee');
 
 
 
