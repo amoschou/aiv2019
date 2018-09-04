@@ -85,7 +85,7 @@
   $h = ['ID','First name','Last name','Repertoire','Action'];
   @endphp
     
-  <table id="datatable" class="table table-sm table-striped table-bordered">
+  <table id="datatable2" class="table table-sm table-striped table-bordered">
     <thead class="thead-dark">
       @foreach($h as $hh)
         <th scope="col">{{ $hh }}</th>
@@ -115,6 +115,7 @@
   <script>
     $(document).ready(function() {
         $('#datatable').DataTable();
+        $('#datatable2').DataTable();
     } );
   </script>
 @endsection
