@@ -32,19 +32,22 @@
               SELECT questionshortname, act, count(userid) as frequency
               FROM a
               GROUP BY act, questionshortname
+          ), c AS (
+              SELECT COUNT(id) as numsingers FROM v_cols_essential WHERE doing_singing = 1 
           )
 
           SELECT
             questionshortname,
             SUM(CASE WHEN act = 'buy' THEN frequency END) AS buy,
             SUM(CASE WHEN act = 'borrow' THEN frequency END) AS borrow,
-            SUM(CASE WHEN act = 'bring' THEN frequency END) AS bring
+            SUM(CASE WHEN act = 'bring' THEN frequency END) AS bring,
+            (SELECT numsingers FROM c) - SUM(frequency) as unknown
           FROM
             b
           GROUP BY questionshortname
   ";
-  $c = ['questionshortname','buy','borrow','bring'];
-  $h = ['Repertoire','Buy','Borrow','Bring'];
+  $c = ['questionshortname','buy','borrow','bring','unknown'];
+  $h = ['Repertoire','Buy','Borrow','Bring','Unknown'];
   @endphp
   
   <h2>Summary</h2>
@@ -107,7 +110,42 @@
       </tr>
     @endforeach
   </table>
+  
+  <h2>Choristes who don’t know</h2>
+  @php
+    $q = "
+  WITH a AS (
+              SELECT userid, questionshortname, json_unquote(responsejson) as act
+              FROM rego_responses
+              WHERE questionshortname in
+              ('scorearnesen','scorepart','scoreesenvalds','scoregjeilo','scoresandstrom','scoredove','scorelauridsenii','scorelauridseniii','scorewhitacre')
+          )
 
+SELECT id,firstname,lastname FROM v_cols_essential WHERE doing_singing = 1 AND id NOT IN (SELECT userid FROM a GROUP BY userid)
+    ";
+  $c = ['userid','firstname','lastname',];
+  $h = ['ID','First name','Last name'];
+  @endphp
+  
+  <p>The number of people in this table should match the number of unknowns in the first table.</p>
+  <table id="datatable2" class="table table-sm table-striped table-bordered">
+    <thead class="thead-dark">
+      @foreach($h as $hh)
+        <th scope="col">{{ $hh }}</th>
+      @endforeach
+    </thead>
+    @php
+      $rows = DB::select($q,[]);
+    @endphp
+    @foreach($rows as $row)
+      <tr>
+        @foreach($c as $cc)
+          <td>{{ $row->{$cc} }}</td>
+        @endforeach
+      </tr>
+    @endforeach
+  </table>
+  
 @endsection
 
 @section('extrastyles')
