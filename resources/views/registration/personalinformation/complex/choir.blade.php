@@ -2,6 +2,8 @@
 
 @section('innercontent')
 
+  <h1>Repertoire</h1>
+
   @php
     $scorekeys = [
       'arnesen',
@@ -45,6 +47,7 @@
   $h = ['Repertoire','Buy','Borrow','Bring'];
   @endphp
   
+  <h2>Summary</h2>
   <table id="datatable" class="table table-sm table-striped table-bordered">
     <thead class="thead-dark">
       @foreach($h as $hh)
@@ -84,7 +87,9 @@
   $c = ['userid','firstname','lastname','questionshortname','act'];
   $h = ['ID','First name','Last name','Repertoire','Action'];
   @endphp
-    
+  
+  <h2>Individual records</h2>
+  <p>Use the search bar to filter this table. For example search for ‘part buy’ to find out who is buying the Pärt.</p>
   <table id="datatable2" class="table table-sm table-striped table-bordered">
     <thead class="thead-dark">
       @foreach($h as $hh)
