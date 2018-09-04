@@ -27,7 +27,7 @@
                        ->value('responsejson'))
                    )
                    ? NULL
-                   : $a->{$variant[1]}
+                   : ($a->{$variant[1]} ?? '')
                 }}"
               @if ($question->html5required)
                 required
