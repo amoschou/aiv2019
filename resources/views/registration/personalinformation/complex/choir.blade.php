@@ -123,7 +123,7 @@
 
 SELECT id,firstname,lastname FROM v_cols_essential WHERE doing_singing = 1 AND id NOT IN (SELECT userid FROM a GROUP BY userid)
     ";
-  $c = ['userid','firstname','lastname',];
+  $c = ['userid','firstname','lastname'];
   $h = ['ID','First name','Last name'];
   @endphp
   
