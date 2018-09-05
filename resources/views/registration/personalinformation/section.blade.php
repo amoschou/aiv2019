@@ -33,7 +33,10 @@
       @break
     @case(5)
       @php
-      @endphp
+        $q = "SELECT v_cols_essential.id,firstname,lastname,arrtype,arrvessel,arrat,arrdatetime,deptype,depvessel,depat,depdatetime,transporthelp FROM v_cols_travel natural join v_cols_essential order by lastname,firstname";
+        $c = ['id','firstname','lastname','arrtype','arrvessel','arrat','arrdatetime','deptype','depvessel','depat','depdatetime','transporthelp'];
+        $h = ['ID','First name','Last name','Arrival type','Arrival vessel','Arriving where','Arriving when','Departure type','Departure vessel','Departing where','Departing when','Transport help'];
+        @endphp
       @break
     @case(6)
       @php
