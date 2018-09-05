@@ -18,6 +18,9 @@
       @endphp
       @break
     @case(3)
+        $q = "SELECT id,firstname,lastname,emergencyname,emergencyrelationship,emergencyphone,emergencyadditions FROM v_cols_personal natural join v_cols_essential order by lastname,firstname";
+        $c = ['id','firstname','lastname','emergecyname','emergencyrelationship','emergencyphone'];
+        $h = ['ID','First name','Last name','Emergency contact name','Emergency contact relationship','Emergency contact phone','Emergency more information'];
       @break
     @case(4)
       @php

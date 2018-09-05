@@ -128,7 +128,7 @@ SELECT id,firstname,lastname FROM v_cols_essential WHERE doing_singing = 1 AND i
   @endphp
   
   <p>The number of people in this table should match the number of unknowns in the first table.</p>
-  <table id="datatable2" class="table table-sm table-striped table-bordered">
+  <table id="datatable3" class="table table-sm table-striped table-bordered">
     <thead class="thead-dark">
       @foreach($h as $hh)
         <th scope="col">{{ $hh }}</th>
@@ -157,7 +157,6 @@ SELECT id,firstname,lastname FROM v_cols_essential WHERE doing_singing = 1 AND i
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <script>
     $(document).ready(function() {
-        $('#datatable').DataTable();
         $('#datatable2').DataTable();
     } );
   </script>
