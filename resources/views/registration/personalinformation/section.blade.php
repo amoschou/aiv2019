@@ -20,7 +20,7 @@
     @case(3)
       @php
         $q = "SELECT id,firstname,lastname,emergencyname,emergencyrelationship,emergencyphone,emergencyadditions FROM v_cols_emergency natural join v_cols_essential order by lastname,firstname";
-        $c = ['id','firstname','lastname','emergencyname','emergencyrelationship','emergencyphone'];
+        $c = ['id','firstname','lastname','emergencyname','emergencyrelationship','emergencyphone','emergencyadditions'];
         $h = ['ID','First name','Last name','Emergency contact name','Emergency contact relationship','Emergency contact phone','Emergency more information'];
       @endphp
       @break
@@ -32,10 +32,16 @@
       @endphp
       @break
     @case(5)
+      @php
+      @endphp
       @break
     @case(6)
+      @php
+      @endphp
       @break
     @case(7)
+      @php
+      @endphp
       @break
   @endswitch
   
