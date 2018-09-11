@@ -148,7 +148,7 @@
   </div>
   <div class="mdl-textfield @if ($errors->has('purpose')) is-invalid @endif mdl-js-textfield mdl-textfield--floating-label">
     <input class="mdl-textfield__input" pattern=".+" type="text" id="purpose" name="purpose" value="{{ old('purpose') ?? $ref }}">
-    <label class="mdl-textfield__label" for="purpose">Purpose of payment (e.g. Preregistration, donation)</label>
+    <label class="mdl-textfield__label" for="purpose">Account reference number (It looks like AR1234Z) or purpose of payment (e.g. donation)</label>
     <span class="mdl-textfield__error">Attention!
       @if ($errors->has('purpose'))
         @foreach ($errors->get('purpose') as $message)

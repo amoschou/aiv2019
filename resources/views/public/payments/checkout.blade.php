@@ -40,7 +40,7 @@
       <td>{{ $data->phone }}</td>
     </tr>
     <tr>
-      <th class="mdl-data-table__cell--non-numeric">Purpose of payment</th>
+      <th class="mdl-data-table__cell--non-numeric">Account reference number or Purpose of payment</th>
       <td>{{ $data->purpose }}</td>
     </tr>
     <tr>
