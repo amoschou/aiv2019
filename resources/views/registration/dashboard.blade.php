@@ -76,6 +76,7 @@
     <p class="mb-0">Remember to include your account reference number whenever you make a payment.</p>
   </div>
 
+  <h3>How to pay</h3>
   <p>Payments can be made by debit/credit card (Including international cards) at <a href="/payments/checkout?ref={{ $accountref }}">https://www.aiv.org.au/payments/checkout?ref={{ $accountref }}</a></p>
   <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Account number&nbsp;027885840, Account name&nbsp;<em>AIVCF Adelaide</em>.</p>
   

@@ -45,4 +45,6 @@
     </tfoot>
   </table>
   <p class="font-weight-bold">No GST has been charged.</p>
+  <h2>Receipts</h2>
+  <p>Receipts for payments received will soon be updated and displayed here. Please check back soon.</p>
 @endsection
