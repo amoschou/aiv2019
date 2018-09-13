@@ -1,5 +1,4 @@
-@extends('registration.dashboard')
-
+@extends('registration.layouts.appwithnotopbox')
 
 @php
   function is_array_of_scalars($iv_array)
@@ -165,15 +164,10 @@
 @endphp
     
 @section('innercontent')
-  @if($personalinformation)
-    <h1>{{ $firstname }} {{ $lastname }}</h1>
-  @endif
   @foreach($sections as $section)
     <h2>{{ $section->sectionname }}</h2>
-    @if(!$personalinformation)
-      @if(!is_null($section->sectiondescr))
-        <p>{!! $section->sectiondescr !!}</p>
-      @endif
+    @if(!is_null($section->sectiondescr))
+      <p>{!! $section->sectiondescr !!}</p>
     @endif
     @if(!is_null($section->sectionduplicateforeach))
       @php
@@ -191,36 +185,31 @@
       $foritems = $foritems ?? [''];
     @endphp
     
-    @if(!$personalinformation)
-      @if($hastabs)
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          @foreach($foritems as $foritem)
-            @php
-              if($foritem === '' || $foritem === 'hiddeninput')
-              {
-                $tagname = '';
-                $tabname = 'For yourself';
-              }
-              else
-              {
-                $tagname = $foritem;
-                $tabname = "For your guest " . $foritem;
-              }
-            @endphp
-            <li class="nav-item">
-              <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="responsesfor-{{ $tagname }}-tab" data-toggle="tab" href="#responsesfor-{{ $tagname }}" role="tab" aria-controls="responsesfor-{{ $tagname }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $tabname }}</a>
-            </li>
-          @endforeach
-        </ul>
-        <div class="tab-content" id="myTabContent">
-      @endif
+    @if($hastabs)
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @foreach($foritems as $foritem)
+          @php
+            if($foritem === '' || $foritem === 'hiddeninput')
+            {
+              $tagname = '';
+              $tabname = 'For yourself';
+            }
+            else
+            {
+              $tagname = $foritem;
+              $tabname = "For your guest " . $foritem;
+            }
+          @endphp
+          <li class="nav-item">
+            <a class="nav-link {{ $loop->first ? 'active' : '' }}" id="responsesfor-{{ $tagname }}-tab" data-toggle="tab" href="#responsesfor-{{ $tagname }}" role="tab" aria-controls="responsesfor-{{ $tagname }}" aria-selected="{{ $loop->first ? 'true' : 'false' }}">{{ $tabname }}</a>
+          </li>
+        @endforeach
+      </ul>
+      <div class="tab-content" id="myTabContent">
     @endif
     
     
     @foreach($foritems as $foritem)
-      @if(!($foritems === ['']))
-        <h3>{{ $section->sectionname }} for {{ $foritem == 'hiddeninput' ? 'yourself' : 'your guest ' . $foritem }}</h3>
-      @endif
       @php
         if(!$hastabs)
         {
@@ -241,17 +230,13 @@
           }
         }
       @endphp
-      @if(!$personalinformation)
-        @if($hastabs)
-          <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="responsesfor-{{ $tagname }}" role="tabpanel" aria-labelledby="responsesfor-{{ $tagname }}-tab">
-        @endif
+      @if($hastabs)
+        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="responsesfor-{{ $tagname }}" role="tabpanel" aria-labelledby="responsesfor-{{ $tagname }}-tab">
       @endif
-      @if(!$personalinformation)
-        @if($tagname === '')
-          <a href="/home/registration/{{ $section->sectionid }}/edit" class="btn btn-sm btn-secondary mb-2 rounded-0">{{ $tabname }}</a>
-        @else
-          <a href="/home/registration/{{ $section->sectionid }}/{{ $tagname }}/edit" class="btn btn-sm btn-secondary mb-2 rounded-0">{{ $tabname }}</a>
-        @endif
+      @if($tagname === '')
+        <a href="/home/registration/{{ $section->sectionid }}/edit" class="btn btn-sm btn-secondary mb-2 rounded-0">{{ $tabname }}</a>
+      @else
+        <a href="/home/registration/{{ $section->sectionid }}/{{ $tagname }}/edit" class="btn btn-sm btn-secondary mb-2 rounded-0">{{ $tabname }}</a>
       @endif
       {!! aiv_style_begin_questionresponsegroup($a) !!}
         @foreach($subsections as $subsection)
@@ -428,16 +413,12 @@
             @endforeach
           @endforeach
         {!! aiv_style_end_questionresponsegroup($a) !!}
-        @if(!$personalinformation)
-          @if($hastabs)
-            </div>
-          @endif
-        @endif
-      @endforeach
-      @if(!$personalinformation)
         @if($hastabs)
           </div>
         @endif
-      @endif
+      @endforeach
+    @if($hastabs)
+      </div>
+    @endif
   @endforeach
 @endsection

@@ -86,10 +86,11 @@ Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpo
 
 Route::get('/home/invoice', 'HomeController@invoice')->name('home.invoice');
 
+
+
+Route::get('/home/personalinformation/person', 'PersonalInformationController@byindividualindex')->name('home.personalinformation.byindividual.index')->middleware('committee');
+Route::get('/home/personalinformation/person/{userid}', 'PersonalInformationController@userid')->name('home.personalinformation.byindividual.userid')->middleware('committee');
 Route::get('/home/personalinformation/section/{sectionid}', 'HomeController@personalinformationsection')->name('home.personalinformation.section')->middleware('committee');
-
-
-
 Route::get('/home/personalinformation/complex/repertoire', 'PersonalInformationController@complexchoir')->name('home.personalinformation.complex.choir')->middleware('committee');
 
 

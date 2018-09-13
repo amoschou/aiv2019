@@ -123,7 +123,7 @@ aria-labelledby="header-registrationdetails"
           $sections = DB::table('rego_sections')->select('sectionid','sectionname','sectionshortname')->get();
         @endphp
         <div id="collapse-bulkdata"
-          class="collapse"
+          class="collapse {{ accordionshow($accordionshow ?? NULL,'bulkdata') }}"
 aria-labelledby="header-bulkdata"
     data-parent="#accordion">
           <div class="list-group list-group-flush">
@@ -143,7 +143,7 @@ aria-labelledby="header-bulkdata"
           Complex personal information
         </div>
         <div id="collapse-complexdata"
-          class="collapse"
+          class="collapse {{ accordionshow($accordionshow ?? NULL,'complexdata') }}"
 aria-labelledby="header-complexdata"
     data-parent="#accordion">
           <div class="list-group list-group-flush">

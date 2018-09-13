@@ -190,6 +190,7 @@ class HomeController extends Controller
       'accordionshow' => 'responses',
       'sections' => $sections,
       'iscommittee' => $request->user()->iscommittee,
+      'personalinformation' => false,
     ];
     return view('registration.responses',$context);
   }

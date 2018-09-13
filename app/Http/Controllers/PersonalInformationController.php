@@ -33,4 +33,64 @@ class PersonalInformationController extends Controller
     return view('registration.personalinformation.complex.choir',$context);
   }
   
+  public function byindividualindex(Request $request)
+  {
+    $context = [
+      'sectionid' => NULL,
+      'iscommittee' => $request->user()->iscommittee,
+      'people' => DB::table('v_cols_essential')->select('id','firstname','lastname')->orderby('lastname','firstname','id')->get(),
+    ];
+    return view('registration.personalinformation.byindividual.index',$context);
+  }
+  
+  public function userid(Request $request, $userid)
+  {
+    $q = "SELECT
+            sectionid,
+            sectionname,
+            sectiondescr,
+            sectionduplicateforeach
+          from
+            v_rego_required_sections
+            natural join
+            rego_sections
+          where
+            userid = ?
+            and
+            required = 'true'
+          order by
+            sectionord";
+
+
+    $firstnamequery = "SELECT responsejson
+                         FROM rego_responses
+                              JOIN
+                              iv_users
+                              ON (id = userid)
+                        WHERE questionshortname = 'firstname'
+                              AND
+                              userid = ?";
+    $lastnamequery = "SELECT responsejson
+                         FROM rego_responses
+                              JOIN
+                              iv_users
+                              ON (id = userid)
+                        WHERE questionshortname = 'lastname'
+                              AND
+                              userid = ?";
+    $firstname = DB::select($firstnamequery,[Auth::id()]);
+    $lastname = DB::select($lastnamequery,[Auth::id()]);
+    $sections = DB::select($q,[Auth::id()]);
+    $context = [
+      'firstname' => json_decode($firstname[0]->responsejson),
+      'lastname' => json_decode($lastname[0]->responsejson),
+      'sectionid' => NULL,
+      'accordionshow' => 'bulkdata',
+      'sections' => $sections,
+      'iscommittee' => $request->user()->iscommittee,
+      'personalinformation' => true,
+    ];
+    return view('registration.responses',$context);
+  }
+  
 }
