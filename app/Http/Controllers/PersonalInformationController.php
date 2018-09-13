@@ -80,7 +80,7 @@ class PersonalInformationController extends Controller
                               userid = ?";
     $firstname = DB::select($firstnamequery,[Auth::id()]);
     $lastname = DB::select($lastnamequery,[Auth::id()]);
-    $sections = DB::select($q,[Auth::id()]);
+    $sections = DB::select($q,[$userid]);
     $context = [
       'firstname' => json_decode($firstname[0]->responsejson),
       'lastname' => json_decode($lastname[0]->responsejson),
