@@ -191,6 +191,7 @@ class HomeController extends Controller
       'sections' => $sections,
       'iscommittee' => $request->user()->iscommittee,
       'personalinformation' => false,
+      'userid' => Auth::id(),
     ];
     return view('registration.responses',$context);
   }

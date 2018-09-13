@@ -177,7 +177,7 @@
     @endif
     @if(!is_null($section->sectionduplicateforeach))
       @php
-        $foritems = json_decode(DB::table('rego_responses')->where('questionshortname',$section->sectionduplicateforeach)->where('userid',Auth::id())->value('responsejson'));
+        $foritems = json_decode(DB::table('rego_responses')->where('questionshortname',$section->sectionduplicateforeach)->where('userid',$userid)->value('responsejson'));
         $hastabs = True;
       @endphp
     @else
@@ -259,7 +259,7 @@
             {!! aiv_style_begin_subsectionheading($a) !!}{{ $subsection->subsectionname }}{!! aiv_style_end_subsectionheading($a) !!}
           @endif
           @php
-            $params = $hassubsections ? [$section->sectionid,$subsection->subsectioncode,Auth::id(),$tagname] : [$section->sectionid,Auth::id(),$tagname];
+            $params = $hassubsections ? [$section->sectionid,$subsection->subsectioncode,$userid,$tagname] : [$section->sectionid,$userid,$tagname];
           @endphp
             @foreach(DB::select($q,$params) as $row)
               {!! aiv_style_begin_question($a) !!}{!! $row->questiontext !!}{!! aiv_style_end_question($a) !!}
@@ -288,7 +288,7 @@
                     {
                       case('othertext'):
                         $output = ucfirst(json_decode(DB::table('rego_responses_nofk')
-                                                   ->where('userid',Auth::id())
+                                                   ->where('userid',$userid)
                                                    ->where('attributename',$row
                                                    ->questionshortname.':othertext')
                                                    ->value('responsejson')));

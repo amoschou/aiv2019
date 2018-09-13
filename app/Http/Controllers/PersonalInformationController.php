@@ -78,8 +78,8 @@ class PersonalInformationController extends Controller
                         WHERE questionshortname = 'lastname'
                               AND
                               userid = ?";
-    $firstname = DB::select($firstnamequery,[Auth::id()]);
-    $lastname = DB::select($lastnamequery,[Auth::id()]);
+    $firstname = DB::select($firstnamequery,[$userid]);
+    $lastname = DB::select($lastnamequery,[$userid]);
     $sections = DB::select($q,[$userid]);
     $context = [
       'firstname' => json_decode($firstname[0]->responsejson),
@@ -89,6 +89,7 @@ class PersonalInformationController extends Controller
       'sections' => $sections,
       'iscommittee' => $request->user()->iscommittee,
       'personalinformation' => true,
+      'userid' => $userid
     ];
     return view('registration.responses',$context);
   }
