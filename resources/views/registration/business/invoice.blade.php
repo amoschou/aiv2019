@@ -52,9 +52,30 @@
       \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
       $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
     @endphp
-    @foreach($charges as $charge)
-      {{ var_dump(\Stripe\Charge::retrieve($charge->chargeid)) }}
-    @endforeach
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Charge ID</th>
+          <th>Paid</th>
+          <th>Transaction amount</th>
+          <th>Transaction net</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($charges as $charge)
+          @php
+            $chargeobject = \Stripe\Charge::retrieve($charge->chargeid);
+            $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
+          @endphp
+          <tr>
+            <td>$chargeobject->id</td>
+            <td>$chargeobject->paid ? 'Paid' : 'Not paid'</td>
+            <td>$balancetransactionobject->amount</td>
+            <td>$balancetransactionobject->net</td>
+          </tr>
+        @endforeach
+      </tbody>
+    </table>
   @endif
   <p>Receipts for payments received will soon be updated and displayed here. Please check back soon.</p>
 @endsection
