@@ -46,5 +46,14 @@
   </table>
   <p class="font-weight-bold">No GST has been charged.</p>
   <h2>Receipts</h2>
+  @if(Auth::id() === 1)
+    <h3>Card payments</h3>
+    @php
+      $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
+    @endphp
+    @foreach($charges as $charge)
+      {{ var_dump($charge) }}
+    @endforeach
+  @endif
   <p>Receipts for payments received will soon be updated and displayed here. Please check back soon.</p>
 @endsection
