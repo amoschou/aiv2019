@@ -137,7 +137,7 @@ class PaymentsController extends Controller
       
       DB::table('rego_stripe_charges')->insert([
         'chargeid' => $charge->id,
-        'accountref' => $accountrefmatches[0] ?? '',
+        'accountref' => $accountrefmatches[0] ?? NULL,
       ]);
     
       $context = [
