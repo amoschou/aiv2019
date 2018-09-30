@@ -54,7 +54,7 @@
       $hundredths = $a % 10;
       $a = (int) ($a - $hundredths)/10;
       $tenths = $a % 10;
-      $a = (int) ($a - $hundredths)/10;
+      $a = (int) ($a - $tenths)/10;
       return '$' . $a . '.' . $tenths . $hundredths ;
     }
   @endphp
