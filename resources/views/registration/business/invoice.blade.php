@@ -52,7 +52,7 @@
       $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
     @endphp
     @foreach($charges as $charge)
-      {{ var_dump($charge) }}
+      {{ var_dump(\Stripe\Charge::retrieve($chargeid->chargeid)) }}
     @endforeach
   @endif
   <p>Receipts for payments received will soon be updated and displayed here. Please check back soon.</p>
