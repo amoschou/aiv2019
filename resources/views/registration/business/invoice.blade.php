@@ -49,6 +49,7 @@
   @if(Auth::id() === 1)
     <h3>Card payments</h3>
     @php
+      \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
       $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
     @endphp
     @foreach($charges as $charge)
