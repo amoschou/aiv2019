@@ -46,36 +46,41 @@
   </table>
   <p class="font-weight-bold">No GST has been charged.</p>
   <h2>Receipts</h2>
-  @if(Auth::id() === 1)
-    <h3>Card payments</h3>
-    @php
-      \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
-      $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
-    @endphp
-    <table class="table table-sm">
-      <thead>
+  <h3>Card payments</h3>
+  @php
+    \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+    $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
+    function centstodollarsandcents($a) {
+      $hundredths = $a % 10;
+      $a = (int) ($a - $hundredths)/10;
+      $tenths = $a % 10;
+      $a = (int) ($a - $hundredths)/10;
+      return '$' . $a . '.' . $tenths . $hundredths ;
+    }
+  @endphp
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th class="pl-0">Charge ID</th>
+        <th>Paid</th>
+        <th class="text-right">Transaction amount</th>
+        <th class="text-right pr-0">Transaction net</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach($charges as $charge)
+        @php
+          $chargeobject = \Stripe\Charge::retrieve($charge->chargeid);
+          $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
+        @endphp
         <tr>
-          <th class="pl-0">Charge ID</th>
-          <th>Paid</th>
-          <th class="text-right">Transaction amount</th>
-          <th class="text-right pr-0">Transaction net</th>
+          <td class="pl-0">{{ $chargeobject->id }}</td>
+          <td>{{ $chargeobject->paid ? 'Paid' : 'Not paid' }}</td>
+          <td class="text-right">{{ centstodollarsandcents($balancetransactionobject->amount) }}</td>
+          <td class="text-right class="pr-0">{{ centstodollarsandcents($balancetransactionobject->net) }}</td>
         </tr>
-      </thead>
-      <tbody>
-        @foreach($charges as $charge)
-          @php
-            $chargeobject = \Stripe\Charge::retrieve($charge->chargeid);
-            $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
-          @endphp
-          <tr>
-            <td class="pl-0">{{ $chargeobject->id }}</td>
-            <td>{{ $chargeobject->paid ? 'Paid' : 'Not paid' }}</td>
-            <td class="text-right">${{ $balancetransactionobject->amount /100 }}</td>
-            <td class="text-right class="pr-0">${{ $balancetransactionobject->net /100 }}</td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
-  @endif
+      @endforeach
+    </tbody>
+  </table>
   <p>Receipts for payments received will soon be updated and displayed here. Please check back soon.</p>
 @endsection
