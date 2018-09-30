@@ -68,10 +68,10 @@
             $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
           @endphp
           <tr>
-            <td>$chargeobject->id</td>
-            <td>$chargeobject->paid ? 'Paid' : 'Not paid'</td>
-            <td>$balancetransactionobject->amount</td>
-            <td>$balancetransactionobject->net</td>
+            <td>{{ $chargeobject->id }}</td>
+            <td>{{ $chargeobject->paid ? 'Paid' : 'Not paid' }}</td>
+            <td>{{ $balancetransactionobject->amount }}</td>
+            <td>{{ $balancetransactionobject->net }}</td>
           </tr>
         @endforeach
       </tbody>
