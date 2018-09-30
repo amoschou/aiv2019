@@ -132,6 +132,14 @@ class PaymentsController extends Controller
     /* Consider declines and failed payments (https://stripe.com/docs/declines) */
     /* Consider disputes and fraud (https://stripe.com/docs/disputes) */
     
+      $accountrefmatches = array();
+      preg_match('/AR\d\d\d\d[A-Z]/', strtoupper($_POST['purpose']), $accountrefmatches);
+      
+      DB::table('rego_stripe_charges')->insert([
+        'chargeid' => $charge->id,
+        'accountref' => $accountrefmatches[0] ?? '',
+      ]);
+    
       $context = [
         'activetab' => 'participate',
         'titletext' => 'Payments',

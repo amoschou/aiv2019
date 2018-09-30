@@ -55,10 +55,10 @@
     <table class="table table-sm">
       <thead>
         <tr>
-          <th>Charge ID</th>
+          <th class="pl-0">Charge ID</th>
           <th>Paid</th>
-          <th>Transaction amount</th>
-          <th>Transaction net</th>
+          <th class="text-right">Transaction amount</th>
+          <th class="text-right pr-0">Transaction net</th>
         </tr>
       </thead>
       <tbody>
@@ -68,10 +68,10 @@
             $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
           @endphp
           <tr>
-            <td>{{ $chargeobject->id }}</td>
+            <td class="pl-0">{{ $chargeobject->id }}</td>
             <td>{{ $chargeobject->paid ? 'Paid' : 'Not paid' }}</td>
-            <td>{{ $balancetransactionobject->amount }}</td>
-            <td>{{ $balancetransactionobject->net }}</td>
+            <td class="text-right">${{ $balancetransactionobject->amount /100 }}</td>
+            <td class="text-right class="pr-0">${{ $balancetransactionobject->net /100 }}</td>
           </tr>
         @endforeach
       </tbody>
