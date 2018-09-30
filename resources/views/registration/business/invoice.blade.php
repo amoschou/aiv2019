@@ -82,5 +82,15 @@
       @endforeach
     </tbody>
   </table>
-  <p>Receipts for payments received will soon be updated and displayed here. Please check back soon.</p>
+  <p>Receipts for payments received by bank transfer will soon be updated and displayed here. Please check back soon.</p>
+  <h3>How to pay</h3>
+  <h4>Preferred payment option</h4>
+  <p>Payments can be made by debit/credit card (Including international cards) at <a href="/payments/checkout?ref={{ $accountref }}">https://www.aiv.org.au/payments/checkout?ref={{ $accountref }}</a>.</p>
+  <p>When you pay with card and include your account reference number, your payment will automatically and immediately be reflected on your invoice.</p>
+  <h4>Other payment option</h4>
+  <p>Or payments can be made by bank transfer to the account BSB&nbsp;105-120, Account number&nbsp;027885840, Account name&nbsp;<em>AIVCF Adelaide</em>.</p>
+  <p>When you pay by bank transfer, there will be a manual processing delay and your invoice won’t be reflected immediately.</p>
+  <h4>Fees and due dates</h4>
+  <p>Fees are available from <a href="/participate/choir">https://www.aiv.org.au/participate/choir</a> and the cost of any merchandise sales or music sales are additional.</p>
+  <p>Complete payment by the published timeline (on page 2 of <a href="/documents/newsbulletins/adelaideiv2019news4.pdf">News bulletin 4</a>)</p>
 @endsection
