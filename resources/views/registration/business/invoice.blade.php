@@ -62,7 +62,8 @@
     <thead>
       <tr>
         <th class="pl-0">Charge ID</th>
-        <th>Paid</th>
+        <th>Date</th>
+        <th>Status</th>
         <th class="text-right">Transaction amount</th>
         <th class="text-right pr-0">Transaction net</th>
       </tr>
@@ -75,9 +76,20 @@
         @endphp
         <tr>
           <td class="pl-0">{{ $chargeobject->id }}</td>
-          <td>{{ $chargeobject->paid ? 'Paid' : 'Not paid' }}</td>
-          <td class="text-right">{{ centstodollarsandcents($balancetransactionobject->amount) }}</td>
-          <td class="text-right class="pr-0">{{ centstodollarsandcents($balancetransactionobject->net) }}</td>
+          <td>{{ date('j/m/y',$chargeobject->created) }}</td>
+          <td>
+            {{ $chargeobject->status }}
+            @if( $chargeobject->status === 'failed' )
+              ({{ $chargeobject->failure_message }})
+            @endif
+          </td>
+          @if( $chargeobject->captured )
+            <td class="text-right">{{ centstodollarsandcents($balancetransactionobject->amount) }}</td>
+            <td class="text-right pr-0">{{ centstodollarsandcents($balancetransactionobject->net) }}</td>
+          @else
+            <td class="text-right"></td>
+            <td class="text-right pr-0"></td>
+          @endif
         </tr>
       @endforeach
     </tbody>
