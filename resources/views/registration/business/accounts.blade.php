@@ -146,7 +146,7 @@
       <tfoot class="font-weight-bold">
         <tr>
           <td colspan="3" class="pl-0">BALANCE DUE</td>
-          <td class="text-right pr-0">${{ number_format($regoitemtotal - $striptotal - $banktotal,2,'.','') }}</td>
+          <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal,2,'.','') }}</td>
         </tr>
       </tfoot>
     </table>
