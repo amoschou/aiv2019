@@ -61,10 +61,13 @@
         </tr>
       </tfoot>
     </table>
-    <h2>Receipts</h2>
-    <h3>Card payments</h3>
+    {{--
+      <h2>Receipts</h2>
+      <h3>Card payments</h3>
+    --}}
     @php
       $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
+      $stripetotal = 0;
     @endphp
     <table class="table table-sm">
       <thead>
@@ -80,7 +83,7 @@
         @foreach($charges as $charge)
           @php
             $chargeobject = \Stripe\Charge::retrieve($charge->chargeid);
-            if(!is_null($chargeobject->balance_transaction))
+            if($chargeobject->captured)
             {
               $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
             }
@@ -95,8 +98,11 @@
               @endif
             </td>
             @if( $chargeobject->captured )
-              <td class="text-right">{{ centstodollarsandcents($balancetransactionobject->amount) }}</td>
-              <td class="text-right pr-0">{{ centstodollarsandcents($balancetransactionobject->net) }}</td>
+              <td class="text-right">${{ number_format($balancetransactionobject->amount,2,'.','') }}</td>
+              <td class="text-right pr-0">${{ number_format($balancetransactionobject->net,2,'.','') }}</td>
+              @php
+                $stripetotal =+ $balancetransactionobject->net;
+              @endphp
             @else
               <td class="text-right"></td>
               <td class="text-right pr-0"></td>
@@ -105,7 +111,9 @@
         @endforeach
       </tbody>
     </table>
-    <h3>Electronic bank transfer</h3>
+    {{--
+      <h3>Electronic bank transfer</h3>
+    --}}
     <table class="table table-sm">
       <thead>
         <tr>
@@ -119,14 +127,28 @@
         @php
           $bankq = "SELECT id,date,description,credit FROM bank_transaction_accounts JOIN bank_transactions ON (id = transactionid) WHERE accountref = ?";
           $transactions = DB::SELECT($bankq,[$accountref]);
+          $banktotal = 0;
         @endphp
         @foreach($transactions as $transaction)
-          <td clas="pl-0">{{ $transaction->id }}</td>
-          <td class="">{{ $transaction->date }}</td>
-          <td class="">{{ $transaction->description }}</td>
-          <td class="text-right pr-0">${{ $transaction->credit }}</td>
+          <tr>
+            <td clas="pl-0">{{ $transaction->id }}</td>
+            <td class="">{{ $transaction->date }}</td>
+            <td class="">{{ $transaction->description }}</td>
+            <td class="text-right pr-0">${{ $transaction->credit }}</td>
+            @php
+              $banktotal += $transaction->credit;
+            @endphp
+          </tr>
         @endforeach
       </tbody>
+    </table>
+    <table class="table table-sm">
+      <tfoot class="font-weight-bold">
+        <tr>
+          <td colspan="3" class="pl-0">BALANCE DUE</td>
+          <td class="text-right pr-0">${{ number_format($regoitemtotal - $striptotal - $banktotal,2,'.','') }}</td>
+        </tr>
+      </tfoot>
     </table>
   @endforeach
 @endsection
