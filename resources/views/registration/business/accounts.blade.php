@@ -6,7 +6,7 @@
   <p class="font-weight-bold">No GST has been charged.</p>
   @foreach($people as $person)
     @php
-      $accountref = DB::table('iv_users')->select('accountref')->where('id',$person->id)->first();
+      $accountref = DB::table('iv_users')->select('accountref')->where('id',$person->id)->first()->accountref;
     @endphp
     <h2>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h2>
     <div class="row">
