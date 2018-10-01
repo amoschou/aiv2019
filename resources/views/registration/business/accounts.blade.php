@@ -80,7 +80,10 @@
         @foreach($charges as $charge)
           @php
             $chargeobject = \Stripe\Charge::retrieve($charge->chargeid);
-            $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
+            if(!is_null($chargeobject->balance_transaction))
+            {
+              $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
+            }
           @endphp
           <tr>
             <td class="pl-0">{{ $chargeobject->id }}</td>
