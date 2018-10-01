@@ -95,6 +95,28 @@
     </tbody>
   </table>
   <p>Receipts for payments received by bank transfer will soon be updated and displayed here. Please check back soon.</p>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th class="pl-0">Transaction ID</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th class="text-right pr-0">Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+      @php
+        $bankq = "SELECT id,date,description,credit FROM bank_transaction_accounts JOIN bank_transactions ON (id = transactionid) WHERE accountref = ?";
+        $transactions = DB::SELECT($bankq,[$accountref]);
+      @endphp
+      @foreach($transactions as $transaction)
+        <td clas="pl-0">{{ $transaction->id }}</td>
+        <td class="">{{ $transaction->date }}</td>
+        <td class="">{{ $transaction->description }}</td>
+        <td class="text-right pr-0">{{ $transaction->credit }}</td>
+      @endforeach
+    </tbody>
+  </table>
   <h3>How to pay</h3>
   <h4>Preferred payment option</h4>
   <p>Payments can be made by debit/credit card (Including international cards) at <a href="/payments/checkout?ref={{ $accountref }}">https://www.aiv.org.au/payments/checkout?ref={{ $accountref }}</a>.</p>
