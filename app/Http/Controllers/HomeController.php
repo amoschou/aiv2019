@@ -664,12 +664,11 @@ class HomeController extends Controller
       $transactions = DB::select('SELECT * FROM bank_transactions WHERE id NOT IN (SELECT transactionid FROM bank_transaction_accounts)');
       foreach($transactions as $transaction)
       {
-        $description = $transaction->description;
-        $accountrefmatches = array();
-        preg_match('/AR\d\d\d\d[A-Z]/', strtoupper($description), $accountrefmatches);
+        $accountrefmatches = [];
+        preg_match('/AR\d\d\d\d[A-Z]/', strtoupper($transaction->description), $accountrefmatches);
         DB::table('bank_transaction_accounts')->insert([
           'transactionid' => $transaction->id,
-          'accountref' => $accountrefmatches[0] ?? NULL,
+          'accountref' => $accountrefmatches[0],
         ]);
       }
     
