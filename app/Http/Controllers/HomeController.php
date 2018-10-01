@@ -660,7 +660,6 @@ class HomeController extends Controller
         'accountref' => $request->user()->accountref
       ];
       
-      
       $transactions = DB::select('SELECT * FROM bank_transactions WHERE id NOT IN (SELECT transactionid FROM bank_transaction_accounts)');
       foreach($transactions as $transaction)
       {
@@ -671,12 +670,32 @@ class HomeController extends Controller
           'accountref' => $accountrefmatches[0] ?? NULL,
         ]);
       }
-    
-      
-    
 
       return view('registration.business.invoice',$context);
     }
+
+    public function accounts (Request $request)
+    {
+      $context = [
+        'sectionid' => NULL,
+        'people' => DB::table('v_cols_essential')->select('id','accountref','firstname','lastname')->orderby('lastname','firstname','id')->get(),
+      ];
+      
+      // Repeat this from invoice() method above
+      $transactions = DB::select('SELECT * FROM bank_transactions WHERE id NOT IN (SELECT transactionid FROM bank_transaction_accounts)');
+      foreach($transactions as $transaction)
+      {
+        $accountrefmatches = [];
+        preg_match('/AR\d\d\d\d[A-Z]/', strtoupper($transaction->description), $accountrefmatches);
+        DB::table('bank_transaction_accounts')->insert([
+          'transactionid' => $transaction->id,
+          'accountref' => $accountrefmatches[0] ?? NULL,
+        ]);
+      }
+
+      return view('registration.business.accounts',$context);
+    }
+
 
   
   
