@@ -678,7 +678,7 @@ class HomeController extends Controller
     {
       $context = [
         'sectionid' => NULL,
-        'people' => DB::table('v_cols_essential')->select('id','accountref','firstname','lastname')->orderby('lastname','firstname','id')->get(),
+        'people' => DB::table('v_cols_essential')->select('id','firstname','lastname')->orderby('lastname','firstname','id')->get(),
       ];
       
       // Repeat this from invoice() method above

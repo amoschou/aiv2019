@@ -5,8 +5,10 @@
   <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
   <p class="font-weight-bold">No GST has been charged.</p>
   @foreach($people as $person)
-    <h2>
-    <h2>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $person->accountref }})</small></h2>
+    @php
+      $accountref = DB::table('iv_users')->select('accountref')->where('id',$person->id)->first();
+    @endphp
+    <h2>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h2>
     <div class="row">
       <div class="col-2 text-right">To:</div>
       <div class="col-10">
