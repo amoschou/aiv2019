@@ -12,7 +12,7 @@
     <div class="row">
       <div class="col-2 text-right">To:</div>
       <div class="col-10">
-        {{ $name }}<br>{{ $address }}<br>{{ $email }}
+        {{ $person->firstname }} {{ $person->lastname }}
       </div>
     </div>
     <p class="text-right lead"><span class="font-weight-bold">INVOICE</span> No. {{ $accountref }}</p>
