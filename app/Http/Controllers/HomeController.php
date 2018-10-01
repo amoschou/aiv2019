@@ -668,7 +668,7 @@ class HomeController extends Controller
         preg_match('/AR\d\d\d\d[A-Z]/', strtoupper($transaction->description), $accountrefmatches);
         DB::table('bank_transaction_accounts')->insert([
           'transactionid' => $transaction->id,
-          'accountref' => $accountrefmatches[0],
+          'accountref' => $accountrefmatches[0] ?? NULL,
         ]);
       }
     
