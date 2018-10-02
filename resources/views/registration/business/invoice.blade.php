@@ -81,7 +81,7 @@
             <td class="text-right">${{ number_format($balancetransactionobject->amount/100,2,'.','') }}</td>
             <td class="text-right pr-0">${{ number_format($balancetransactionobject->net/100,2,'.','') }}</td>
             @php
-              $stripetotal =+ $balancetransactionobject->net/100;
+              $stripetotal += $balancetransactionobject->net/100;
             @endphp
           @else
             <td class="text-right"></td>
