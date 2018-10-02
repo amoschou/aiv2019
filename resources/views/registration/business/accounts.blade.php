@@ -150,5 +150,63 @@
         </tr>
       </tfoot>
     </table>
+    @php
+      $q = "select sectionid from rego_responses natural join rego_questions where userid = ? group by sectionid";
+      $tmp = DB::select($q,[$person->id]);
+      $submittedsections = [];
+      foreach($tmp as $a)
+      {
+        $submittedsections[] = $a->sectionid;
+      }
+      $q = "SELECT
+              sectionid,
+              sectionname,
+              sectionord
+            from
+              v_rego_required_sections
+              natural join
+              rego_sections
+            where
+              userid = ?
+              and
+              required = 'true'
+            order by
+              sectionord";
+      $sections = DB::select($q,[$person->id]);
+      $registrationiscomplete = True;
+    @endphp
+    @foreach($sections as $section)
+      @php
+        $tick = in_array($section->sectionid,$submittedsections);
+        $registrationiscomplete = !$tick ? False : $registrationiscomplete;
+      @endphp
+    @endforeach
+    @if($registrationiscomplete)
+      <div class="alert alert-success rounded-0" role="alert">
+        <p class="h4">Registration is complete</p>
+        @php
+          switch(config('database.default'))
+          {
+            case('pgsql'):
+              $caststring = '::TEXT';
+              break;
+            case('mysql'):
+              $caststring = '';
+              break;
+          }
+          $q = "with a as (select userid,checklistdescr,'Yes' as tickbox from rego_checklist natural join v_user_rego_items order by userid,checklistord), b as (select distinct checklistdescr,checklistord from rego_checklist), c as (select id as userid from iv_users) select userid,checklistdescr,coalesce(tickbox{$caststring},'No') as tickbox from (b cross join c) left join a using (userid,checklistdescr) where userid = ? order by userid,checklistord";
+          $checklist = DB::select($q,[$person->id]);
+        @endphp
+        <table class="table table-sm">
+          @foreach($checklist as $checklistitem)
+            <tr><td class="pl-0">{{ $checklistitem->checklistdescr }}</td><td class="pr-0">{{ $checklistitem->tickbox }}</td></tr>
+          @endforeach
+        </table>
+      </div>
+    @else
+      <div class="alert alert-danger rounded-0" role="alert">
+        <p class="h4">Registration is not yet finished</p>
+      </div>
+    @endif
   @endforeach
 @endsection
