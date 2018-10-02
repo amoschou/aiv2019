@@ -206,7 +206,17 @@
           <tr><td class="pl-0">{{ $checklistitem->checklistdescr }}</td><td class="pr-0">{{ $checklistitem->tickbox }}</td></tr>
         @endforeach
       </table>
-      <p>Incomplete registration sections: {{ var_dump($omittedsections) }}</p>
+      @if(!$registrationiscomplete)
+        @php
+          $omittedsectionsobj = DB::table('rego_sections')->whereIn('sectionid',$omittedsections)->get();
+        @endphp
+        <p>Omitted sections:</p>
+        <ul>
+          @foreach($omittedsectionsobj as $section)
+            <li>{{ $section->sectionname }}</li>
+          @endforeach
+        </ul>
+      @endif
     </div>
   @endforeach
 @endsection
