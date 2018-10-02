@@ -174,11 +174,16 @@
               sectionord";
       $sections = DB::select($q,[$person->id]);
       $registrationiscomplete = True;
+      $omittedsections = [];
     @endphp
     @foreach($sections as $section)
       @php
         $tick = in_array($section->sectionid,$submittedsections);
-        $registrationiscomplete = !$tick ? False : $registrationiscomplete;
+        if(!$tick)
+        {
+          $registrationiscomplete = False;
+          $omittedsections[] = $section->sectionid;
+        }
       @endphp
     @endforeach
     <div class="alert alert-{{ $registrationiscomplete ? 'success' : 'danger' }} rounded-0" role="alert">
@@ -201,6 +206,7 @@
           <tr><td class="pl-0">{{ $checklistitem->checklistdescr }}</td><td class="pr-0">{{ $checklistitem->tickbox }}</td></tr>
         @endforeach
       </table>
+      <p>Incomplete registration sections: {{ var_dump($omittedsections) }}</p>
     </div>
   @endforeach
 @endsection
