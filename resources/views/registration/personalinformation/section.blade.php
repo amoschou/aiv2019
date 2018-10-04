@@ -40,6 +40,9 @@
       @break
     @case(6)
       @php
+        $q = "SELECT v_cols_essential.id,firstname,lastname,sleepingatcamp,accommodation FROM v_cols_accommodation natural join v_cols_essential order by lastname,firstname";
+        $c = ['id','firstname','lastname','sleepingatcamp','accommodation'];
+        $h = ['ID','First name','Last name','Sleeping at camp and linen hire','Non camp accommodation'];
       @endphp
       @break
     @case(7)
