@@ -138,9 +138,6 @@ class SignupController extends Controller
           'subscribed' => true,
         ]);
         
-        var_dump($mailinglistResult); die();
-        
-        
         $context = [
         'activetab' => 'login',
         'titletext' => 'Registration',
