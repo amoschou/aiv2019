@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use Tuupola\Base62Proxy as Base62;
+use Mailgun\Mailgun;
 
 class SignupController extends Controller
 {
@@ -128,6 +129,16 @@ class SignupController extends Controller
         $data->url = secure_url("/login/{$data->token}");
         Mail::to($data->email)->send(new SignupForm($data));
         DB::commit();
+        
+        $mgClient = new Mailgun(env('MAILGUN_SECRET'))
+        $listAddress = '2019@' . env('MAILGUN_DOMAIN');
+        $mailinglistResult = $mgClient->post("lists/$listAddress/members"), [
+          'address' => $data->email,
+          'subscribed' => true,
+          'vars' => "{\"username\": {$data->username}, \"id\": {$data->id}, \"accountref\": {$accountref}"
+        ]);
+        
+        
         $context = [
         'activetab' => 'login',
         'titletext' => 'Registration',
