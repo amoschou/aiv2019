@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use Tuupola\Base62Proxy as Base62;
-use Mailgun\Mailgun;
 
 class SignupController extends Controller
 {
