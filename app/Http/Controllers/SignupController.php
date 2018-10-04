@@ -129,7 +129,7 @@ class SignupController extends Controller
         Mail::to($data->email)->send(new SignupForm($data));
         DB::commit();
         
-        $mgClient = new \Mailgun(env('MAILGUN_SECRET'));
+        $mgClient = new \Mailgun\Mailgun(env('MAILGUN_SECRET'));
         $listAddress = '2019@' . env('MAILGUN_DOMAIN');
         $mailinglistResult = $mgClient->post("lists/$listAddress/members", [
           'address' => $data->email,
