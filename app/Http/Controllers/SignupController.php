@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Mailgun\Mailgun;
+
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use Tuupola\Base62Proxy as Base62;
-use Bogardo\Mailgun as Mailgun;
 
 class SignupController extends Controller
 {
