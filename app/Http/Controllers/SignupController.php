@@ -136,8 +136,9 @@ class SignupController extends Controller
         $mailinglistResult = $mgClient->post("lists/$listAddress/members", [
           'address' => $data->email,
           'subscribed' => true,
-          'vars' => "{\"username\": {$data->username}, \"id\": {$data->id}, \"accountref\": {$accountref}"
         ]);
+        
+        var_dump($mailinglistResult); die();
         
         
         $context = [
