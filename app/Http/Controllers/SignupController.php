@@ -132,7 +132,7 @@ class SignupController extends Controller
         
         $mgClient = new Mailgun(env('MAILGUN_SECRET'));
         $listAddress = '2019@' . env('MAILGUN_DOMAIN');
-        $mailinglistResult = $mgClient->post("lists/$listAddress/members"), [
+        $mailinglistResult = $mgClient->post("lists/$listAddress/members", [
           'address' => $data->email,
           'subscribed' => true,
           'vars' => "{\"username\": {$data->username}, \"id\": {$data->id}, \"accountref\": {$accountref}"
