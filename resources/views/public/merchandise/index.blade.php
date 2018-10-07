@@ -16,6 +16,7 @@
   <p>$5 each. The festival logo is printed on them.</p>
   <h4>Adelaide IV 2019 festival T&nbsp;shirt</h4>
   <p>$30. The shirt is purple with silver print displaying the festival cathedral logo against a starry background on front.</p>
+  <img src="/documents/merchandise/tshirt.png">
   <p>Size charts are <a href="/documents/merchandise/size1.png">here</a> and <a href="/documents/merchandise/size2.png">here</a>.</p>
   @section('receiptmessage')
   @stop
