@@ -94,6 +94,8 @@ Route::get('/home/personalinformation/person/{userid}', 'PersonalInformationCont
 Route::get('/home/personalinformation/section/{sectionid}', 'HomeController@personalinformationsection')->name('home.personalinformation.section')->middleware('committee');
 Route::get('/home/personalinformation/complex/repertoire', 'PersonalInformationController@complexchoir')->name('home.personalinformation.complex.choir')->middleware('committee');
 
+Route::get('/home/personalinformation/variousthings', 'PersonalInformationController@variousthings')->name('home.personalinformation.variousthings')->middleware('committee');
+
 
 
 

@@ -33,6 +33,17 @@ class PersonalInformationController extends Controller
     return view('registration.personalinformation.complex.choir',$context);
   }
   
+  public function variousthings(Request $request)
+  {
+    $context = [
+      'sectionshortname' => NULL,
+      'accordionshow' => NULL,
+      'iscommittee' => $request->user()->iscommittee,
+      'sectionid' => NULL
+    ];
+    return view('registration.personalinformation.variousthings',$context);
+  }
+  
   public function byindividualindex(Request $request)
   {
     $context = [
