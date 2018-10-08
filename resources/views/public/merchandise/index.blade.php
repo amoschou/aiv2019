@@ -18,6 +18,9 @@
   <p>$30. The shirt is purple with silver print displaying the festival cathedral logo against a starry background on front.</p>
   <img src="/documents/merchandise/tshirt.png" width="50%">
   <p>Size charts are <a href="/documents/merchandise/size1.png">here</a> and <a href="/documents/merchandise/size2.png">here</a>.</p>
+  <h4>Adelide IV 2019 festival tote bag</h4>
+  <p>$15. The bag is black with the festival print on its side.</p>
+  <img src="/documents/merchandise/bag.png" width="50%">
   @section('receiptmessage')
   @stop
 @stop
