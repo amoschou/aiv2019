@@ -256,7 +256,7 @@
       ];
     @endphp
   
-    @include('mail.registration.buisiness.invoice', $emailcontext)
+    @include('mail.registration.checkup.index', $emailcontext)
 
   @endforeach
 @endsection
