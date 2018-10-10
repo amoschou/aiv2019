@@ -23,7 +23,7 @@
     </ul>
     <p>And will <strong>not</strong> be participating in the following activities and events:</p>
     <ul>
-      @foreach( $excludeevents as $event )
+      @foreach( $excludedevents as $event )
         <li>{{ $event }}</li>
       @endforeach
     </ul>
