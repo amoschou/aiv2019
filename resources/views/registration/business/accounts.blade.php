@@ -233,6 +233,10 @@
             <li>{{ $section->sectionname }}</li>
           @endforeach
         </ul>
+      @else
+        @php
+          $omittedsectionsobj = [];
+        @endphp
       @endif
     </div>
   
