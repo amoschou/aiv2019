@@ -200,10 +200,27 @@
         }
         $q = "with a as (select userid,checklistdescr,'Yes' as tickbox from rego_checklist natural join v_user_rego_items order by userid,checklistord), b as (select distinct checklistdescr,checklistord from rego_checklist), c as (select id as userid from iv_users) select userid,checklistdescr,coalesce(tickbox{$caststring},'No') as tickbox from (b cross join c) left join a using (userid,checklistdescr) where userid = ? order by userid,checklistord";
         $checklist = DB::select($q,[$person->id]);
+        $numberofactivities = 0;
+        $includedevents = [];
+        $excludedevents = [];
       @endphp
       <table class="table table-sm">
         @foreach($checklist as $checklistitem)
-          <tr><td class="pl-0">{{ $checklistitem->checklistdescr }}</td><td class="pr-0">{{ $checklistitem->tickbox }}</td></tr>
+          <tr>
+            <td class="pl-0">{{ $checklistitem->checklistdescr }}</td>
+            <td class="pr-0">{{ $checklistitem->tickbox }}</td>
+            @php
+              if($checklistitem->tickbox == 'Yes')
+              {
+                $numberofactivities++;
+                $includedevents[] = $checklistitem->checklistdescr;
+              }
+              else
+              {
+                $excludedevents[] = $checklistitem->checklistdescr;
+              }
+            @endphp
+          </tr>
         @endforeach
       </table>
       @if(!$registrationiscomplete)
@@ -218,5 +235,24 @@
         </ul>
       @endif
     </div>
+  
+    {{-- Email below --}}
+  
+    @php
+      $emailcontext = [
+        'firstname' => $person->firstname,
+        'registrationcomplete' => $registrationiscomplete,
+        'allactivities' => $numberofactivities == 5 ? True : False,
+        'includedevents' => $includedevents,
+        'excludedevents' => $excludedevents,
+        'unusualcombination' => mt_rand(0,1) == 1, // Random
+        'omittedsectionsobj' => $omittedsectionsobj,
+        'totalamountpayable' => $regoitemtotal,
+        'totalpayments' => $stripetotal + $banktotal,
+      ];
+    @endphp
+  
+    @include('mail.registration.buisiness.invoice', $emailcontext)
+
   @endforeach
 @endsection
