@@ -1,6 +1,7 @@
 @extends('registration.layouts.appwithsidebar')
 
 @section('innercontent')
+  GETEMAIL: {{ var_dump($getemail) }}
   <h1>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h1>
   <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
   <p class="font-weight-bold">No GST has been charged.</p>
@@ -13,6 +14,7 @@
         $a = (int) ($a - $tenths)/10;
         return '$' . $a . '.' . $tenths . $hundredths ;
       }
+      $people = [];
   @endphp
   @foreach($people as $person)
     <hr>

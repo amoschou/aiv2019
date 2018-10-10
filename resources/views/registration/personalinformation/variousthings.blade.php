@@ -2,12 +2,14 @@
 
 @section('innercontent')
   <h1>Various things</h1>
+  
+  <h2>iv_users table</h2>
+  <p>Warning: This table also includes false accounts. Be careful when using it that the ID and reference number match up to who you want.</p>
   @php
     $q = "select id,accountref,email,username from iv_users";
     $c = ['id','accountref','email','username'];
     $h = ['ID','Account reference number','Email','Username'];
   @endphp
-  
   <table id="datatable" class="table table-sm table-striped table-bordered">
     <thead class="thead-dark">
       @foreach($h as $hh)
