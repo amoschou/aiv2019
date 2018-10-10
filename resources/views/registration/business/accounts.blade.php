@@ -256,7 +256,6 @@
       ];
     @endphp
     
-    @if($getemail == '')
     @include('mail.registration.checkup.index', $emailcontext)
 
   @endforeach
