@@ -224,14 +224,18 @@
         $billetingrequestselect = DB::select($billetingrequestq,[$person->id]); // [0]->billetingrequest ? true : false;
         $accommodationselect = DB::select($accommodationq,[$person->id]); // [0]->accommodation ? true : false;
 
-        $sleepingatcamp = $sleepingatcampselect[0];
-        $billetingrequest = $billetingrequestselect[0];
-        $accommodation = $accommodationselect[0];
-
-var_dump($sleepingatcamp);
-var_dump($billetingrequest);
-var_dump($accommodation);
-die();
+        foreach($sleepingatcampselect as $a)
+        {
+          $sleepingatcamp = $a->sleepingatcamp ? true : false;
+        }
+        foreach($billetingrequestselect as $a)
+        {
+          $billetingrequest = $a->billetingrequest ? true : false;
+        }
+        foreach($accommodationselect as $a)
+        {
+          $accommodation = $a->accommodation ? true : false;
+        }
 
         $antisocialchorister = $ischoral && !$issocial ? true : false;
         $foreignernotsleepingatcamp = !$isadelaide && !$sleepingatcamp ? true : false;
