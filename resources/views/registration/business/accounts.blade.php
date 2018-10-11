@@ -224,6 +224,9 @@
         $billetingrequestselect = DB::select($billetingrequestq,[$person->id]); // [0]->billetingrequest ? true : false;
         $accommodationselect = DB::select($accommodationq,[$person->id]); // [0]->accommodation ? true : false;
 
+        $sleepingatcamp = NULL;
+        $billetingrequest = NULL;
+        $accommodation = NULL;
         foreach($sleepingatcampselect as $a)
         {
           $sleepingatcamp = $a->sleepingatcamp ? true : false;
