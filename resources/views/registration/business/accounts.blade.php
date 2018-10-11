@@ -207,9 +207,6 @@
         $essentialrecord = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide')->where('id',$person->id)->first();
         $personalrecord = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$person->id)->first();
         
-        var_dump($essentialrecord);
-        var_dump($personalrecord);
-        die();
         
         $ischoral = $essentialrecord->doing_singing ? true : false;
         $issocial = $essentialrecord->doing_social ? true : false;
@@ -222,9 +219,22 @@
         $billetingrequestq = "select userid as id, case when responsejson <> '[\"hiddeninput\"]' then true else false end as billetingrequeste from rego_responses where questionshortname = 'billetingrequest' and userid = ?";
         $accommodationq = "select userid as id,case when json_unquote(responsejson) is not null then true else false end as accommodation from rego_responses where questionshortname = 'accommodation' and userid = ?";
         
-        $sleepingatcamp = DB::select($sleepingatcampq,[$person->id])->first()->sleepingatcamp ? true : false;
-        $billetingrequest = DB::select($billetingrequestq,[$person->id])->first()->billetingrequest ? true : false;
-        $accommodation = DB::select($accommodationq,[$person->id])->first()->accommodation ? true : false;
+
+        $sleepingatcampselect = DB::select($sleepingatcampq,[$person->id]);
+//        $sleepingatcamp = 
+//        ->first()->sleepingatcamp ? true : false;
+        $billetingrequestselect = DB::select($billetingrequestq,[$person->id]);
+//        $billetingrequest = 
+//        ->first()->billetingrequest ? true : false;
+        $accommodationselect = DB::select($accommodationq,[$person->id]);
+//        $accommodation = 
+//        ->first()->accommodation ? true : false;
+
+var_dump($sleepingatcampselect);
+var_dump($billetingrequestselect);
+var_dump($accommodationselect);
+die();
+
         
         $antisocialchorister = $ischoral && !$issocial ? true : false;
         $foreignernotsleepingatcamp = !$isadelaide && !$sleepingatcamp ? true : false;
