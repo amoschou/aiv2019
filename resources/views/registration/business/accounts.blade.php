@@ -240,7 +240,7 @@
         $antisocialchorister = $ischoral && !$issocial ? true : false;
         $foreignernotsleepingatcamp = !$isadelaide && !$sleepingatcamp ? true : false;
         $homelessforeignstudent = $isstudent && !$isadelaide && !$billetingrequest;
-        $homelessforeignnonstudents = !$isstudent && !$isnotadelaide && !$accommodation;
+        $homelessforeignnonstudents = !$isstudent && !$isadelaide && !$accommodation;
         
       @endphp
       <table class="table table-sm">
