@@ -204,7 +204,7 @@
         $includedevents = [];
         $excludedevents = [];
 
-        $essentialrecord = DB::table('v_cols_essential')->select('userid','doing_singing','doing_social','adelaide)->where('userid',$person->id)->first();
+        $essentialrecord = DB::table('v_cols_essential')->select('userid','doing_singing','doing_social','adelaide')->where('userid',$person->id)->first();
         $personalrecord = DB::table('v_cols_personal')->select('userid','student','youth')->where('userid',$userid)->first();
 
         $ischoral = $essentialrecord->doing_singing ? true : false;
