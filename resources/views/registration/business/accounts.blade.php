@@ -244,18 +244,18 @@
         
       @endphp
       <table class="table table-sm">
-        <tr><td>$ischoral</td><td></td>{{ $ischoral }}</tr>      
-        <tr><td>$issocial</td><td></td>{{ $issocial }}</tr>      
-        <tr><td>$isadelaide</td><td></td>{{ $isadelaide }}</tr>      
-        <tr><td>$isstudent</td><td></td>{{ $isstudent }}</tr>      
-        <tr><td>$isyouth</td><td></td>{{ $isyouth }}</tr>      
-        <tr><td>$sleepingatcamp</td><td></td>{{ $sleepingatcamp }}</tr>      
-        <tr><td>$billetingrequest</td><td></td>{{ $billetingrequest }}</tr>      
-        <tr><td>$accommodation</td><td></td>{{ $accommodation }}</tr>      
-        <tr><td>$antisocialchorister</td><td></td>{{ $antisocialchorister }}</tr>      
-        <tr><td>$foreignernotsleepingatcamp</td><td></td>{{ $foreignernotsleepingatcamp }}</tr>      
-        <tr><td>$homelessforeignstudent</td><td></td>{{ $homelessforeignstudent }}</tr>      
-        <tr><td>$homelessforeignnonstudents</td><td></td>{{ $homelessforeignnonstudents }}</tr>      
+        <tr><td>$ischoral</td><td></td>{{ var_dump($ischoral) }}</tr>      
+        <tr><td>$issocial</td><td></td>{{ var_dump($issocial) }}</tr>      
+        <tr><td>$isadelaide</td><td></td>{{ var_dump($isadelaide) }}</tr>      
+        <tr><td>$isstudent</td><td></td>{{ var_dump($isstudent) }}</tr>      
+        <tr><td>$isyouth</td><td></td>{{ var_dump($isyouth) }}</tr>      
+        <tr><td>$sleepingatcamp</td><td></td>{{ var_dump($sleepingatcamp) }}</tr>      
+        <tr><td>$billetingrequest</td><td></td>{{ var_dump($billetingrequest) }}</tr>      
+        <tr><td>$accommodation</td><td></td>{{ var_dump($accommodation) }}</tr>      
+        <tr><td>$antisocialchorister</td><td></td>{{ var_dump($antisocialchorister) }}</tr>      
+        <tr><td>$foreignernotsleepingatcamp</td><td></td>{{ var_dump($foreignernotsleepingatcamp) }}</tr>      
+        <tr><td>$homelessforeignstudent</td><td></td>{{ var_dump($homelessforeignstudent) }}</tr>      
+        <tr><td>$homelessforeignnonstudents</td><td></td>{{ var_dump($homelessforeignnonstudents) }}</tr>      
       </table>
       <table class="table table-sm">
         @foreach($checklist as $checklistitem)
