@@ -26,11 +26,41 @@
         <li>{{ $event }}</li>
       @endforeach
     </ul>
+    @if( $isstudent )
+      @if( !$isadelaide )
+        <p>Billeting is strictly limited. As you are a student not from Adelaide, please upload a copy of your student ID or enrolment status to <a href="https://www.aiv.org.au/home/registration/2/edit">https://www.aiv.org.au/home/registration/2/edit</a> as soon as possible, if you have not done so already, so that we can verify this before allocating billets.</p>
+      @else
+        <p>To maintain your student concession fees, please remember to upload your student ID or concession status if you have not done so already at <a href="https://www.aiv.org.au/home/registration/2/edit">https://www.aiv.org.au/home/registration/2/edit</a>, or be prepared to show this to us by the beginning of the festival.</p>
+      @endif
+    @else
+      @if( $isyouth )
+        <p>To maintain your youth concession fees, please remember to upload your ID if you have not done so already at <a href="https://www.aiv.org.au/home/registration/2/edit">https://www.aiv.org.au/home/registration/2/edit</a>, or be prepared to show this to us by the beginning of the festival.</p>
+      @endif
+    @endif
     @if( $unusualcombination )
-      <p>However, the combination of events that you have chosen seems to be unusual.</p>
-      ...
-      ...
-      ...
+      <p>However, the combination of events that you have chosen seems to be unusual:</p>
+      <ul>
+        @if ( $antisocialchorister )
+          <li>You are part of the choir, but are not coming to social events including the academic dinner, post concert party and farewell barbecue.<br>
+          Choristers would normally come to these social events.<br>
+          If this isn’t right, please visit <a href="https://www.aiv.org.au/home/registration/1/edit">https://www.aiv.org.au/home/registration/1/edit</a> and make sure that you select <emph>At social events</emph>.</li>
+        @endif
+        @if ( $foreignernotsleepingatcamp )
+          <li>You are not from Adelaide, but you are not sleeping at camp.<br>
+          Choristers, especially those not from Adelaide, would normally sleep at camp.<br>
+          If this isn’t right, please visit <a href="https://www.aiv.org.au/home/registration/6/edit">https://www.aiv.org.au/home/registration/6/edit</a> and make sure that you select the right option.</li>
+        @endif
+        @if ( $homelessforeignstudent )
+          <li>You are a student not from Adelaide, but you have not requested billeting.<br>
+          We are offering billeting to all students who are not from Adelaide, so that they won’t need to seek their own accommodation. You are, however, welcome to seek your own accommodation if you so choose.<br>
+          If this isn’t right, please visit <a href="https://www.aiv.org.au/home/registration/7/edit">https://www.aiv.org.au/home/registration/7/edit</a> to request billeting.<br>
+          </li>
+        @endif
+        @if ( $homelessforeignnonstudents )
+          <li>You are not from Adelaide, but you have not told us about your accommodation.<br>
+          We are not offering billeting, except to students, and as you are not a student, you will need to arrange your own accommodation. There’s no need to tell us about where you will be staying, but this message is just in case you weren’t aware.</li>
+        @endif
+      </ul>
     @endif
   @endif
   <p>If there is an error with your registration, please change it by visiting <a href="https://www.aiv.org.au/home">https://www.aiv.org.au/home</a> as soon as possible.</p>
