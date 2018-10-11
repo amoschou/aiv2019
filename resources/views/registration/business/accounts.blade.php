@@ -204,8 +204,10 @@
         $includedevents = [];
         $excludedevents = [];
 
-        $essentialrecord = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide')->where('id',$person->id)->first();
-        $personalrecord = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$person->id)->first();
+        $essentialrecords = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide')->where('id',$person->id);
+        $personalrecords = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$person->id);
+        $essentialrecord = $essentialrecords[0];
+        $personalrecord = $personalrecords[0];
 
         $ischoral = $essentialrecord->doing_singing ? true : false;
         $issocial = $essentialrecord->doing_social ? true : false;
