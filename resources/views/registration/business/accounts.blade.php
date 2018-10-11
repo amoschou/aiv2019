@@ -204,8 +204,8 @@
         $includedevents = [];
         $excludedevents = [];
 
-        $essentialrecords = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide')->where('id',$person->id);
-        $personalrecords = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$person->id);
+        $essentialrecords = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide')->where('id',$person->id)->first();
+        $personalrecords = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$person->id)->first();
         
         var_dump($essentialrecords);
         var_dump($personalrecords);
