@@ -245,6 +245,8 @@
         $homelessforeignstudent = $isstudent && !$isadelaide && !$billetingrequest;
         $homelessforeignnonstudents = !$isstudent && !$isadelaide && !$accommodation;
         
+        $unusualcombination = $antisocialchorister || $foreignernotsleepingatcamp || $homelessforeignstudent || $homelessforeignnonstudents
+        
       @endphp
       <table class="table table-sm">
         @foreach($checklist as $checklistitem)
@@ -291,7 +293,7 @@
         'allactivities' => $numberofactivities == 5 ? True : False,
         'includedevents' => $includedevents,
         'excludedevents' => $excludedevents,
-        'unusualcombination' => mt_rand(0,1) == 1, // Random
+        'unusualcombination' => $unusualcombination
         'omittedsectionsobj' => $omittedsectionsobj,
         'totalamountpayable' => $regoitemtotal,
         'totalpayments' => $stripetotal + $banktotal,
@@ -305,11 +307,13 @@
       ];
     @endphp
     
-    @if($getemail == 'display')
-      @include('mail.registration.checkup.index', $emailcontext)
-    @elseif($getemail == 'testsend')
-    @elseif($getemail == 'realsend')
-    @endif
+    <div class="alert alert-info rounded-0" role="alert">
+      @if($getemail == 'display')
+        @include('mail.registration.checkup.index', $emailcontext)
+      @elseif($getemail == 'testsend')
+      @elseif($getemail == 'realsend')
+      @endif
+    </div>
 
   @endforeach
 @endsection
