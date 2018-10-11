@@ -224,6 +224,10 @@
         $billetingrequest = DB::select($billetingrequestq,[$person->id]); // [0]->billetingrequest ? true : false;
         $accommodation = DB::select($accommodationq,[$person->id]); // [0]->accommodation ? true : false;
 
+        $sleepingatcamp = sleepingatcampselect[0];
+        $billetingrequest = billetingrequestselect[0];
+        $accommodation = accommodationselect[0];
+
 var_dump($sleepingatcamp);
 var_dump($billetingrequest);
 var_dump($accommodation);
