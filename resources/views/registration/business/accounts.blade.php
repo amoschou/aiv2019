@@ -215,7 +215,7 @@
         $isyouth = $personalrecord->youth;
 
         $sleepingatcampq = "select userid as id,case when json_search(responsejson,'one','no') is not null then false else true end as sleepingatcamp from rego_responses where questionshortname = 'sleepingatcamp' and userid = ?";
-        $billetingrequestq = "select userid as id, case when responsejson <> '["hiddeninput"]' then true else false end as billetingrequeste from rego_responses where questionshortname = 'billetingrequest' and userid = ?";
+        $billetingrequestq = "select userid as id, case when responsejson <> '[\"hiddeninput\"]' then true else false end as billetingrequeste from rego_responses where questionshortname = 'billetingrequest' and userid = ?";
         $accommodationq = "select userid as id,case when json_unquote(responsejson) is not null then true else false end as accommodation from rego_responses where questionshortname = 'accommodation' and userid = ?";
         
         $sleepingatcamp = DB::select($sleepingatcampq,[$person->id])->first()->sleepingatcamp ? true : false;
