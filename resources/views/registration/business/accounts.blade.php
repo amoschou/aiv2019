@@ -245,7 +245,7 @@
         $homelessforeignstudent = $isstudent && !$isadelaide && !$billetingrequest;
         $homelessforeignnonstudents = !$isstudent && !$isadelaide && !$accommodation;
         
-        $unusualcombination = $antisocialchorister || $foreignernotsleepingatcamp || $homelessforeignstudent || $homelessforeignnonstudents
+        $unusualcombination = $antisocialchorister || $foreignernotsleepingatcamp || $homelessforeignstudent || $homelessforeignnonstudents;
         
       @endphp
       <table class="table table-sm">
