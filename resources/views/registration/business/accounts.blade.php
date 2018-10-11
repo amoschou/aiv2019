@@ -220,9 +220,14 @@
         $accommodationq = "select userid as id,case when json_unquote(responsejson) is not null then true else false end as accommodation from rego_responses where questionshortname = 'accommodation' and userid = ?";
         
 
-        $sleepingatcamp = DB::select($sleepingatcampq,[$person->id])[0]->sleepingatcamp ? true : false;
-        $billetingrequest = DB::select($billetingrequestq,[$person->id])[0]->billetingrequest ? true : false;
-        $accommodation = DB::select($accommodationq,[$person->id])[0]->accommodation ? true : false;
+        $sleepingatcamp = DB::select($sleepingatcampq,[$person->id]); // [0]->sleepingatcamp ? true : false;
+        $billetingrequest = DB::select($billetingrequestq,[$person->id]); // [0]->billetingrequest ? true : false;
+        $accommodation = DB::select($accommodationq,[$person->id]); // [0]->accommodation ? true : false;
+
+var_dump($sleepingatcamp);
+var_dump($billetingrequest);
+var_dump($accommodation);
+die();
 
         $antisocialchorister = $ischoral && !$issocial ? true : false;
         $foreignernotsleepingatcamp = !$isadelaide && !$sleepingatcamp ? true : false;
