@@ -1,8 +1,7 @@
 <p>Hi {{ $firstname }},</p>
 <p>This email contains important information about Adelaide IV. Please read and understand it carefully.</p>
 
-<hr>
-<h1>Registration</h1>
+<h3>Registration</h3>
 
 @if( $registrationcomplete )
   @if( $allactivities )
@@ -46,14 +45,13 @@
   <p>Please do this as soon as possible by visiting <a href="https://www.aiv.org.au/home">https://www.aiv.org.au/home</a> within the next few days. We are in the process of confirming numbers and we need accurate information from you.</p>
 @endif
 
-<hr>
-<h1>Payments</h1>
+<h3>Payments</h3>
 
 @php
   $balancedue = $totalamountpayable - $totalpayments;
 @endphp
 
-<h2>Payment summary</h2>
+<h4>Payment summary</h4>
 
 @if( $registrationiscomplete )
   <p>Your total amount payable on your invoice is ${{ number_format($totalamountpayable,2,'.','') }}.</p>
@@ -64,15 +62,15 @@
 @if($totalpayments == 0)
   <p>There have been no payments to your account so far, and the balance due is currently ${{ number_format($balancedue,2,'.','') }}.</p>
 @elseif($totalpayments < $totalamountpayable)
-  <p>Payments received so far total ${{ number_format($totalpayments,2,'.','')  }}, and the balance due is currently {{ number_format($balancedue,2,'.','') }}.</p>
-@elseif($totalpayments = $totalamountpayable)
+  <p>Payments received so far total ${{ number_format($totalpayments,2,'.','')  }}, and the balance due is currently ${{ number_format($balancedue,2,'.','') }}.</p>
+@elseif($totalpayments == $totalamountpayable)
   <p>This has been paid in full.</p>
 @elseif($totalpayments > $totalamountpayable)
   <p>Payments received so far total {{ number_format($totalpayments,2,'.','')  }}, so this has been paid in full, with an overpayment of ${{ number_format(-$balancedue,2,'.','') }}.</p>
 @endif
 
 @if($totalpayments < $totalamountpayable)
-  <h2>Payment due dates</h2>
+  <h4>Payment due dates</h4>
   <p>Please keep to the due dates to avoid incurring any penalty.</p>
   @if($totalamountpayable <= 50)
     @if($totalpayments == 0)

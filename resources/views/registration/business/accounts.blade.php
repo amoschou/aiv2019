@@ -203,7 +203,45 @@
         $numberofactivities = 0;
         $includedevents = [];
         $excludedevents = [];
+
+        $essentialrecord = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide)->where('id',$person->id)->first();
+        $personalrecord = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$userid)->first();
+
+        $ischoral = $essentialrecord->doing_singing ? true : false;
+        $issocial = $essentialrecord->doing_social ? true : false;
+        $isadelaide = $essentialrecord->adelaide ? true : false;
+
+        $isstudent = $personalrecord->student;
+        $isyouth = $personalrecord->youth;
+
+        $sleepingatcampq = "select userid as id,case when json_search(responsejson,'one','no') is not null then false else true end as sleepingatcamp from rego_responses where questionshortname = 'sleepingatcamp' and userid = ?";
+        $billetingrequestq = "select userid as id, case when responsejson <> '["hiddeninput"]' then true else false end as billetingrequeste from rego_responses where questionshortname = 'billetingrequest' and userid = ?";
+        $accommodationq = "select userid as id,case when json_unquote(responsejson) is not null then true else false end as accommodation from rego_responses where questionshortname = 'accommodation' and userid = ?";
+        
+        $sleepingatcamp = DB::select($sleepingatcampq,[$person->id])->first()->sleepingatcamp ? true : false;
+        $billetingrequest = DB::select($billetingrequestq,[$person->id])->first()->billetingrequest ? true : false;
+        $accommodation = DB::select($accommodationq,[$person->id])->first()->accommodation ? true : false;
+        
+        $antisocialchorister = $ischoral && !$issocial ? true : false;
+        $foreignernotsleepingatcamp = !$isadelaide && !$sleepingatcamp ? true : false;
+        $homelessforeignstudent = $isstudent && !$isadelaide && !$billetingrequest
+        $homelessforeignnonstudents = !$isstudent && !$isnotadelaide && !$accommodation
+        
       @endphp
+      <table class="table table-sm">
+        <tr><td>$ischoral</td><td></td>{{ $ischoral }}</tr>      
+        <tr><td>$issocial</td><td></td>{{ $issocial }}</tr>      
+        <tr><td>$isadelaide</td><td></td>{{ $isadelaide }}</tr>      
+        <tr><td>$isstudent</td><td></td>{{ $isstudent }}</tr>      
+        <tr><td>$isyouth</td><td></td>{{ $isyouth }}</tr>      
+        <tr><td>$sleepingatcamp</td><td></td>{{ $sleepingatcamp }}</tr>      
+        <tr><td>$billetingrequest</td><td></td>{{ $billetingrequest }}</tr>      
+        <tr><td>$accommodation</td><td></td>{{ $accommodation }}</tr>      
+        <tr><td>$antisocialchorister</td><td></td>{{ $antisocialchorister }}</tr>      
+        <tr><td>$foreignernotsleepingatcamp</td><td></td>{{ $foreignernotsleepingatcamp }}</tr>      
+        <tr><td>$homelessforeignstudent</td><td></td>{{ $homelessforeignstudent }}</tr>      
+        <tr><td>$homelessforeignnonstudents</td><td></td>{{ $homelessforeignnonstudents }}</tr>      
+      </table>
       <table class="table table-sm">
         @foreach($checklist as $checklistitem)
           <tr>
@@ -253,10 +291,17 @@
         'omittedsectionsobj' => $omittedsectionsobj,
         'totalamountpayable' => $regoitemtotal,
         'totalpayments' => $stripetotal + $banktotal,
+        'antisocialchorister' => $antisocialchorister,
+        'foreignernotsleepingatcamp' => $foreignernotsleepingatcamp,
+        
       ];
     @endphp
     
-    @include('mail.registration.checkup.index', $emailcontext)
+    @if($getemail == 'display')
+      @include('mail.registration.checkup.index', $emailcontext)
+    @elseif($getemail == 'testsend')
+    @elseif($getemail == 'realsend')
+    @endif
 
   @endforeach
 @endsection
