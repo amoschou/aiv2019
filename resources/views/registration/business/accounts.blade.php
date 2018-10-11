@@ -293,7 +293,7 @@
         'allactivities' => $numberofactivities == 5 ? True : False,
         'includedevents' => $includedevents,
         'excludedevents' => $excludedevents,
-        'unusualcombination' => $unusualcombination
+        'unusualcombination' => $unusualcombination,
         'omittedsectionsobj' => $omittedsectionsobj,
         'totalamountpayable' => $regoitemtotal,
         'totalpayments' => $stripetotal + $banktotal,
