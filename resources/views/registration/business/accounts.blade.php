@@ -212,8 +212,8 @@
         $issocial = $essentialrecord->doing_social ? true : false;
         $isadelaide = $essentialrecord->adelaide ? true : false;
 
-        $isstudent = $personalrecord->student;
-        $isyouth = $personalrecord->youth;
+        $isstudent = $personalrecord->student ?? NULL;
+        $isyouth = $personalrecord->youth ?? NULL;
 
         $sleepingatcampq = "select userid as id,case when json_search(responsejson,'one','no') is not null then false else true end as sleepingatcamp from rego_responses where questionshortname = 'sleepingatcamp' and userid = ?";
         $billetingrequestq = "select userid as id, case when responsejson <> '[\"hiddeninput\"]' then true else false end as billetingrequest from rego_responses where questionshortname = 'billetingrequest' and userid = ?";
