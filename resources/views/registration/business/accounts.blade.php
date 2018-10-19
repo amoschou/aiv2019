@@ -299,7 +299,7 @@
     {{-- Email below --}}
   
     @php
-      $emailcontext = [
+      $variables = [
         'firstname' => $person->firstname,
         'registrationcomplete' => $registrationiscomplete,
         'allactivities' => $numberofactivities == 5 ? True : False,
@@ -317,7 +317,8 @@
         'isstudent' => $isstudent,
         'isadelaide' => $isadelaide,
       ];
-      
+      $data = (object) $variables;
+      $emailcontext = [ 'data' => $data ]
     @endphp
     
     <div class="alert alert-info rounded-0" role="alert">
@@ -328,11 +329,11 @@
         @include('mail.registration.checkup.index', $emailcontext)
       @elseif($getemail == 'testsend')
         @php
-          Mail::to($authenticatedusersemail)->send(new App\Mail\CheckupRegistration($emailcontext));
+          Mail::to($authenticatedusersemail)->send(new App\Mail\CheckupRegistration($data));
         @endphp
       @elseif($getemail == 'realsend')
         @php
-          Mail::to($personemail)->send(new App\Mail\CheckupRegistration($emailcontext));
+          Mail::to($personemail)->send(new App\Mail\CheckupRegistration($data));
         @endphp
       @endif
     </div>
