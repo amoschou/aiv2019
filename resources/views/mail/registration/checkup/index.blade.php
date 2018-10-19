@@ -1,5 +1,5 @@
 <p>Hi {{ $data->firstname }},</p>
-<p>This email contains important information about Adelaide IV. Please read and understand it carefully.</p>
+<p>This email contains important information about Adelaide IV. Please read and understand it fully and carefully.</p>
 <p>This email has been generated automatically and there is no need to reply. But if you have an important question, please email andrew@aiv.org.au.</p>
 <p>Thanks,<br>Andrew Moschou<br>Treasurer, AIVCF Adelaide</p>
 
@@ -90,7 +90,7 @@
 
 <p>If you are ordering merchandise, please use this time to check that your orders are correct, especially for the festival water bottles, T shirts, wine glasses and tote bags, because these orders will need to be finalised by the end of October.</p>
 <p>In case you missed it the announcement earlier, tote bags are now also for sale.</p>
-<p>If you ordered a T shirt, please check that the size is correct using the size charts <a href="/documents/merchandise/size1.png">here</a> and <a href="/documents/merchandise/size2.png">here</a>.</p>
+<p>If you ordered a T shirt, please check that the size is correct using the size charts <a href="https://www.aiv.org.au/documents/merchandise/size1.png">https://www.aiv.org.au/documents/merchandise/size1.png</a> and <a href="https://www.aiv.org.au/documents/merchandise/size1.png">https://www.aiv.org.au/documents/merchandise/size2.png</a>.</p>
 
 <h3>Payments</h3>
 
@@ -99,6 +99,8 @@
 @endphp
 
 <h4>Payment summary</h4>
+
+<p>Your invoice is available from <a href="https://www.aiv.org.au/home/invoice">https://www.aiv.org.au/home/invoice</a> after logging in.</p>
 
 @if( $data->registrationcomplete )
   <p>Your total amount payable on your invoice is ${{ number_format($data->totalamountpayable,2,'.','') }}.</p>
