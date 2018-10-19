@@ -45,17 +45,17 @@
         @if ( $antisocialchorister )
           <li>You are part of the choir, but are not coming to social events including the academic dinner, post concert party and farewell barbecue.<br>
           Choristers would normally come to these social events.<br>
-          If this isn’t right, please visit <a href="https://www.aiv.org.au/home/registration/1/edit">https://www.aiv.org.au/home/registration/1/edit</a> and make sure that you select <emph>At social events</emph>.</li>
+          If this isn’t right, please visit <strong>Essential details</strong> at <a href="https://www.aiv.org.au/home/registration/1/edit">https://www.aiv.org.au/home/registration/1/edit</a> and make sure that you select <strong>At social events</strong>.</li>
         @endif
         @if ( $foreignernotsleepingatcamp )
           <li>You are not from Adelaide, but you are not sleeping at camp.<br>
           Choristers, especially those not from Adelaide, would normally sleep at camp.<br>
-          If this isn’t right, please visit <a href="https://www.aiv.org.au/home/registration/6/edit">https://www.aiv.org.au/home/registration/6/edit</a> and make sure that you select the right option.</li>
+          If this isn’t right, please visit <strong>Accommodation</strong> at <a href="https://www.aiv.org.au/home/registration/6/edit">https://www.aiv.org.au/home/registration/6/edit</a> and make sure that you select the right option.</li>
         @endif
         @if ( $homelessforeignstudent )
           <li>You are a student not from Adelaide, but you have not requested billeting.<br>
           We are offering billeting to all students who are not from Adelaide, so that they won’t need to seek their own accommodation. You are, however, welcome to seek your own accommodation if you so choose.<br>
-          If this isn’t right, please visit <a href="https://www.aiv.org.au/home/registration/7/edit">https://www.aiv.org.au/home/registration/7/edit</a> to request billeting.<br>
+          If this isn’t right, please visit <strong>Billeting accommodation</strong> <a href="https://www.aiv.org.au/home/registration/7/edit">https://www.aiv.org.au/home/registration/7/edit</a> to request billeting.<br>
           </li>
         @endif
         @if ( $homelessforeignnonstudents )
@@ -76,6 +76,21 @@
   </ul>
   <p>Please do this as soon as possible by visiting <a href="https://www.aiv.org.au/home">https://www.aiv.org.au/home</a> within the next few days. We are in the process of confirming numbers and we need accurate information from you.</p>
 @endif
+
+<h3>Scores and merchandise</h3>
+
+<p>Scores and merchandise requests must be completed by the end of October. Please make sure that they are correct.</p>
+
+<h4>Scores</h4>
+
+<p>If you are singing in the concert, please use this time to check that your score orders are correct.</p>
+<p>If you are buying a score, make sure it is listed in your invoice. Otherwise, that you are borrowing or bringing your own.</p>
+
+<h4>Merchandise</h4>
+
+<p>If you are ordering merchandise, please use this time to check that your orders are correct, especially for the festival water bottles, T shirts, wine glasses and tote bags, because these orders will need to be finalised by the end of October.</p>
+<p>In case you missed it the announcement earlier, tote bags are now also for sale.</p>
+<p>If you ordered a T shirt, please check that the size is correct using the size charts <a href="/documents/merchandise/size1.png">here</a> and <a href="/documents/merchandise/size2.png">here</a>.</p>
 
 <h3>Payments</h3>
 

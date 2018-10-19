@@ -311,6 +311,9 @@
       @if($getemail == 'display')
         @include('mail.registration.checkup.index', $emailcontext)
       @elseif($getemail == 'testsend')
+        @php
+          Mail::to(Auth::email())->send(new SignupForm($emailcontext));
+        @endphp
       @elseif($getemail == 'realsend')
       @endif
     </div>
