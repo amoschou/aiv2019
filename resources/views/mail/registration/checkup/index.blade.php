@@ -6,7 +6,7 @@
 <h3>Registration</h3>
 
 <p>Name: {{ $data->firstname }} {{ $data->lastname }}<br>
-<p>Account reference number: {{ $data->accountref }}</p>
+Account reference number: {{ $data->accountref }}</p>
 
 @if( $data->registrationcomplete )
   @if( $data->allactivities )
