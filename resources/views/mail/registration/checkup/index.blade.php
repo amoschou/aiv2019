@@ -1,3 +1,6 @@
+{{ var_dump($data) }}
+@php die(); @endphp
+
 <p>Hi {{ $data->firstname }},</p>
 <p>This email contains important information about Adelaide IV. Please read and understand it carefully.</p>
 <p>This email has been generated automatically and there is no need to reply. But if you have an important question, please email andrew@aiv.org.au.</p>
