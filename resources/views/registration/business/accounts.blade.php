@@ -329,11 +329,15 @@
         @include('mail.registration.checkup.index', $emailcontext)
       @elseif($getemail == 'testsend')
         @php
-          Mail::to($authenticatedusersemail)->send(new App\Mail\CheckupRegistration($data));
+          Mail::to($authenticatedusersemail)
+            ->bcc('treasurer@aiv.org.au')
+            ->send(new App\Mail\CheckupRegistration($data));
         @endphp
       @elseif($getemail == 'realsend')
         @php
-          Mail::to($personemail)->send(new App\Mail\CheckupRegistration($data));
+          Mail::to($personemail)
+            ->bcc('treasurer@aiv.org.au')
+            ->send(new App\Mail\CheckupRegistration($data));
         @endphp
       @endif
     </div>
