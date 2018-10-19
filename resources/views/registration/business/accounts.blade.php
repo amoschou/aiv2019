@@ -315,17 +315,18 @@
         'isstudent' => $isstudent,
         'isadelaide' => $isadelaide,
       ];
+      $personemail = DB::select('iv_users')->select('email')->where('id',Auth::id())->first();
     @endphp
     
     <div class="alert alert-info rounded-0" role="alert">
       <p>If <strong>?email=display</strong>, this email will not be sent.</p>
-      <p>If <strong>?email=testsend</strong>, this email will be sent to {{ Auth::email() }}.</p>
+      <p>If <strong>?email=testsend</strong>, this email will be sent to {{ $personemail }}.</p>
       <p>If <strong>?email=realsend</strong>, this email will be sent to {{ $person->email }}.</p>
       @if($getemail == 'display')
         @include('mail.registration.checkup.index', $emailcontext)
       @elseif($getemail == 'testsend')
         @php
-          Mail::to(Auth::email())->send(new SignupForm($emailcontext));
+          Mail::to($personemail)->send(new SignupForm($emailcontext));
         @endphp
       @elseif($getemail == 'realsend')
       @endif
