@@ -328,11 +328,11 @@
         @include('mail.registration.checkup.index', $emailcontext)
       @elseif($getemail == 'testsend')
         @php
-          Mail::to($authenticatedusersemail)->send(new SignupForm($emailcontext));
+          Mail::to($authenticatedusersemail)->send(new App\Mail\ContactForm($emailcontext));
         @endphp
       @elseif($getemail == 'realsend')
         @php
-          Mail::to($personemail)->send(new SignupForm($emailcontext));
+          Mail::to($personemail)->send(new App\Mail\ContactForm($emailcontext));
         @endphp
       @endif
     </div>
