@@ -681,6 +681,7 @@ class HomeController extends Controller
         'iscommittee' => $request->user()->iscommittee,
         'people' => DB::table('v_cols_essential')->select('id','firstname','lastname')->orderby('lastname','firstname','id')->get(),
         'getemail' => $request->query('email'),
+        'getpeoplelist' => $request->query('peoplelist'),
       ];
       
       // Repeat this from invoice() method above

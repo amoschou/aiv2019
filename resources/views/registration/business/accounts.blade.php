@@ -14,6 +14,16 @@
         return '$' . $a . '.' . $tenths . $hundredths ;
       }
   @endphp
+  @php
+    if($getpeoplelist == 'short')
+    {
+      $newpeople = [];
+      $newpeople[] = $people[0];
+      $newpeople[] = $people[1];
+      $newpeople[] = $people[2];
+      $people = $newpeople;
+    }
+  @endphp
   @foreach($people as $person)
     <hr>
     @php
@@ -308,6 +318,9 @@
     @endphp
     
     <div class="alert alert-info rounded-0" role="alert">
+      <p>If <strong>?email=display</strong>, this email will not be sent.</p>
+      <p>If <strong>?email=testsend</strong>, this email will be sent to {{ Auth::email() }}.</p>
+      <p>If <strong>?email=realsend</strong>, this email will be sent to {{ $person->email }}.</p>
       @if($getemail == 'display')
         @include('mail.registration.checkup.index', $emailcontext)
       @elseif($getemail == 'testsend')
