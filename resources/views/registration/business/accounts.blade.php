@@ -301,6 +301,7 @@
     @php
       $variables = [
         'firstname' => $person->firstname,
+        'lastname' => $person->lastname,
         'registrationcomplete' => $registrationiscomplete,
         'allactivities' => $numberofactivities == 5 ? True : False,
         'includedevents' => $includedevents,
