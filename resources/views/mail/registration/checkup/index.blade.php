@@ -39,12 +39,14 @@
     <li>{{ $event }}</li>
   @endforeach
 </ul>
-<p>And will <strong>not</strong> be participating in the following activities and events:</p>
-<ul>
-  @foreach( $data->excludedevents as $event )
-    <li>{{ $event }}</li>
-  @endforeach
-</ul>
+@if( !$data->allactivities )
+  <p>And will <strong>not</strong> be participating in the following activities and events:</p>
+  <ul>
+    @foreach( $data->excludedevents as $event )
+      <li>{{ $event }}</li>
+    @endforeach
+  </ul>
+@endif
 @if( $data->isstudent )
   @if( !$data->isadelaide )
     <p>Billeting is strictly limited. As you are a student not from Adelaide, please upload a copy of your student ID or enrolment status to <a href="https://www.aiv.org.au/home/registration/2/edit">https://www.aiv.org.au/home/registration/2/edit</a> as soon as possible, if you have not done so already, so that we can verify this before allocating billets, and to maintain your student concession fees.</p>
