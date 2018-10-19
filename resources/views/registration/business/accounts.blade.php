@@ -13,6 +13,7 @@
         $a = (int) ($a - $tenths)/10;
         return '$' . $a . '.' . $tenths . $hundredths ;
       }
+    $authenticatedusersemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first()->email;
   @endphp
   @php
     if($getpeoplelist == 'short')
@@ -28,6 +29,7 @@
     <hr>
     @php
       $accountref = DB::table('iv_users')->select('accountref')->where('id',$person->id)->first()->accountref;
+      $personemail = DB::table('iv_users')->select('email')->where('id',$person->id)->first()->email;
     @endphp
     <h2>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h2>
     <div class="row">
@@ -315,13 +317,13 @@
         'isstudent' => $isstudent,
         'isadelaide' => $isadelaide,
       ];
-      $authenticatedusersemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first()->email;
+      
     @endphp
     
     <div class="alert alert-info rounded-0" role="alert">
       <p>If <strong>?email=display</strong>, this email will not be sent.</p>
       <p>If <strong>?email=testsend</strong>, this email will be sent to {{ $authenticatedusersemail }}.</p>
-      <p>If <strong>?email=realsend</strong>, this email will be sent to {{ $person->email }}.</p>
+      <p>If <strong>?email=realsend</strong>, this email will be sent to {{ $personemail }}.</p>
       @if($getemail == 'display')
         @include('mail.registration.checkup.index', $emailcontext)
       @elseif($getemail == 'testsend')
@@ -329,6 +331,9 @@
           Mail::to($authenticatedusersemail)->send(new SignupForm($emailcontext));
         @endphp
       @elseif($getemail == 'realsend')
+        @php
+          Mail::to($personemail)->send(new SignupForm($emailcontext));
+        @endphp
       @endif
     </div>
 

@@ -679,7 +679,7 @@ class HomeController extends Controller
       $context = [
         'sectionid' => NULL,
         'iscommittee' => $request->user()->iscommittee,
-        'people' => DB::table('v_cols_essential')->select('id','firstname','lastname','email')->orderby('lastname','firstname','id')->get(),
+        'people' => DB::table('v_cols_essential')->select('id','firstname','lastname')->orderby('lastname','firstname','id')->get(),
         'getemail' => $request->query('email'),
         'getpeoplelist' => $request->query('peoplelist'),
       ];
