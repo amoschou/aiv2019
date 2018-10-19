@@ -1,6 +1,3 @@
-{{ var_dump($data) }}
-@php die(); @endphp
-
 <p>Hi {{ $data->firstname }},</p>
 <p>This email contains important information about Adelaide IV. Please read and understand it carefully.</p>
 <p>This email has been generated automatically and there is no need to reply. But if you have an important question, please email andrew@aiv.org.au.</p>
@@ -103,7 +100,7 @@
 
 <h4>Payment summary</h4>
 
-@if( $data->registrationiscomplete )
+@if( $data->registrationcomplete )
   <p>Your total amount payable on your invoice is ${{ number_format($data->totalamountpayable,2,'.','') }}.</p>
 @else
   <p>Your total amount payable on your invoice is ${{ number_format($data->totalamountpayable,2,'.','') }}, but you have not completed the registration process, so this amount is subject to change.</p>
