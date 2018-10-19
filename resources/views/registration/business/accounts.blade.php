@@ -315,7 +315,7 @@
         'isstudent' => $isstudent,
         'isadelaide' => $isadelaide,
       ];
-      $personemail = DB::select('iv_users')->select('email')->where('id',Auth::id())->first();
+      $personemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first();
     @endphp
     
     <div class="alert alert-info rounded-0" role="alert">
