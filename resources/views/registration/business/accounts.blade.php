@@ -316,6 +316,7 @@
         'isyouth' => $isyouth,
         'isstudent' => $isstudent,
         'isadelaide' => $isadelaide,
+        'accountref' => $accountref,
       ];
       $data = (object) $variables;
       $emailcontext = [ 'data' => $data ]
@@ -331,14 +332,12 @@
         @include('mail.registration.checkup.index', $emailcontext)
         @php
           Mail::to($authenticatedusersemail)
-            ->bcc('treasurer@aiv.org.au')
             ->send(new App\Mail\CheckupRegistration($data));
         @endphp
       @elseif($getemail == 'realsend')
         @include('mail.registration.checkup.index', $emailcontext)
         @php
           Mail::to($personemail)
-            ->bcc('treasurer@aiv.org.au')
             ->send(new App\Mail\CheckupRegistration($data));
         @endphp
       @endif

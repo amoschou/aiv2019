@@ -5,6 +5,9 @@
 
 <h3>Registration</h3>
 
+<p>Name: {{ $data->firstname }} {{ $data->lastname }}<br>
+<p>Account reference number: {{ $data->accountref }}</p>
+
 @if( $data->registrationcomplete )
   @if( $data->allactivities )
     <p>You have completed the registration process, as can be seen at <a href="https://www.aiv.org.au/home">https://www.aiv.org.au/home</a>.</p>
