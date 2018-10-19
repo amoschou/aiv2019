@@ -8,12 +8,6 @@
 @if( $data->registrationcomplete )
   @if( $data->allactivities )
     <p>You have completed the registration process, as can be seen at <a href="https://www.aiv.org.au/home">https://www.aiv.org.au/home</a>.</p>
-    <p>You have elected to include all activities and events:</p>
-    <ul>
-      @foreach( $data->includedevents as $event )
-        <li>{{ $event }}</li>
-      @endforeach
-    </ul>
   @else
     <p>You have completed the registration process, in as much as you have told us, as can be seen at <a href="https://www.aiv.org.au/home">https://www.aiv.org.au/home</a>.</p>
   @endif
@@ -29,7 +23,11 @@
 @endif
 
 @if( $data->registrationcomplete )
-  <p>You have elected to include the following activities and events:</p>
+  @if( $data->allactivities )
+    <p>You have elected to include all activities and events:</p>
+  @else
+    <p>You have elected to include the following activities and events:</p>
+  @endif
 @else
   <p>In as much as you have told us so far, you have elected to include the following activities and events:</p>
 @endif
@@ -46,7 +44,7 @@
 </ul>
 @if( $data->isstudent )
   @if( !$data->isadelaide )
-    <p>Billeting is strictly limited. As you are a student not from Adelaide, please upload a copy of your student ID or enrolment status to <a href="https://www.aiv.org.au/home/registration/2/edit">https://www.aiv.org.au/home/registration/2/edit</a> as soon as possible, if you have not done so already, so that we can verify this before allocating billets.</p>
+    <p>Billeting is strictly limited. As you are a student not from Adelaide, please upload a copy of your student ID or enrolment status to <a href="https://www.aiv.org.au/home/registration/2/edit">https://www.aiv.org.au/home/registration/2/edit</a> as soon as possible, if you have not done so already, so that we can verify this before allocating billets, and to maintain your student concession fees.</p>
   @else
     <p>To maintain your student concession fees, please remember to upload your student ID or concession status if you have not done so already at <a href="https://www.aiv.org.au/home/registration/2/edit">https://www.aiv.org.au/home/registration/2/edit</a>, or be prepared to show this to us by the beginning of the festival. Remember that if you are requesting billeting, at the start of the festival is too late, we need to confirm your student status as soon as possible.</p>
   @endif
