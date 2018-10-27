@@ -284,6 +284,7 @@ class PublicController extends Controller
         ]
       ]
     ];
+    return view('public.homewithtickets', $context);
     return view('public.index', $context);
   }
   public function concert()

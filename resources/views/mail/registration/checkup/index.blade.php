@@ -99,7 +99,7 @@ Account reference number: {{ $data->accountref }}</p>
 
 <p>If you are ordering merchandise, please use this time to check that your orders are correct, especially for the festival water bottles, T shirts, wine glasses and tote bags, because these orders will need to be finalised by the end of October.</p>
 <p>In case you missed it the announcement earlier, tote bags are now also for sale.</p>
-<p>If you ordered a T shirt, please check that the size is correct using the size charts <a href="https://www.aiv.org.au/documents/merchandise/size1.png">https://www.aiv.org.au/documents/merchandise/size1.png</a> and <a href="https://www.aiv.org.au/documents/merchandise/size1.png">https://www.aiv.org.au/documents/merchandise/size2.png</a>.</p>
+<p>If you ordered a T shirt, please check that the size is correct using the size charts <a href="https://www.aiv.org.au/documents/merchandise/size1.png">https://www.aiv.org.au/documents/merchandise/size1.png</a> and <a href="https://www.aiv.org.au/documents/merchandise/size2.png">https://www.aiv.org.au/documents/merchandise/size2.png</a>.</p>
 
 <h3>Payments</h3>
 
