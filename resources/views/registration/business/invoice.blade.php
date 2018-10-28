@@ -118,12 +118,37 @@
       @endforeach
     </tbody>
   </table>
+  <h3>Other transfer</h3>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th class="pl-0">Transaction ID</th>
+        <th>Description</th>
+        <th class="text-right pr-0">Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+      @php
+        $otherq = "SELECT othertransactionid,description,value FROM rego_othertransactions ON WHERE accountref = ?";
+        $othertransactions = DB::SELECT($otherq,[$accountref]);
+        $othertotal = 0;
+      @endphp
+      @foreach($othertransactions as $transaction)
+        <td clas="pl-0">{{ $transaction->othertransactionid }}</td>
+        <td class="">{{ $transaction->description }}</td>
+        <td class="text-right pr-0">${{ $transaction->value }}</td>
+        @php
+          $othertotal += $transaction->value;
+        @endphp
+      @endforeach
+    </tbody>
+  </table>
   <h3>Balance due</h3>
   <table class="table table-sm">
     <tfoot class="font-weight-bold">
       <tr>
         <td colspan="3" class="pl-0">BALANCE DUE</td>
-        <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal,2,'.','') }}</td>
+        <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</td>
       </tr>
     </tfoot>
   </table>

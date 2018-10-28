@@ -16,19 +16,27 @@
     $authenticatedusersemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first()->email;
   @endphp
   @php
-    $numpages = 10;
+    $numpages = 5;
     $newpeople = [];
-    if($getpeoplelist == 'short')
+    if($getpeoplelist == 'watchlist')
     {
-      $newpeople[] = $people[0];
-      $newpeople[] = $people[1];
-      $newpeople[] = $people[2];
-    }
-    foreach($people as $person)
-    {
-      if($person->id % $numpages === (int) $getpeoplelist)
+      $thewatchlist = [151, 41, 94, 24, 5, 145, 6, 66, 17, 7, 110, 102, 72, 75, 97, 114, 113, 143, 46, 37, 148];
+      foreach($people as $person)
       {
-        $newpeople[] = $person;
+        if(in_array($person->id, $thewatchlist))
+        {
+          $newpeople[] = $person;
+        }
+      }
+    }
+    else
+    {
+      foreach($people as $person)
+      {
+        if($person->id % $numpages === (int) $getpeoplelist)
+        {
+          $newpeople[] = $person;
+        }
       }
     }
     if($newpeople !== [])
@@ -165,13 +173,40 @@
         @endforeach
       </tbody>
     </table>
+    <h3>Other transfer</h3>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th class="pl-0">Transaction ID</th>
+          <th>Description</th>
+          <th class="text-right pr-0">Credit</th>
+        </tr>
+      </thead>
+      <tbody>
+        @php
+          $otherq = "SELECT othertransactionid,description,value FROM rego_othertransactions ON WHERE accountref = ?";
+          $othertransactions = DB::SELECT($otherq,[$accountref]);
+          $othertotal = 0;
+        @endphp
+        @foreach($othertransactions as $transaction)
+          <td clas="pl-0">{{ $transaction->othertransactionid }}</td>
+          <td class="">{{ $transaction->description }}</td>
+          <td class="text-right pr-0">${{ $transaction->value }}</td>
+          @php
+            $othertotal += $transaction->value;
+          @endphp
+        @endforeach
+      </tbody>
+    </table>
+    <h3>Balance due</h3>
     <table class="table table-sm">
       <tfoot class="font-weight-bold">
         <tr>
           <td colspan="3" class="pl-0">BALANCE DUE</td>
-          <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal,2,'.','') }}</td>
+          <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</td>
         </tr>
       </tfoot>
+    </table>
     </table>
     @php
       $q = "select sectionid from rego_responses natural join rego_questions where userid = ? group by sectionid";
@@ -320,7 +355,7 @@
         'unusualcombination' => $unusualcombination,
         'omittedsectionsobj' => $omittedsectionsobj,
         'totalamountpayable' => $regoitemtotal,
-        'totalpayments' => $stripetotal + $banktotal,
+        'totalpayments' => $stripetotal + $banktotal + $othertotal,
         'antisocialchorister' => $antisocialchorister,
         'foreignernotsleepingatcamp' => $foreignernotsleepingatcamp,
         'homelessforeignstudent' => $homelessforeignstudent,

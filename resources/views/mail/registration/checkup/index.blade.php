@@ -138,21 +138,21 @@ Account reference number: {{ $data->accountref }}</p>
     @endif
   @elseif($data->totalamountpayable <= 200)
     @if($data->totalpayments == 0)
-      <p>$50 is due by 31/10/2018, and your fees must be paid in full by 2/01/2018.</p>
+      <p>$50 is due by 31/10/2018, and your fees must be paid in full by 2/01/2019.</p>
     @elseif($data->totalpayments < 50)
-      <p>A further ${{ number_format(50 - $data->totalpayments,2,'.','') }} is due by 31/10/2018, and your fees must be paid in full by 2/01/2018.</p>
+      <p>A further ${{ number_format(50 - $data->totalpayments,2,'.','') }} is due by 31/10/2018, and your fees must be paid in full by 2/01/2019.</p>
     @elseif($data->totalpayments >= 50 && $data->totalpayments < 200)
-      <p>Your fees must be paid in full by 2/01/2018.</p>
+      <p>Your fees must be paid in full by 2/01/2019.</p>
     @endif
   @else
     @if($data->totalpayments == 0)
-      <p>$50 is due by 31/10/2018, a further $150 is due by 2/01/2018 (totalling $200 at this point), and your fees must be paid in full by 10/01/2019.</p>
+      <p>$50 is due by 31/10/2018, a further $150 is due by 2/01/2019 (totalling $200 at this point), and your fees must be paid in full by 10/01/2019.</p>
     @elseif($data->totalpayments < 50)
-      <p>A further ${{ number_format(50 - $data->totalpayments,2,'.','') }} is due by 31/10/2018 (to total $50 by this date), a further $150 is due by 2/01/2018 (to total $200 by this date), and your fees must be paid in full by 10/01/2018.</p>
+      <p>A further ${{ number_format(50 - $data->totalpayments,2,'.','') }} is due by 31/10/2018 (to total $50 by this date), a further $150 is due by 2/01/2019 (to total $200 by this date), and your fees must be paid in full by 10/01/2019.</p>
     @elseif($data->totalpayments >= 50 && $data->totalpayments < 200)
-      <p>A further ${{ number_format(200 - $data->totalpayments,2,'.','') }} is due by 2/01/2018 (to total $200 by this date), and your fees must be paid in full by 10/01/2018.</p>
+      <p>A further ${{ number_format(200 - $data->totalpayments,2,'.','') }} is due by 2/01/2019 (to total $200 by this date), and your fees must be paid in full by 10/01/2019.</p>
     @elseif($data->totalpayments >= 200 && $data->totalpayments < $data->totalamountpayable)
-      <p>Your fees must be paid in full by 10/01/2018.</p>
+      <p>Your fees must be paid in full by 10/01/2019.</p>
     @endif
   @endif
 @endif
