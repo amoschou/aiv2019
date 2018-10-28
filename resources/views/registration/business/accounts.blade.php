@@ -32,13 +32,14 @@
         {
           if($i % 5 === $r)
           {
-            var_dump($i);
-//            $newpeople[] = $people[$i];
+            $newpeople[] = $people[$i];
           }
         $i++;
         }
       }
     }
+    var_dump($newpeople);
+    die();
     die();
     if($newpeople !== [])
     {
