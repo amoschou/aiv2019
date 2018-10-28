@@ -16,12 +16,29 @@
     $authenticatedusersemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first()->email;
   @endphp
   @php
+    $newpeople = [];
     if($getpeoplelist == 'short')
     {
-      $newpeople = [];
       $newpeople[] = $people[0];
       $newpeople[] = $people[1];
       $newpeople[] = $people[2];
+    }
+    for($r = 0 ; $r < 5 ; $r++)
+    {
+      if($getpeoplelist === "$r")
+      {
+        $i = 0;
+        foreach($people as $person)
+        {
+          if($i % 5 === $r)
+          {
+            $newpeople[] = $people[$i++];
+          }
+        }
+      }
+    }
+    if($newpeople !== [])
+    {
       $people = $newpeople;
     }
   @endphp
