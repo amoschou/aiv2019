@@ -23,21 +23,27 @@
       $newpeople[] = $people[1];
       $newpeople[] = $people[2];
     }
-    var_dump($getpeoplelist); die();
+    var_dump("Get people list is:");
+    var_dump($getpeoplelist);
     for($r = 0 ; $r < 5 ; $r++)
     {
+      var_dump("r is:");
+      var_dump($r);
       if($getpeoplelist === "$r")
       {
-        $i = 0;
-        foreach($people as $person)
-        {
-          if($i % 5 === $r)
-          {
-            $newpeople[] = $people[$i++];
-          }
-        }
+        var_dump("r is:");
+        var_dump($r);
+//        $i = 0;
+//        foreach($people as $person)
+//        {
+//          if($i % 5 === $r)
+//          {
+//            $newpeople[] = $people[$i++];
+//          }
+//        }
       }
     }
+    die();
     if($newpeople !== [])
     {
       $people = $newpeople;
