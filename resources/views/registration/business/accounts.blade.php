@@ -39,6 +39,7 @@
       }
     }
     var_dump($newpeople);
+    var_dump($people);
     die();
     die();
     if($newpeople !== [])
