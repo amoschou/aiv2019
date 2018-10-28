@@ -23,6 +23,7 @@
       $newpeople[] = $people[1];
       $newpeople[] = $people[2];
     }
+    var_dump($getpeoplelist); die();
     for($r = 0 ; $r < 5 ; $r++)
     {
       if($getpeoplelist === "$r")
