@@ -184,7 +184,7 @@
       </thead>
       <tbody>
         @php
-          $otherq = "SELECT othertransactionid,description,value FROM rego_othertransactions ON WHERE accountref = ?";
+          $otherq = "SELECT othertransactionid,description,value FROM rego_othertransactions WHERE accountref = ?";
           $othertransactions = DB::SELECT($otherq,[$accountref]);
           $othertotal = 0;
         @endphp
