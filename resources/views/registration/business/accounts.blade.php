@@ -30,11 +30,11 @@
         $i = 0;
         foreach($people as $person)
         {
-          var_dump($i);
-//          if($i % 5 === $r)
-//          {
+          if($i % 5 === $r)
+          {
+            var_dump($i);
 //            $newpeople[] = $people[$i];
-//          }
+          }
         $i++;
         }
       }
