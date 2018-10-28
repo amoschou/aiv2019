@@ -24,19 +24,11 @@
       $newpeople[] = $people[1];
       $newpeople[] = $people[2];
     }
-    for($r = 0 ; $r < $numpages ; $r++)
+    foreach($people as $person)
     {
-      if($getpeoplelist === "$r")
+      if($person->id % $numpages === (int) $getpeoplelist)
       {
-        $i = 0;
-        foreach($people as $person)
-        {
-          if($i % $numpages === $r)
-          {
-            $newpeople[] = $people[$i];
-          }
-        $i++;
-        }
+        $newpeople[] = $person;
       }
     }
     if($newpeople !== [])
