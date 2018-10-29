@@ -102,8 +102,10 @@
   @endif
 @endif
 @if(1540758600 <= time())
-  // 1540758600 is 7:00 AM Monday, 29 October 2018, Adelaide
-  $showtickets = true;
+  @php
+    // 1540758600 is 7:00 AM Monday, 29 October 2018, Adelaide
+    $showtickets = true;
+  @endphp
 @endif
 @if($showtickets)
   <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
