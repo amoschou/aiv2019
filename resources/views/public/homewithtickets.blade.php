@@ -98,7 +98,9 @@
 @endphp
 @if(!is_null(Auth::user()))
   @if(Auth::user()->iscommittee)
-    $showtickets = true;
+    @php
+      $showtickets = true;
+    @endphp
   @endif
 @endif
 @if(1540758600 <= time())
