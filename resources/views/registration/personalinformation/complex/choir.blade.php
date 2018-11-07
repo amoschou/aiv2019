@@ -166,6 +166,7 @@ SELECT id,firstname,lastname FROM v_cols_essential WHERE doing_singing = 1 AND i
   <script>
     $(document).ready(function() {
         $('#datatable2').DataTable({
+            dom: 'Bfrtip',
             buttons: ['copy','csv','excel','pdf','print']
         });
     });
