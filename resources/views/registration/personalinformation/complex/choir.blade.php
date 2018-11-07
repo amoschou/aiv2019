@@ -157,8 +157,10 @@ SELECT id,firstname,lastname FROM v_cols_essential WHERE doing_singing = 1 AND i
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <script>
     $(document).ready(function() {
-        $('#datatable2').DataTable();
-    } );
+        $('#datatable2').DataTable({
+            buttons: ['copy','csv','excel','pdf','print']
+        });
+    });
   </script>
 @endsection
 
