@@ -28,6 +28,7 @@ Route::get('/choristers/camp', 'PublicController@camp')->name('public.choristers
 Route::get('/choristers/social', 'PublicController@social')->name('public.choristers.social');
 Route::get('/choristers/fees', 'PublicController@fees')->name('public.choristers.fees');
 Route::get('/choristers/bulletins', 'PublicController@bulletins')->name('public.choristers.bulletins');
+Route::get('/choristers/whattobring', 'PublicController@whattobring')->name('public.choristers.whattobring');
 Route::get('/committee', 'PublicController@aivcfadelaide')->name('aivcfadelaide');
 
 Route::get('/merchandise', 'PublicController@merchandise')->name('merchandise');
@@ -86,6 +87,8 @@ Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpo
 
 Route::get('/home/invoice', 'HomeController@invoice')->name('home.invoice');
 Route::get('/home/accounts', 'HomeController@accounts')->name('home.accounts')->middleware('committee');
+
+Route::view('/home/medical','public.footmatter.index',['titletext' => 'Medical information'])->name('home.medical');
 
 
 

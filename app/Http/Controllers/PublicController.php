@@ -32,6 +32,72 @@ class PublicController extends Controller
     ];
     return view('public.choristers.index', $context);
   }
+  public function whattobring()
+  {
+    $context = [
+      'imagesource' => 'public/images/image-2.jpg',
+      'activetab' => 'whattobring',
+      'titletext' => 'What to bring',
+      'essay' => [
+        [
+          'What to bring',
+          [
+            'General clothing',
+            '<ul>
+               <li>Summer weather clothes, hat, sunglasses</li>
+               <li>Cooler weather clothes. Summer evenings in Adelaide can be anything from unrelentingly hot to pleasantly brisk. While you probably don’t need to crack out the scarves and beanies, it’s recommended you pack a light hoodie/cardigan/jacket to keep the goosebumps at bay.</li>
+               <li>Underwer and pyjamas</li>
+             </ul>',
+             'Coin operated laundry facilities are available at camp.',
+             'Special clothes',
+             '<ul>
+               <li>Concert dress (Refer to bulleting sheet 5)</li>
+               <li>Formal attire for the academic dinner: This is optional – if you don’t own a fancy ball gown or a three-piece suit, please don’t feel the need to go out and buy anything! Wear whatever makes you feel dressy and comfortable.</li>
+               <li>Costume for the opening night party: This is optional, but encouraged! The theme for the opening night party is Northern Lights – think celestial, think Arctic Circle, think cool natural phenomena. The sky’s the limit!</li>
+               <li>Society T shirt</li>
+               <li>Costume for your revue act if required</li>
+              </ul>',
+              'Hygiene',
+             '<ul>
+               <li>Bath towel or two</li>
+               <li>Toiletries: Soap, shampoo, toothpaste, toothbrush, hair brush, hand sanitiser, sunscreen, makeup</li>
+              </ul>',
+              'Bedding',
+             '<ul>
+               <li>BYO single bedsheet and blanket (if you think you’ll need it!) for beds at camp. A pillow and pillowcase will be provided.</li>
+              </ul>',
+              'Beach',
+             '<ul>
+               <li>Bathers (or cozzies, togs, swimmers), towel, beach toys</li>
+              </ul>',
+              'Miscellaneous',
+             '<ul>
+               <li><strong>Black concert folder</strong></li>
+               <li>Water bottle (Or use your pre purchased AIV bottle)</li>
+               <li>Enough cash for camp: An EFTPOS machine will be available for AIV purchases, but not all societies may have this for market day.</li>
+               <li>Mobile phone, camera and chargers</li>
+               <li>Revue props</li>
+               <li>Umbrella</li>
+               <li>Board games, decks of cards</li>
+               <li>A joke</li>
+               <li>A gift for yout billeting host, if necessary. This isn’t mandatory, but it’s a nice thing to do!</li>
+               <li>Any required medication: It‘s a good idea to bring a decent supply of panadol/ibuprofen, antihistamines, cough medications and lozenges, tissues, cold and flu medication and nose drops, but these can be bought from a pharmacy in town or near camp (in your own spare time). You are responsible for your own medication. Please ensure that you have sufficient supply of any prescribed medication. Please appreciate that the doctors and nurses who have also registered for the festival are on their own breaks too.</li>
+              </ul>',
+              'Societies',
+              '<ul>
+                <li>A society revue act</li>
+                <li>Banner</li>
+                <li>Mascot</li>
+                <li>The President’s pyjamas</li>
+                <li>Any trophies</li>
+                <li>Merchandise for Market day</li>
+               </ul>'
+          ],
+        ],
+      ]
+    ];
+    return view('public.index', $context);
+  }
   public function bulletins()
   {
     $context = [

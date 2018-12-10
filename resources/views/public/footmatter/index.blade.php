@@ -29,5 +29,8 @@
     @case('Help')
       @include('public.footmatter.help')
       @break
+    @case('Medical information')
+      @include('public.medical')
+      @break
   @endswitch
 @stop 

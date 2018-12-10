@@ -53,6 +53,7 @@
       <a class="mdl-navigation__link <?php activetab($activetab,'social') ?>" href="/choristers/social">Social</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'fees') ?>" href="/choristers/fees">Fees</a>
       <a class="mdl-navigation__link <?php activetab($activetab,'bulletins') ?>" href="/choristers/bulletins">Bulletins</a>
+      <a class="mdl-navigation__link <?php activetab($activetab,'whattobring') ?>" href="/choristers/whattobring">What to bring</a>
     </nav>
   </div>
   @endif

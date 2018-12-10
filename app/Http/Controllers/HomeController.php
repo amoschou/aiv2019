@@ -141,6 +141,13 @@ class HomeController extends Controller
   
   
   
+  public function medical(Request $request)
+  {
+    return view ()
+  }
+  
+  
+  
   
   
   public function displayregistration(Request $request, $sectionid)
