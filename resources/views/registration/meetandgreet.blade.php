@@ -2,7 +2,6 @@
 
 @section('innercontent')
 
-<p>Hello</p>
-
+<h1>Meet and greet</h1>
 
 @endsection
