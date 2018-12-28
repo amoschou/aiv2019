@@ -53,9 +53,6 @@
         var_dump($Fresher);
         var_dump($IVHistory);
         
-        $ConcessionList = json_decode($ConcessionList);
-        $Fresher = json_decode($Fresher);
-        $IVHistory = json_decode($IVHistory);
       @endphp
       {{--
       <table class="table table-bordered border-primary">
