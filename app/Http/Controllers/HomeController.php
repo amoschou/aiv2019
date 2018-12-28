@@ -709,7 +709,10 @@ class HomeController extends Controller
   {
       $context = [
         'sectionid' => NULL,
+        'people' => DB::table('v_cols_essential')->select('id','firstname','lastname')->orderby('lastname','firstname','id')->get(),
         'iscommittee' => $request->user()->iscommittee,
+        'getnumpages' => $request->query('numpages'),
+        'getpeoplelist' => $request->query('peoplelist'),
       ];
 
     return view('registration.meetandgreet',$context);

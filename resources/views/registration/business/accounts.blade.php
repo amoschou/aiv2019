@@ -16,7 +16,7 @@
     $authenticatedusersemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first()->email;
   @endphp
   @php
-    $numpages = 5;
+    $numpages = $getnumpages;
     $newpeople = [];
     if($getpeoplelist == 'watchlist')
     {
