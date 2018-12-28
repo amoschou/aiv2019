@@ -144,13 +144,30 @@ class HomeController extends Controller
   
   public function meetandgreet(Request $request)
   {
+    $firstname = json_decode(DB::table('rego_responses')->where('questionshortname','firstname')->where('userid',Auth::id())->value('responsejson'));
+    $lastname = json_decode(DB::table('rego_responses')->where('questionshortname','lastname')->where('userid',Auth::id())->value('responsejson'));
+    $address = json_decode(DB::table('rego_responses')->where('questionshortname','post')->where('userid',Auth::id())->value('responsejson'));
     $context = [
-//      'sectionshortname' => $sectionshortname,
-//      'accordionshow' => 'bulkdata',
+      'sectionid' => NULL,
       'iscommittee' => $request->user()->iscommittee,
-//      'sectionid' => $sectionid
+      'name' => "$firstname $lastname",
+      'address' => $address,
+      'email' => $request->user()->email,
+      'accountref' => $request->user()->accountref
     ];
-    return view('registration.meetandgreet', $context);
+    
+    $transactions = DB::select('SELECT * FROM bank_transactions WHERE id NOT IN (SELECT transactionid FROM bank_transaction_accounts)');
+    foreach($transactions as $transaction)
+    {
+      $accountrefmatches = [];
+      preg_match('/AR\d\d\d\d[A-Z]/', strtoupper($transaction->description), $accountrefmatches);
+      DB::table('bank_transaction_accounts')->insert([
+        'transactionid' => $transaction->id,
+        'accountref' => $accountrefmatches[0] ?? NULL,
+      ]);
+    }
+
+    return view('registration.business.invoice',$context);
   }
   
   
