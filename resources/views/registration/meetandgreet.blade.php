@@ -43,7 +43,7 @@
 
 
 
-    <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Concessions</h3><div class="card-body">
+    <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Checks</h3>
       @php
         $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first()->responsejson;
         $ConcessionList = json_decode($ConcessionList);
@@ -51,13 +51,13 @@
       <table class="table table-bordered border-primary">
         <tbody class="border-primary">
           @foreach($ConcessionList as $Concession)
-            @if($Concession = 'student')
+            @if($Concession === 'student')
               <tr class="border-primary">
                 <th class="border-primary"></th>
                 <td class="border-primary">Student</td>
               </tr>
             @endif
-            @if($Concession = 'youth')
+            @if($Concession === 'youth')
               <tr class="border-primary">
                 <th class="border-primary"></th>
                 <td class="border-primary">Youth</td>
@@ -66,7 +66,7 @@
           @endforeach
         </tbody>
       </table>
-    </div></div>
+    </div>
 
 
 
