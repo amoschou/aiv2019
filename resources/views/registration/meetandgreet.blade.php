@@ -59,8 +59,8 @@
         $Fresher = !is_null($Fresher)
                         ? json_decode($Fresher->responsejson)
                         : null;
-        $Fresher = !is_null($Fresher)
-                        ? json_decode($Fresher->responsejson)
+        $IVHistory = !is_null($IVHistory)
+                        ? json_decode($IVHistory->responsejson)
                         : null;
         
       @endphp
