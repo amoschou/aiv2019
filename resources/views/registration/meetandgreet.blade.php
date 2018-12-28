@@ -53,8 +53,17 @@
         var_dump($Fresher);
         var_dump($IVHistory);
         
+        $ConcessionList = !is_null($ConcessionList)
+                        ? json_decode($ConcessionList->responsejson)
+                        : null;
+        $Fresher = !is_null($Fresher)
+                        ? json_decode($Fresher->responsejson)
+                        : null;
+        $Fresher = !is_null($Fresher)
+                        ? json_decode($Fresher->responsejson)
+                        : null;
+        
       @endphp
-      {{--
       <table class="table table-bordered border-primary">
         <tbody class="border-primary">
           @foreach($ConcessionList as $Concession)
@@ -79,7 +88,6 @@
           @endif
         </tbody>
       </table>
-      --}}
     </div>
 
 
