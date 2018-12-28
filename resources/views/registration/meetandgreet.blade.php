@@ -61,10 +61,6 @@
         {
           $IVHistory = json_decode($IVHistory->responsejson);
         }
-
-        var_dump($ConcessionList);
-        var_dump($Fresher);
-        var_dump($IVHistory);
         
       @endphp
       <table class="table table-bordered border-primary">
