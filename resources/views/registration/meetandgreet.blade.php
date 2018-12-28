@@ -18,7 +18,7 @@
     $authenticatedusersemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first()->email;
   @endphp
   @php
-    $numpages = 5;
+    $numpages = $getnumpages;
     $newpeople = [];
     foreach($people as $person)
     {
@@ -27,7 +27,6 @@
         $newpeople[] = $person;
       }
     }
-    $newpeople = [1, 4];
     if($newpeople !== [])
     {
       $people = $newpeople;
