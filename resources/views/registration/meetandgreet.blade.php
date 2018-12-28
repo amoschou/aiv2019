@@ -45,13 +45,19 @@
 
     <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Checks</h3>
       @php
-        $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first()->responsejson;
+        $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first();
+        $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first();
+        $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first();
+        
+        var_dump($ConcessionList);
+        var_dump($Fresher);
+        var_dump($IVHistory);
+        
         $ConcessionList = json_decode($ConcessionList);
-        $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first()->responsejson;
         $Fresher = json_decode($Fresher);
-        $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first()->responsejson;
         $IVHistory = json_decode($IVHistory);
       @endphp
+      {{--
       <table class="table table-bordered border-primary">
         <tbody class="border-primary">
           @foreach($ConcessionList as $Concession)
@@ -76,6 +82,7 @@
           @endif
         </tbody>
       </table>
+      --}}
     </div>
 
 
