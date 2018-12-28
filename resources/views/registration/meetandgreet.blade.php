@@ -44,7 +44,7 @@
 
     {{-- Invoice --}}
     <div class="col-6">
-    <div class="card">
+    <div class="card"><h3 class="card-title">Invoice</h3><div class="card-body">
       <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
       <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
       <div class="row">
@@ -89,15 +89,14 @@
         </tfoot>
       </table>
       <p class="font-weight-bold">No GST has been charged.</p>
-    </div>
+    </div></div>
     </div>
     {{-- End invoice --}}
     
     {{-- Receipts --}}
     
     <div class="col-6">
-    <div class="card">
-      <h3>Receipts</h3>
+    <div class="card"><h3 class="card-title">Receipts</h3><div class="card-body">
       <h4>Card payments</h4>
       @php
         $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
@@ -210,7 +209,7 @@
           </tr>
         </tfoot>
       </table>
-    </div>
+    </div></div>
     </div>
     
     </div> {{-- End row --}}
