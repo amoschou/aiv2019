@@ -98,8 +98,11 @@
 
 
 
+    <div class="row">
+
 
     {{-- Invoice --}}
+    <div class="col-6">
     <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Invoice</h3><div class="card-body">
       <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
       <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
@@ -146,12 +149,14 @@
       </table>
       <p class="font-weight-bold">No GST has been charged.</p>
     </div></div>
+    </div>
     {{-- End invoice --}}
     
     
     
     
     {{-- Receipts --}}
+    <div class="col-6">
     <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Receipts</h3><div class="card-body">
       <h4>Card payments</h4>
       @php
@@ -266,9 +271,10 @@
         </tfoot>
       </table>
     </div></div>
+    </div>
     {{-- End receipts --}}
-    
 
+    </div>  {{-- Invoice/receipts row --}}
 
 
     
