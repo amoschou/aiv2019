@@ -47,8 +47,25 @@
       @php
         $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first()->responsejson;
         $ConcessionList = json_decode($ConcessionList);
-        var_dump($ConcessionList);
       @endphp
+      @foreach($ConcessionList as $Concession)
+        @if($Concession = 'student')
+          <div class="input-group input-group-lg">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-lg">Student</span>
+            </div>
+            <input type="static" class="form-control">
+          </div>
+        @endif
+        @if($Concession = 'youth')
+          <div class="input-group input-group-lg">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-lg">Youth</span>
+            </div>
+            <input type="text" class="form-control">
+          </div>
+        @endif
+      @endforeach
     </div></div>
 
 
