@@ -40,11 +40,11 @@
     @endphp
     <h1>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h1>
 
-    <div class="row">
+
+
 
     {{-- Invoice --}}
-    <div class="col-6">
-    <div class="card"><h3 class="card-title">Invoice</h3><div class="card-body">
+    <div class="card"><h3 class="card-header">Invoice</h3><div class="card-body">
       <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
       <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
       <div class="row">
@@ -90,13 +90,13 @@
       </table>
       <p class="font-weight-bold">No GST has been charged.</p>
     </div></div>
-    </div>
     {{-- End invoice --}}
     
-    {{-- Receipts --}}
     
-    <div class="col-6">
-    <div class="card"><h3 class="card-title">Receipts</h3><div class="card-body">
+    
+    
+    {{-- Receipts --}}
+    <div class="card"><h3 class="card-header">Receipts</h3><div class="card-body">
       <h4>Card payments</h4>
       @php
         $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
@@ -210,9 +210,11 @@
         </tfoot>
       </table>
     </div></div>
-    </div>
+    {{-- End receipts --}}
     
-    </div> {{-- End row --}}
+
+
+
     
     @php
       $q = "select sectionid from rego_responses natural join rego_questions where userid = ? group by sectionid";
