@@ -144,7 +144,12 @@ class HomeController extends Controller
   
   public function meetandgreet(Request $request)
   {
-    $context = [];
+    $context = [
+//      'sectionshortname' => $sectionshortname,
+//      'accordionshow' => 'bulkdata',
+      'iscommittee' => $request->user()->iscommittee,
+//      'sectionid' => $sectionid
+    ];
     return view('registration.meetandgreet', $context);
   }
   
