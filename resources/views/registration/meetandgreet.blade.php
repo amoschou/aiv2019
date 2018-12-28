@@ -1,6 +1,7 @@
 @extends('registration.layouts.app')
 
 @section('content')
+<div class="container">
 
   <p>Meet and greet</p>
   
@@ -406,5 +407,6 @@
     </div>
   
   @endforeach
+</div>
 @endsection
 
