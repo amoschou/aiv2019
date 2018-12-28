@@ -43,7 +43,7 @@
 
 
 
-    <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Checks</h3>
+    <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Pre registration checks</h3>
       @php
         $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first();
         $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first();
@@ -64,28 +64,32 @@
         
       @endphp
       <table class="table border-primary">
+        @php $hasrows = false; @endphp
         <tbody class="border-primary">
           @if(!is_null($ConcessionList))
             @foreach($ConcessionList as $Concession)
               @if($Concession === 'student')
-                <tr class="border-primary">
+                <tr class="border-primary">@php $hasrows = true; @endphp
                   <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Full time student</strong><br>Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent)</td>
+                  <td class="border-primary"><Strong>Full time student</strong><br>Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent</td>
                 </tr>
               @endif
               @if($Concession === 'youth')
-                <tr class="border-primary">
+                <tr class="border-primary">@php $hasrows = true; @endphp
                   <th class="border-primary px-5"></th>
-                  <td class="border-primary"><strong>Youth</strong><br>Born on or after 10 January 1989)</td>
+                  <td class="border-primary"><strong>Youth</strong><br>Born on or after 10 January 1989</td>
                 </tr>
               @endif
             @endforeach
           @endif
           @if($Fresher === 'yes')
-            <tr class="border-primary">
+            <tr class="border-primary">@php $hasrows = true; @endphp
               <th class="border-primary px-5"></th>
               <td class="border-primary"><strong>Fresher</strong> (First time singing at an IV)<br>IV history: {{ $IVHistory }}</td>
             </tr>
+          @endif
+          @if(!$hasrows)
+            <tr><td>(no checks necessary)</td></tr>
           @endif
         </tbody>
       </table>
