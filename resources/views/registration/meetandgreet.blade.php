@@ -45,7 +45,7 @@
 
     <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Concessions</h3><div class="card-body">
       @php
-        $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession');
+        $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first();
         var_dump($ConcessionList);
       @endphp
     </div></div>
