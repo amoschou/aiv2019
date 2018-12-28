@@ -59,6 +59,7 @@
           ->where('userid',$person->id)
           ->get();
         $regoitemtotal = 0;
+        var_dump($regoitemtotal);
       @endphp
       <table class="table table-sm">
         <thead>
@@ -72,6 +73,7 @@
         <tbody>
           @foreach($regoitems as $regoitem)
             @php $regoitemtotal += $regoitem->price; @endphp
+        var_dump($regoitemtotal);
             <tr>
               <td class="pl-0">{{ $regoitem->itemname }}</td>
               <td>{{ $regoitem->qty }}</td>
@@ -84,6 +86,7 @@
           <tr>
             <td colspan="3" class="pl-0">TOTAL AMOUNT PAYABLE</td>
             <td class="text-right pr-0">${{ number_format($regoitemtotal,2,'.','') }}</td>
+        @php var_dump($regoitemtotal); @endphp
           </tr>
         </tfoot>
       </table>
@@ -203,7 +206,9 @@
         <tfoot class="font-weight-bold">
           <tr>
             <td colspan="3" class="pl-0">BALANCE DUE</td>
+{{--
             <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</td>
+--}}
           </tr>
         </tfoot>
       </table>
