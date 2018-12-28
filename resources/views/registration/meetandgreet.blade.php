@@ -51,15 +51,15 @@
         
         if(!is_null($ConcessionList))
         {
-          $ConcessionList = $ConcessionList->responsejson;
+          $ConcessionList = json_decode($ConcessionList->responsejson);
         }
         if(!is_null($Fresher))
         {
-          $Fresher = $Fresher->responsejson;
+          $Fresher = json_decode($Fresher->responsejson);
         }
         if(!is_null($IVHistory))
         {
-          $IVHistory = $IVHistory->responsejson;
+          $IVHistory = json_decode($IVHistory->responsejson);
         }
 
         var_dump($ConcessionList);
