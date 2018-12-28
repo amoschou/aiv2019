@@ -49,21 +49,25 @@
         $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first();
         $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first();
         
+        if(!is_null($ConcessionList))
+        {
+          $ConcessionList = $ConcessionList->responsejson;
+        }
+        if(!is_null($Fresher))
+        {
+          $Fresher = $Fresher->responsejson;
+        }
+        if(!is_null($IVHistory))
+        {
+          $IVHistory = $IVHistory->responsejson;
+        }
+
         var_dump($ConcessionList);
         var_dump($Fresher);
         var_dump($IVHistory);
         
-        $ConcessionList = !is_null($ConcessionList)
-                        ? json_decode($ConcessionList->responsejson)
-                        : null;
-        $Fresher = !is_null($Fresher)
-                        ? json_decode($Fresher->responsejson)
-                        : null;
-        $IVHistory = !is_null($IVHistory)
-                        ? json_decode($IVHistory->responsejson)
-                        : null;
-        
       @endphp
+      {{--
       <table class="table table-bordered border-primary">
         <tbody class="border-primary">
           @foreach($ConcessionList as $Concession)
@@ -88,6 +92,7 @@
           @endif
         </tbody>
       </table>
+      --}}
     </div>
 
 
