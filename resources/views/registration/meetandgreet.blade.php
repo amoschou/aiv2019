@@ -1,6 +1,6 @@
-@extends('registration.layouts.appwithsidebar')
+@extends('registration.layouts.app')
 
-@section('innercontent')
+@section('content')
 
   <p>Meet and greet</p>
   
@@ -89,7 +89,7 @@
             </tr>
           @endif
           @if(!$hasrows)
-            <tr><td>(no checks necessary)</td></tr>
+            <tr><td>No checks necessary.</td></tr>
           @endif
         </tbody>
       </table>
@@ -407,3 +407,4 @@
   
   @endforeach
 @endsection
+
