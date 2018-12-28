@@ -31,7 +31,9 @@
     {
       $people = $newpeople;
     }
+    var_dump($people); die();
   @endphp
+  
   @foreach($people as $person)
     <hr>
     @php
