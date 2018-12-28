@@ -49,18 +49,18 @@
         $ConcessionList = json_decode($ConcessionList);
       @endphp
       <table class="table table-bordered border-primary">
-        <tbody>
+        <tbody class="border-primary">
           @foreach($ConcessionList as $Concession)
             @if($Concession = 'student')
-              <tr>
-                <th></th>
-                <td>Student</td>
+              <tr class="border-primary">
+                <th class="border-primary"></th>
+                <td class="border-primary">Student</td>
               </tr>
             @endif
             @if($Concession = 'youth')
-              <tr>
-                <th></th>
-                <td>Youth</td>
+              <tr class="border-primary">
+                <th class="border-primary"></th>
+                <td class="border-primary">Youth</td>
               </tr>
             @endif
           @endforeach
