@@ -31,14 +31,10 @@
     {
       $people = $newpeople;
     }
-    foreach($people as $person)
-    {
-      var_dump($person->id);
-    }
-    die();
   @endphp
   @foreach($people as $person)
     <hr>
+      var_dump($person->id);
     @php
       $accountref = DB::table('iv_users')->select('accountref')->where('id',$person->id)->first()->accountref;
       $personemail = DB::table('iv_users')->select('email')->where('id',$person->id)->first()->email;
