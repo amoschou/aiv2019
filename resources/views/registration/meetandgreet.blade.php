@@ -47,6 +47,10 @@
       @php
         $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first()->responsejson;
         $ConcessionList = json_decode($ConcessionList);
+        $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first()->responsejson;
+        $Fresher = json_decode($Fresher);
+        $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first()->responsejson;
+        $IVHistory = json_decode($IVHistory);
       @endphp
       <table class="table table-bordered border-primary">
         <tbody class="border-primary">
@@ -54,16 +58,22 @@
             @if($Concession === 'student')
               <tr class="border-primary">
                 <th class="border-primary"></th>
-                <td class="border-primary">Student</td>
+                <td class="border-primary">Full time student (Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent)</td>
               </tr>
             @endif
             @if($Concession === 'youth')
               <tr class="border-primary">
                 <th class="border-primary"></th>
-                <td class="border-primary">Youth</td>
+                <td class="border-primary">Youth (Born on or after 10 January 1989)</td>
               </tr>
             @endif
           @endforeach
+          @if($Fresher === 'yes')
+            <tr class="border-primary">
+              <th class="border-primary"></th>
+              <td class="border-primary">First time singing at an IV<br>{{ $IVHistory }}</td>
+            </tr>
+          @endif
         </tbody>
       </table>
     </div>
