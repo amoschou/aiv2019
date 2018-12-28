@@ -33,7 +33,7 @@
     }
     foreach($people as $person)
     {
-      var_dump($person);
+      var_dump($person->id);
     }
     die();
   @endphp
