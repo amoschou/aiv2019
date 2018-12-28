@@ -67,7 +67,6 @@
         var_dump($IVHistory);
         
       @endphp
-      {{--
       <table class="table table-bordered border-primary">
         <tbody class="border-primary">
           @foreach($ConcessionList as $Concession)
@@ -92,7 +91,6 @@
           @endif
         </tbody>
       </table>
-      --}}
     </div>
 
 
