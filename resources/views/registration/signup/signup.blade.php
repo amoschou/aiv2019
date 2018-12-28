@@ -79,6 +79,7 @@
           </form>
         </div>
         <div class="card-footer border-primary">
+          <p class="card-text">Registration closes on 28 December 2018.</p>        
           <p class="card-text">To access Adelaide IV Registration, please tell us your email address. If it is shared, you’ll need to provide a username too.</p>
           <p class="card-text">This form works for both signing up on your first visit and logging in afterwards.</p>
           <p class="card-text">We don’t use passwords; instead, check your email for access.</p>

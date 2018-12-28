@@ -329,16 +329,7 @@ class PublicController extends Controller
       'titletext' => 'Welcome',
       'essay' => [
         [
-          '',
-          /*
-          [
-            'AIVCF Adelaide presents the 2019 festival concert ‘Northern lights’ on Saturday, 19 January 2019.',
-            'This concert presents works by incredible Scandinavian and Baltic composers Pärt, Gjeilo, Ešenvalds and Sandström, as well as Whitacre, Dove and Lauridsen.',
-            'Of particular highlight is the wonderful <em>Magnificat</em> by Kim André Arnesen, a talented young Norwegian composer. A recording of <em>Magnificat</em> in Nidaros Cathedral was nominated for a Grammy Award in 2016, and we are excited to feature the Australian première of this spine-tingling work.',
-            'The festival choir, comprising members from university choirs across Australia as well as the wider Australian choral community and even internationally, is directed by Peter Kelsall and incorporates the newly restored organ at St Peter’s Cathedral.',
-            '<a class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" href="/concert">Read more</a>',
-          ]
-          */
+          'Welcome',
           [
             'We’d like to invite you to participate in the 70th Australian Intervarsity Choral Festival, to be held in January 2019 in Adelaide!',
             'We’ve been hard at work hand-crafting a solid gold festival for all of you, as befits a big anniversary year. We hope it will be filled with fun, friendship, good times, and of course—music!',
@@ -348,7 +339,13 @@ class PublicController extends Controller
             'Please read through our website for details—in particular, please check out our bulletin sheets. Feel free to <a href="' .route('contact'). '">get in touch with us</a> if you have any questions.',
             'It’s a pleasure to invite you to join us in Adelaide, and we look forward to meeting you next January!',
           ]
-        ]
+        ],
+        [
+          'Orchestra and the Australian Cultural Fund',
+          [
+            'You can also support the festival by helping to fund the orchestra. Please visit the Australian Cultural Fund to do this:<br><a href="https://australianculturalfund.org.au/projects/adelaide-intervarsity-choral-festival/">https://australianculturalfund.org.au/projects/adelaide-intervarsity-choral-festival/</a>',
+          ]
+        ],
       ]
     ];
     return view('public.homewithtickets', $context);

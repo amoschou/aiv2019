@@ -142,6 +142,13 @@ class HomeController extends Controller
   
   
   
+  public function meetandgreet(Request $request)
+  {
+    $context = [];
+    return view('registration.meetandgreet', $context);
+  }
+  
+  
   
   
   

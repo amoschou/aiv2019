@@ -87,6 +87,7 @@ Route::post('/home/registration/{sectionid}', 'HomeController@registrationformpo
 
 Route::get('/home/invoice', 'HomeController@invoice')->name('home.invoice');
 Route::get('/home/accounts', 'HomeController@accounts')->name('home.accounts')->middleware('committee');
+Route::get('/home/registration/meetandgreet', 'HomeController@meetandgreet')->name('home.meetandgreet')->middleware('committee');
 
 Route::view('/home/medical','public.footmatter.index',['titletext' => 'Medical information'])->name('home.medical');
 
