@@ -42,8 +42,9 @@
 
     <div class="row">
 
-    {{-- Invoice -- }}
-    <div class="col-sm card">
+    {{-- Invoice --}}
+    <div class="col-sm">
+    <div class="card">
       <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
       <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
       <div class="row">
@@ -59,7 +60,6 @@
           ->where('userid',$person->id)
           ->get();
         $regoitemtotal = 0;
-        var_dump($regoitemtotal);
       @endphp
       <table class="table table-sm">
         <thead>
@@ -73,7 +73,6 @@
         <tbody>
           @foreach($regoitems as $regoitem)
             @php $regoitemtotal += $regoitem->price; @endphp
-        var_dump($regoitemtotal);
             <tr>
               <td class="pl-0">{{ $regoitem->itemname }}</td>
               <td>{{ $regoitem->qty }}</td>
@@ -86,17 +85,18 @@
           <tr>
             <td colspan="3" class="pl-0">TOTAL AMOUNT PAYABLE</td>
             <td class="text-right pr-0">${{ number_format($regoitemtotal,2,'.','') }}</td>
-        @php var_dump($regoitemtotal); @endphp
           </tr>
         </tfoot>
       </table>
       <p class="font-weight-bold">No GST has been charged.</p>
     </div>
+    </div>
     {{-- End invoice --}}
     
     {{-- Receipts --}}
     
-    <div class="col-sm card">
+    <div class="col-sm">
+    <div class="card">
       <h3>Receipts</h3>
       <h4>Card payments</h4>
       @php
@@ -206,12 +206,11 @@
         <tfoot class="font-weight-bold">
           <tr>
             <td colspan="3" class="pl-0">BALANCE DUE</td>
-{{--
             <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</td>
---}}
           </tr>
         </tfoot>
       </table>
+    </div>
     </div>
     
     </div> {{-- End row --}}
