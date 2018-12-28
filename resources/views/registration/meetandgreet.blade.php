@@ -43,7 +43,7 @@
     <div class="row">
 
     {{-- Invoice --}}
-    <div class="col-sm">
+    <div class="col-6">
     <div class="card">
       <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
       <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
@@ -95,7 +95,7 @@
     
     {{-- Receipts --}}
     
-    <div class="col-sm">
+    <div class="col-6">
     <div class="card">
       <h3>Receipts</h3>
       <h4>Card payments</h4>
