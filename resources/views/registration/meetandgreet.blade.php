@@ -69,20 +69,22 @@
       @endphp
       <table class="table table-bordered border-primary">
         <tbody class="border-primary">
-          @foreach($ConcessionList as $Concession)
-            @if($Concession === 'student')
-              <tr class="border-primary">
-                <th class="border-primary"></th>
-                <td class="border-primary">Full time student (Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent)</td>
-              </tr>
-            @endif
-            @if($Concession === 'youth')
-              <tr class="border-primary">
-                <th class="border-primary"></th>
-                <td class="border-primary">Youth (Born on or after 10 January 1989)</td>
-              </tr>
-            @endif
-          @endforeach
+          @if(!is_null($ConcessionList))
+            @foreach($ConcessionList as $Concession)
+              @if($Concession === 'student')
+                <tr class="border-primary">
+                  <th class="border-primary"></th>
+                  <td class="border-primary">Full time student (Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent)</td>
+                </tr>
+              @endif
+              @if($Concession === 'youth')
+                <tr class="border-primary">
+                  <th class="border-primary"></th>
+                  <td class="border-primary">Youth (Born on or after 10 January 1989)</td>
+                </tr>
+              @endif
+            @endforeach
+          @endif
           @if($Fresher === 'yes')
             <tr class="border-primary">
               <th class="border-primary"></th>
