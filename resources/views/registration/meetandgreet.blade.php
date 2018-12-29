@@ -6,9 +6,8 @@
   <p>Meet and greet</p>
   
   
-  
-    
     @php
+      $StudConfirms = [11, 87, 44, 49, 34, 86, 31, 51, 82, 89, 94];
       $BarCardWinners = [78, 52, 68, 48, 12, 15];
       $BuyString = '****';
       $BringString = '----';
@@ -195,7 +194,7 @@
                 @foreach($ConcessionList as $Concession)
                   @if($Concession === 'student')
                     <tr class="border-primary">@php $hasrows = true; @endphp
-                      <th class="border-primary px-5"></th>
+                      <th class="border-primary px-5">@if(in_array($person->id,$StudConfirms)) YES @endif</th>
                       <td class="border-primary"><Strong>Full time student</strong><br>Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent</td>
                     </tr>
                   @endif
@@ -690,7 +689,7 @@
                       <tr class="border-primary">@php $hasrows = true; @endphp
                         <th class="border-primary px-5"></th>
                         <td class="border-primary"><strong>T&nbsp;shirt</strong></td>
-                        <td class="border-primary"><strong>{{ $SizeKey }}</strong></td>
+                        <td class="border-primary"><strong>{{ strtoupper($SizeKey) }}</strong></td>
                         <td class="border-primary">{{ $SizeVal }}</td>
                       </tr>
                     @endif
