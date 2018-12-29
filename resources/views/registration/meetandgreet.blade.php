@@ -662,7 +662,7 @@
           <table class="table border-primary mb-0">
             @php $hasrows = false; @endphp
             <tbody class="border-primary">
-              @if(in_array($people->id, $BarCardWinners))
+              @if(in_array($person->id, $BarCardWinners))
                 <tr class="border-primary">@php $hasrows = true; @endphp
                   <th class="border-primary px-5"></th>
                   <td class="border-primary"><Strong>Bar card&emsp;$20</strong></td>
