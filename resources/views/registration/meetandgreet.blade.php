@@ -35,6 +35,7 @@
   @endphp
   @foreach($people as $person)
     <hr>
+    <div class="page-break"></div>
     @php
       $accountref = DB::table('iv_users')->select('accountref')->where('id',$person->id)->first()->accountref;
       $personemail = DB::table('iv_users')->select('email')->where('id',$person->id)->first()->email;
