@@ -390,7 +390,7 @@
         </tbody>
       </table>
       <h4>Other transfer</h4>
-      <table class="table table-sm">
+      <table class="table table-sm pb-0">
         <thead>
           <tr>
             <th class="pl-0">Transaction ID</th>
