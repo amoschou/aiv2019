@@ -18,3 +18,17 @@ body {
   background-color: #f5f5f5;
 }
 
+
+
+
+
+/* Page breaks */
+
+@media all {
+.page-break { display: none; }
+}
+
+@media print {
+.page-break { display: block; page-break-before: always; }
+}
+
