@@ -598,10 +598,16 @@
           <table class="table border-primary mb-0">
             @php $hasrows = false; @endphp
             <tbody class="border-primary">
-              <tr class="border-primary">@php $hasrows = true; @endphp
-                <th class="border-primary px-5"></th>
-                <td class="border-primary"><Strong>Row label</strong></td>
-              </tr>
+              @if($ScoreList !== [])
+                @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                  @if($ScoreList[$ScoreShortName] === $BuyString)
+                    <tr class="border-primary">@php $hasrows = true; @endphp
+                      <th class="border-primary px-5"></th>
+                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong><br>{{ $ScoreList[$ScoreShortName] }}</td>
+                    </tr>
+                  @endif
+                @endforeach
+              @endif
               @if(!$hasrows)
                 <tr><td>None</td></tr>
               @endif
@@ -647,7 +653,7 @@
               </tr>
               <tr class="border-primary">
                 <th class="border-primary px-5"></th>
-                <td class="border-primary"><Strong>Condom</strong></td>
+                <td class="border-primary"><Strong>SHINE SA package</strong></td>
               </tr>
             </tbody>
           </table>
@@ -680,19 +686,21 @@
         <div class="card border-primary mb-3 pb-0">
           <h3 class="card-header text-white bg-primary">Excluded scores</h3>
           <table class="table border-primary mb-0">
+            @php $hasrows = false; @endphp
             <tbody class="border-primary">
-              <tr class="border-primary">
-                <th class="border-primary px-5"></th>
-                <td class="border-primary"><Strong>Pencil</strong></td>
-              </tr>
-              <tr class="border-primary">
-                <th class="border-primary px-5"></th>
-                <td class="border-primary"><Strong>Rubber</strong></td>
-              </tr>
-              <tr class="border-primary">
-                <th class="border-primary px-5"></th>
-                <td class="border-primary"><Strong>Condom</strong></td>
-              </tr>
+              @if($ScoreList !== [])
+                @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                  @if($ScoreList[$ScoreShortName] === $BringString)
+                    <tr class="border-primary">@php $hasrows = true; @endphp
+                      <th class="border-primary px-5"></th>
+                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong><br>{{ $ScoreList[$ScoreShortName] }}</td>
+                    </tr>
+                  @endif
+                @endforeach
+              @endif
+              @if(!$hasrows)
+                <tr><td>None</td></tr>
+              @endif
             </tbody>
           </table>
         </div>
