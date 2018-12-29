@@ -18,7 +18,7 @@
         'gjeilo' => 'Gjeilo: Northern lights',
         'lauridsenii' => 'Lauridsen: Soneto de la noche',
         'lauridseniii' => 'Lauridsen: Sure on this shining night',
-        'part' => 'Part: Magnificat',
+        'part' => 'Pärt: Magnificat',
         'sandstrom' => 'Sandström: Es ist in Ros entsprungen',
         'whitacre' => 'Whitacre: The seal lullaby',
       ];
@@ -603,7 +603,7 @@
                   @if($ScoreList[$ScoreShortName] === $BuyString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
-                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong><br>{{ $ScoreList[$ScoreShortName] }}</td>
+                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong></td>
                     </tr>
                   @endif
                 @endforeach
@@ -693,7 +693,7 @@
                   @if($ScoreList[$ScoreShortName] === $BringString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
-                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong><br>{{ $ScoreList[$ScoreShortName] }}</td>
+                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong></td>
                     </tr>
                   @endif
                 @endforeach
