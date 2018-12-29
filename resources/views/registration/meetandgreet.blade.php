@@ -301,7 +301,7 @@
               </tr>
             </tfoot>
           </table>
-          <p class="font-weight-bold mb-0">No GST has been charged.</p>
+          <p class="font-weight-bold">No GST has been charged.</p>
         </div>
       </div>
     </div>
