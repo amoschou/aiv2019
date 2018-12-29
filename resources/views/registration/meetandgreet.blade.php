@@ -9,6 +9,7 @@
   
     
     @php
+      $BarCardWinners = [78, 52, 68, 48, 12, 15];
       $BuyString = '****';
       $BringString = '----';
       $ScoreNames = [
@@ -661,6 +662,13 @@
           <table class="table border-primary mb-0">
             @php $hasrows = false; @endphp
             <tbody class="border-primary">
+              @if(in_array($people->id, $BarCardWinners))
+                <tr class="border-primary">@php $hasrows = true; @endphp
+                  <th class="border-primary px-5"></th>
+                  <td class="border-primary"><Strong>Bar card&emsp;$20</strong></td>
+                  <td class="border-primary">1</td>
+                </tr>
+              @endif
               @foreach($MerchJsonRaw as $MerchJsonItem)
                 @if($MerchJsonItem->questionshortname === 'bottle')
                   @php
@@ -680,8 +688,8 @@
                     @if(!is_null($SizeVal))
                       <tr class="border-primary">@php $hasrows = true; @endphp
                         <th class="border-primary px-5"></th>
-                        <td class="border-primary"><Strong>T&nbsp;shirt</strong></td>
-                        <td class="border-primary">{{ $SizeKey }}&emsp;{{ $SizeVal }}</td>
+                        <td class="border-primary"><Strong>T&nbsp;shirt&emsp;{{ $SizeKey }}</strong></td>
+                        <td class="border-primary">{{ $SizeVal }}</td>
                       </tr>
                     @endif
                   @endforeach
