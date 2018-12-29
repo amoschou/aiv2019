@@ -137,7 +137,7 @@
     $authenticatedusersemail = DB::table('iv_users')->select('email')->where('id',Auth::id())->first()->email;
   @endphp
   @php
-    $numpages = $getnumpages;
+    $numpages = $getnumpages ?? 9999;
     $newpeople = [];
     foreach($people as $person)
     {
@@ -662,7 +662,8 @@
                 @if($MerchItemValue > 0)
                   <tr class="border-primary">@php $hasrows = true; @endphp
                     <th class="border-primary px-5"></th>
-                    <td class="border-primary"><Strong>{{ $MerchItemKey }}</strong><br>{{ $MerchItemValue }}</td>
+                    <td class="border-primary"><Strong>{{ $MerchItemKey }}</strong</td>
+                    <td class="border-primary">{{ $MerchItemValue }}</td>
                   </tr>
                 @endif
               @endforeach
@@ -673,7 +674,8 @@
                   @endphp              
                   <tr class="border-primary">@php $hasrows = true; @endphp
                     <th class="border-primary px-5"></th>
-                    <td class="border-primary"><Strong>Bottle</strong><br>{{ $Bottle }}</td>
+                    <td class="border-primary"><Strong>Bottle</strong></td>
+                    <td class="border-primary">{{ $Bottle }}</td>
                   </tr>
                 @endif
                 @if($MerchJsonItem->questionshortname === 'tshirt')
@@ -684,7 +686,8 @@
                     @if(!is_null($SizeVal))
                       <tr class="border-primary">@php $hasrows = true; @endphp
                         <th class="border-primary px-5"></th>
-                        <td class="border-primary"><Strong>T shirt</strong> ({{ $SizeKey }})<br>{{ $SizeVal }}</td>
+                        <td class="border-primary"><Strong>T shirt {{ $SizeKey }}</strong></td>
+                        <td class="border-primary">{{ $SizeVal }}</td>
                       </tr>
                     @endif
                   @endforeach
