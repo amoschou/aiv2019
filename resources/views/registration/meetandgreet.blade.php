@@ -159,6 +159,7 @@
       $personemail = DB::table('iv_users')->select('email')->where('id',$person->id)->first()->email;
     @endphp
     <h1>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h1>
+    <h2>Registration financials</h2>
 
 
 
@@ -558,11 +559,12 @@
     <hr>
     <div class="page-break"></div>
     <h1>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h1>
-    <h2>Registration package</h2>
+    <h2>Registration bundle list</h2>
     
     @php
-      $ScoreList = $ScoreListArray[$person->id];
-      $ScoreList = $ScoreList ?? [];
+      $ScoreList = array_key_exists($person->id,$ScoreListArray)
+                 ? $ScoreListArray[$person->id]
+                 : $ScoreList;
     @endphp
 
     <div class="row">
