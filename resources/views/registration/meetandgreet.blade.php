@@ -564,7 +564,7 @@
     @php
       $ScoreList = array_key_exists($person->id,$ScoreListArray)
                  ? $ScoreListArray[$person->id]
-                 : $ScoreList;
+                 : [];
     @endphp
 
     <div class="row">
