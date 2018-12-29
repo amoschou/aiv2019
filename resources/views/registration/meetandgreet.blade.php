@@ -44,195 +44,204 @@
 
 
 
-    <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Pre registration checks</h3>
-      @php
-        $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first();
-        $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first();
-        $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first();
+    <div class="row">
+      <div class="col-6">
+        <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Pre registration checks</h3>
+          @php
+            $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first();
+            $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first();
+            $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first();
         
-        if(!is_null($ConcessionList))
-        {
-          $ConcessionList = json_decode($ConcessionList->responsejson);
-        }
-        if(!is_null($Fresher))
-        {
-          $Fresher = json_decode($Fresher->responsejson);
-        }
-        if(!is_null($IVHistory))
-        {
-          $IVHistory = json_decode($IVHistory->responsejson);
-        }
+            if(!is_null($ConcessionList))
+            {
+              $ConcessionList = json_decode($ConcessionList->responsejson);
+            }
+            if(!is_null($Fresher))
+            {
+              $Fresher = json_decode($Fresher->responsejson);
+            }
+            if(!is_null($IVHistory))
+            {
+              $IVHistory = json_decode($IVHistory->responsejson);
+            }
         
-      @endphp
-      <table class="table border-primary">
-        @php $hasrows = false; @endphp
-        <tbody class="border-primary">
-          @if(!is_null($ConcessionList))
-            @foreach($ConcessionList as $Concession)
-              @if($Concession === 'student')
+          @endphp
+          <table class="table border-primary">
+            @php $hasrows = false; @endphp
+            <tbody class="border-primary">
+              @if(!is_null($ConcessionList))
+                @foreach($ConcessionList as $Concession)
+                  @if($Concession === 'student')
+                    <tr class="border-primary">@php $hasrows = true; @endphp
+                      <th class="border-primary px-5"></th>
+                      <td class="border-primary"><Strong>Full time student</strong><br>Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent</td>
+                    </tr>
+                  @endif
+                  @if($Concession === 'youth')
+                    <tr class="border-primary">@php $hasrows = true; @endphp
+                      <th class="border-primary px-5"></th>
+                      <td class="border-primary"><strong>Youth</strong><br>Born on or after 10 January 1989</td>
+                    </tr>
+                  @endif
+                @endforeach
+              @endif
+              @if($Fresher === 'yes')
                 <tr class="border-primary">@php $hasrows = true; @endphp
                   <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Full time student</strong><br>Enrolled full time at an Australian university during Semester Two 2018 or Semester One 2019 or equivalent</td>
+                  <td class="border-primary"><strong>Fresher</strong> (First time singing at an IV)<br>IV history: {{ $IVHistory }}</td>
                 </tr>
               @endif
-              @if($Concession === 'youth')
-                <tr class="border-primary">@php $hasrows = true; @endphp
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><strong>Youth</strong><br>Born on or after 10 January 1989</td>
-                </tr>
+              @if(!$hasrows)
+                <tr><td>No checks necessary.</td></tr>
               @endif
-            @endforeach
-          @endif
-          @if($Fresher === 'yes')
-            <tr class="border-primary">@php $hasrows = true; @endphp
-              <th class="border-primary px-5"></th>
-              <td class="border-primary"><strong>Fresher</strong> (First time singing at an IV)<br>IV history: {{ $IVHistory }}</td>
-            </tr>
-          @endif
-          @if(!$hasrows)
-            <tr><td>No checks necessary.</td></tr>
-          @endif
-        </tbody>
-      </table>
-    </div>
-    {{-- End pre registration check --}}
-    
-    
-    {{-- Red green box begins --}}
-    @php
-      $q = "select sectionid from rego_responses natural join rego_questions where userid = ? group by sectionid";
-      $tmp = DB::select($q,[$person->id]);
-      $submittedsections = [];
-      foreach($tmp as $a)
-      {
-        $submittedsections[] = $a->sectionid;
-      }
-      $q = "SELECT
-              sectionid,
-              sectionname,
-              sectionord
-            from
-              v_rego_required_sections
-              natural join
-              rego_sections
-            where
-              userid = ?
-              and
-              required = 'true'
-            order by
-              sectionord";
-      $sections = DB::select($q,[$person->id]);
-      $registrationiscomplete = True;
-      $omittedsections = [];
-    @endphp
-    @foreach($sections as $section)
-      @php
-        $tick = in_array($section->sectionid,$submittedsections);
-        if(!$tick)
-        {
-          $registrationiscomplete = False;
-          $omittedsections[] = $section->sectionid;
-        }
-      @endphp
-    @endforeach
-    <div class="alert alert-{{ $registrationiscomplete ? 'success' : 'danger' }} rounded-0" role="alert">
-      <p class="h4">Registration is {{ $registrationiscomplete ? 'complete' : 'not yet finished' }}</p>
-      @php
-        switch(config('database.default'))
-        {
-          case('pgsql'):
-            $caststring = '::TEXT';
-            break;
-          case('mysql'):
-            $caststring = '';
-            break;
-        }
-        $q = "with a as (select userid,checklistdescr,'Yes' as tickbox from rego_checklist natural join v_user_rego_items order by userid,checklistord), b as (select distinct checklistdescr,checklistord from rego_checklist), c as (select id as userid from iv_users) select userid,checklistdescr,coalesce(tickbox{$caststring},'No') as tickbox from (b cross join c) left join a using (userid,checklistdescr) where userid = ? order by userid,checklistord";
-        $checklist = DB::select($q,[$person->id]);
-        $numberofactivities = 0;
-        $includedevents = [];
-        $excludedevents = [];
-
-        $essentialrecord = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide')->where('id',$person->id)->first();
-        $personalrecord = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$person->id)->first();
-        
-        
-        $ischoral = $essentialrecord->doing_singing ? true : false;
-        $issocial = $essentialrecord->doing_social ? true : false;
-        $isadelaide = $essentialrecord->adelaide ? true : false;
-
-        $isstudent = $personalrecord->student ?? NULL;
-        $isyouth = $personalrecord->youth ?? NULL;
-
-        $sleepingatcampq = "select userid as id,case when json_search(responsejson,'one','no') is not null then false else true end as sleepingatcamp from rego_responses where questionshortname = 'sleepingatcamp' and userid = ?";
-        $billetingrequestq = "select userid as id, case when responsejson <> '[\"hiddeninput\"]' then true else false end as billetingrequest from rego_responses where questionshortname = 'billetingrequest' and userid = ?";
-        $accommodationq = "select userid as id,case when json_unquote(responsejson) is not null then true else false end as accommodation from rego_responses where questionshortname = 'accommodation' and userid = ?";
-        
-
-        $sleepingatcampselect = DB::select($sleepingatcampq,[$person->id]); // [0]->sleepingatcamp ? true : false;
-        $billetingrequestselect = DB::select($billetingrequestq,[$person->id]); // [0]->billetingrequest ? true : false;
-        $accommodationselect = DB::select($accommodationq,[$person->id]); // [0]->accommodation ? true : false;
-
-        $sleepingatcamp = NULL;
-        $billetingrequest = NULL;
-        $accommodation = NULL;
-        foreach($sleepingatcampselect as $a)
-        {
-          $sleepingatcamp = $a->sleepingatcamp ? true : false;
-        }
-        foreach($billetingrequestselect as $a)
-        {
-          $billetingrequest = $a->billetingrequest ? true : false;
-        }
-        foreach($accommodationselect as $a)
-        {
-          $accommodation = $a->accommodation ? true : false;
-        }
-
-        $antisocialchorister = $ischoral && !$issocial ? true : false;
-        $foreignernotsleepingatcamp = !$isadelaide && !$sleepingatcamp ? true : false;
-        $homelessforeignstudent = $isstudent && !$isadelaide && !$billetingrequest;
-        $homelessforeignnonstudents = !$isstudent && !$isadelaide && !$accommodation;
-        
-        $unusualcombination = $antisocialchorister || $foreignernotsleepingatcamp || $homelessforeignstudent || $homelessforeignnonstudents;
-        
-      @endphp
-      <table class="table table-sm">
-        @foreach($checklist as $checklistitem)
-          <tr>
-            <td class="pl-0">{{ $checklistitem->checklistdescr }}</td>
-            <td class="pr-0">{{ $checklistitem->tickbox }}</td>
-            @php
-              if($checklistitem->tickbox == 'Yes')
-              {
-                $numberofactivities++;
-                $includedevents[] = $checklistitem->checklistdescr;
-              }
-              else
-              {
-                $excludedevents[] = $checklistitem->checklistdescr;
-              }
-            @endphp
-          </tr>
+            </tbody>
+          </table>
+        </div>
+        {{-- End pre registration check --}}
+      </div>
+      <div class="col-6">
+        {{-- Red green box begins --}}
+        @php
+          $q = "select sectionid from rego_responses natural join rego_questions where userid = ? group by sectionid";
+          $tmp = DB::select($q,[$person->id]);
+          $submittedsections = [];
+          foreach($tmp as $a)
+          {
+            $submittedsections[] = $a->sectionid;
+          }
+          $q = "SELECT
+                  sectionid,
+                  sectionname,
+                  sectionord
+                from
+                  v_rego_required_sections
+                  natural join
+                  rego_sections
+                where
+                  userid = ?
+                  and
+                  required = 'true'
+                order by
+                  sectionord";
+          $sections = DB::select($q,[$person->id]);
+          $registrationiscomplete = True;
+          $omittedsections = [];
+        @endphp
+        @foreach($sections as $section)
+          @php
+            $tick = in_array($section->sectionid,$submittedsections);
+            if(!$tick)
+            {
+              $registrationiscomplete = False;
+              $omittedsections[] = $section->sectionid;
+            }
+          @endphp
         @endforeach
-      </table>
-      @if(!$registrationiscomplete)
-        @php
-          $omittedsectionsobj = DB::table('rego_sections')->whereIn('sectionid',$omittedsections)->get();
-        @endphp
-        <p>Omitted sections:</p>
-        <ul>
-          @foreach($omittedsectionsobj as $section)
-            <li>{{ $section->sectionname }}</li>
-          @endforeach
-        </ul>
-      @else
-        @php
-          $omittedsectionsobj = [];
-        @endphp
-      @endif
+        <div class="alert alert-{{ $registrationiscomplete ? 'success' : 'danger' }} rounded-0" role="alert">
+          <p class="h4">Registration is {{ $registrationiscomplete ? 'complete' : 'not yet finished' }}</p>
+          @php
+            switch(config('database.default'))
+            {
+              case('pgsql'):
+                $caststring = '::TEXT';
+                break;
+              case('mysql'):
+                $caststring = '';
+                break;
+            }
+            $q = "with a as (select userid,checklistdescr,'Yes' as tickbox from rego_checklist natural join v_user_rego_items order by userid,checklistord), b as (select distinct checklistdescr,checklistord from rego_checklist), c as (select id as userid from iv_users) select userid,checklistdescr,coalesce(tickbox{$caststring},'No') as tickbox from (b cross join c) left join a using (userid,checklistdescr) where userid = ? order by userid,checklistord";
+            $checklist = DB::select($q,[$person->id]);
+            $numberofactivities = 0;
+            $includedevents = [];
+            $excludedevents = [];
+
+            $essentialrecord = DB::table('v_cols_essential')->select('id','doing_singing','doing_social','adelaide')->where('id',$person->id)->first();
+            $personalrecord = DB::table('v_cols_personal')->select('id','student','youth')->where('id',$person->id)->first();
+        
+        
+            $ischoral = $essentialrecord->doing_singing ? true : false;
+            $issocial = $essentialrecord->doing_social ? true : false;
+            $isadelaide = $essentialrecord->adelaide ? true : false;
+
+            $isstudent = $personalrecord->student ?? NULL;
+            $isyouth = $personalrecord->youth ?? NULL;
+
+            $sleepingatcampq = "select userid as id,case when json_search(responsejson,'one','no') is not null then false else true end as sleepingatcamp from rego_responses where questionshortname = 'sleepingatcamp' and userid = ?";
+            $billetingrequestq = "select userid as id, case when responsejson <> '[\"hiddeninput\"]' then true else false end as billetingrequest from rego_responses where questionshortname = 'billetingrequest' and userid = ?";
+            $accommodationq = "select userid as id,case when json_unquote(responsejson) is not null then true else false end as accommodation from rego_responses where questionshortname = 'accommodation' and userid = ?";
+        
+
+            $sleepingatcampselect = DB::select($sleepingatcampq,[$person->id]); // [0]->sleepingatcamp ? true : false;
+            $billetingrequestselect = DB::select($billetingrequestq,[$person->id]); // [0]->billetingrequest ? true : false;
+            $accommodationselect = DB::select($accommodationq,[$person->id]); // [0]->accommodation ? true : false;
+
+            $sleepingatcamp = NULL;
+            $billetingrequest = NULL;
+            $accommodation = NULL;
+            foreach($sleepingatcampselect as $a)
+            {
+              $sleepingatcamp = $a->sleepingatcamp ? true : false;
+            }
+            foreach($billetingrequestselect as $a)
+            {
+              $billetingrequest = $a->billetingrequest ? true : false;
+            }
+            foreach($accommodationselect as $a)
+            {
+              $accommodation = $a->accommodation ? true : false;
+            }
+
+            $antisocialchorister = $ischoral && !$issocial ? true : false;
+            $foreignernotsleepingatcamp = !$isadelaide && !$sleepingatcamp ? true : false;
+            $homelessforeignstudent = $isstudent && !$isadelaide && !$billetingrequest;
+            $homelessforeignnonstudents = !$isstudent && !$isadelaide && !$accommodation;
+        
+            $unusualcombination = $antisocialchorister || $foreignernotsleepingatcamp || $homelessforeignstudent || $homelessforeignnonstudents;
+        
+          @endphp
+          <table class="table table-sm">
+            @foreach($checklist as $checklistitem)
+              <tr>
+                <td class="pl-0">{{ $checklistitem->checklistdescr }}</td>
+                <td class="pr-0">{{ $checklistitem->tickbox }}</td>
+                @php
+                  if($checklistitem->tickbox == 'Yes')
+                  {
+                    $numberofactivities++;
+                    $includedevents[] = $checklistitem->checklistdescr;
+                  }
+                  else
+                  {
+                    $excludedevents[] = $checklistitem->checklistdescr;
+                  }
+                @endphp
+              </tr>
+            @endforeach
+          </table>
+          @if(!$registrationiscomplete)
+            @php
+              $omittedsectionsobj = DB::table('rego_sections')->whereIn('sectionid',$omittedsections)->get();
+            @endphp
+            <p>Omitted sections:</p>
+            <ul>
+              @foreach($omittedsectionsobj as $section)
+                <li>{{ $section->sectionname }}</li>
+              @endforeach
+            </ul>
+          @else
+            @php
+              $omittedsectionsobj = [];
+            @endphp
+          @endif
+        </div>
+        {{-- Red Green box ends --}}
+      </div>
     </div>
-    {{-- Red Green box ends --}}
+
+
+
+    
+    
 
 
 
@@ -242,7 +251,7 @@
 
 
     {{-- Invoice --}}
-    <div class="col-6">
+    <div class="col-7">
     <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Invoice</h3><div class="card-body">
       <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
       <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
@@ -296,7 +305,7 @@
     
     
     {{-- Receipts --}}
-    <div class="col-6">
+    <div class="col-5">
     <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Receipts</h3><div class="card-body">
       <h4>Card payments</h4>
       @php
