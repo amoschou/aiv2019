@@ -268,14 +268,7 @@
     <div class="card border-primary mb-3">
       <h3 class="card-header text-white bg-primary">Balance due</h3>
       <div class="card-body">
-        <table class="table table-sm">
-          <tfoot class="font-weight-bold">
-            <tr>
-              <td colspan="3" class="pl-0">BALANCE DUE</td>
-              <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</td>
-            </tr>
-          </tfoot>
-        </table>
+        <p class="lead">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</p>
       </div>
     </div>
     
