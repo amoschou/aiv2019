@@ -637,7 +637,7 @@
                 @if($MerchItemValue > 0)
                   <tr class="border-primary">@php $hasrows = true; @endphp
                     <th class="border-primary px-5"></th>
-                    <td class="border-primary"><Strong>{{$ MerchItemKey }}</strong><br>{{$ MerchItemValue }}</td>
+                    <td class="border-primary"><Strong>{{ $MerchItemKey }}</strong><br>{{ $MerchItemValue }}</td>
                   </tr>
                 @endif
               @endforeach
