@@ -165,9 +165,9 @@
       @endphp
       <table class="table table-sm">
         <thead>
+          <tr class="border-bottom-0"><th class="pl-0" colspan="4">Charge ID</th></tr>
           <tr>
-            <th class="pl-0">Charge ID</th>
-            <th>Date</th>
+            <th class="pl-0">Date</th>
             <th>Status</th>
             <th class="text-right">Transaction amount</th>
             <th class="text-right pr-0">Transaction net</th>
@@ -182,9 +182,9 @@
                 $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
               }
             @endphp
+            <tr><td class="pl-0" colspan="4">{{ $chargeobject->id }}</td></tr>
             <tr>
-              <td class="pl-0">{{ $chargeobject->id }}</td>
-              <td>{{ date('j/m/y',$chargeobject->created) }}</td>
+              <td class="pl-0">{{ date('j/m/y',$chargeobject->created) }}</td>
               <td>
                 {{ $chargeobject->status }}
                 @if( $chargeobject->status === 'failed' )
