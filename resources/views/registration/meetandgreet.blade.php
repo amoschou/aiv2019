@@ -665,7 +665,7 @@
               @if(in_array($person->id, $BarCardWinners))
                 <tr class="border-primary">@php $hasrows = true; @endphp
                   <th class="border-primary px-5"></th>
-                  <td class="border-primary"><strong>Bar card&emsp;$20</strong></td>
+                  <td class="border-primary"><strong>Bar card</strong></td>
                   <td class="border-primary"><strong>$20</strong></td>
                   <td class="border-primary">1</td>
                 </tr>
@@ -701,7 +701,7 @@
                 @if($MerchItemValue > 0)
                   <tr class="border-primary">@php $hasrows = true; @endphp
                     <th class="border-primary px-5"></th>
-                    <td class="border-primary"><Strong>{{ $MerchItemKey }}</strong</td>
+                    <td class="border-primary" colspan="2"><strong>{{ $MerchItemKey }}</strong</td>
                     <td class="border-primary">{{ $MerchItemValue }}</td>
                   </tr>
                 @endif
