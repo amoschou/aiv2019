@@ -46,7 +46,8 @@
 
     <div class="row">
       <div class="col-6">
-        <div class="card border-primary mb-3 pb-0"><h3 class="card-header text-white bg-primary">Pre registration checks</h3>
+        <div class="card border-primary mb-3 pb-0">
+          <h3 class="card-header text-white bg-primary">Pre registration checks</h3>
           @php
             $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first();
             $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first();
@@ -66,7 +67,7 @@
             }
         
           @endphp
-          <table class="table border-primary">
+          <table class="table border-primary mb-0">
             @php $hasrows = false; @endphp
             <tbody class="border-primary">
               @if(!is_null($ConcessionList))
