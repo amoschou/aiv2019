@@ -165,12 +165,12 @@
       @endphp
       <table class="table table-sm">
         <thead>
-          <tr class="border-bottom-0 mb-0 pb-0"><th class="pl-0 border-bottom-0" colspan="4">Charge ID</th></tr>
+          <tr class="border-bottom-0 mb-0 pb-0"><th class="pl-0 border-bottom-0 mb-0 pb-0" colspan="4">Charge ID</th></tr>
           <tr class="border-top-0 mt-0 pt-0">
-            <th class="pl-0 border-top-0">Date</th>
-            <th class="border-top-0">Status</th>
-            <th class="text-right border-top-0">Transaction amount</th>
-            <th class="text-right border-top-0 pr-0">Transaction net</th>
+            <th class="pl-0 border-top-0 mt-0 pt-0">Date</th>
+            <th class="border-top-0 mt-0 pt-0">Status</th>
+            <th class="text-right border-top-0 mt-0 pt-0">Transaction amount</th>
+            <th class="text-right border-top-0 pr-0 mt-0 pt-0">Transaction net</th>
           </tr>
         </thead>
         <tbody>
@@ -182,24 +182,24 @@
                 $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
               }
             @endphp
-            <tr class="border-bottom-0 mb-0 pb-0"><td class="pl-0 border-bottom-0" colspan="4">{{ $chargeobject->id }}</td></tr>
+            <tr class="border-bottom-0 mb-0 pb-0"><td class="pl-0 border-bottom-0 mb-0 pb-0" colspan="4">{{ $chargeobject->id }}</td></tr>
             <tr class="border-top-0 mt-0 pt-0">
-              <td class="pl-0 border-top-0">{{ date('j/m/y',$chargeobject->created) }}</td>
-              <td class="border-top-0">
+              <td class="pl-0 border-top-0 mt-0 pt-0">{{ date('j/m/y',$chargeobject->created) }}</td>
+              <td class="border-top-0 mt-0 pt-0">
                 {{ $chargeobject->status }}
                 @if( $chargeobject->status === 'failed' )
                   ({{ $chargeobject->failure_message }})
                 @endif
               </td>
               @if( $chargeobject->captured )
-                <td class="text-right border-top-0">${{ number_format($balancetransactionobject->amount/100,2,'.','') }}</td>
-                <td class="text-right border-top-0 pr-0">${{ number_format($balancetransactionobject->net/100,2,'.','') }}</td>
+                <td class="text-right border-top-0 mt-0 pt-0">${{ number_format($balancetransactionobject->amount/100,2,'.','') }}</td>
+                <td class="text-right border-top-0 pr-0 mt-0 pt-0">${{ number_format($balancetransactionobject->net/100,2,'.','') }}</td>
                 @php
                   $stripetotal += $balancetransactionobject->net/100;
                 @endphp
               @else
-                <td class="text-right border-top-0"></td>
-                <td class="text-right border-top-0 pr-0"></td>
+                <td class="text-right border-top-0 mt-0 pt-0"></td>
+                <td class="text-right border-top-0 pr-0 mt-0 pt-0"></td>
               @endif
             </tr>
           @endforeach
