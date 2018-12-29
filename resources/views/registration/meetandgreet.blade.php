@@ -648,7 +648,7 @@
       {
         $MerchQty[$MerchQtyRawRecord->questionshortname] = json_decode($MerchQtyRawRecord->responsejson);
       }
-      $Bottle = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','bottle')->first();
+      $Bottle = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','bottle')->first()->responsejson;
     @endphp
     <div class="row">
       {{-- Merchandise items --}}
