@@ -7,6 +7,124 @@
   
   
   
+    
+    @php
+      $BuyString = '****';
+      $BringString = '----';
+      $ScoreNames = [
+        'arnesen' => 'Arnesen: Magnificat',
+        'dove' => 'Dove: Seek him that maketh the seven stars',
+        'esenvalds' => 'Ešenvalds: Stars',
+        'gjeilo' => 'Gjeilo: Northern lights',
+        'lauridsenii' => 'Lauridsen: Soneto de la noche',
+        'lauridseniii' => 'Lauridsen: Sure on this shining night',
+        'part' => 'Part: Magnificat',
+        'sandstrom' => 'Sandström: Es ist in Ros entsprungen',
+        'whitacre' => 'Whitacre: The seal lullaby',
+      ];
+      $ScoreListArray = [
+        57 => ['arnesen' => 'au1', 'dove' => 'pA1', 'esenvalds' => 'cm2', 'gjeilo' => 'qu1', 'lauridsenii' => 'pu1', 'lauridseniii' => 'pu1', 'part' => 'sp1', 'sandstrom' => 'oc1', 'whitacre' => 'nu1'],
+        103 => ['arnesen' => 'au2', 'dove' => 'pA2', 'esenvalds' => 'cm3', 'gjeilo' => 'qu2', 'lauridsenii' => 'pu2', 'lauridseniii' => 'pu2', 'part' => 'sp2', 'sandstrom' => 'oc2', 'whitacre' => 'nu2'],
+        106 => ['arnesen' => 'au3', 'dove' => 'pA3', 'esenvalds' => 'cm4', 'gjeilo' => 'qu3', 'lauridsenii' => 'pu3', 'lauridseniii' => 'pu3', 'part' => 'sp3', 'sandstrom' => 'oc3', 'whitacre' => 'nu3'],
+        43 => ['arnesen' => 'au4', 'dove' => 'pA4', 'esenvalds' => 'cm5', 'gjeilo' => 'qu4', 'lauridsenii' => 'pu4', 'lauridseniii' => 'pu4', 'part' => 'sp4', 'sandstrom' => 'oc4', 'whitacre' => '****'],
+        68 => ['arnesen' => 'au5', 'dove' => 'pA5', 'esenvalds' => 'cm6', 'gjeilo' => 'qu5', 'lauridsenii' => 'pu5', 'lauridseniii' => 'pu5', 'part' => 'sp5', 'sandstrom' => 'oc5', 'whitacre' => 'nu4'],
+        83 => ['arnesen' => 'au6', 'dove' => 'pA6', 'esenvalds' => 'cm7', 'gjeilo' => 'qu6', 'lauridsenii' => 'pu6', 'lauridseniii' => 'pu6', 'part' => 'sp6', 'sandstrom' => 'oc6', 'whitacre' => 'nu5'],
+        44 => ['arnesen' => 'au7', 'dove' => 'pA7', 'esenvalds' => 'cm8', 'gjeilo' => '****', 'lauridsenii' => 'pu7', 'lauridseniii' => 'pu7', 'part' => 'sp7', 'sandstrom' => 'oc7', 'whitacre' => '****'],
+        3 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '----', 'gjeilo' => '****', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '----'],
+        66 => ['arnesen' => 'au8', 'dove' => 'pA8', 'esenvalds' => 'cm9', 'gjeilo' => 'qu7', 'lauridsenii' => 'pu8', 'lauridseniii' => 'pu8', 'part' => 'sp8', 'sandstrom' => 'oc8', 'whitacre' => 'nu6'],
+        143 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        34 => ['arnesen' => 'au9', 'dove' => 'pA9', 'esenvalds' => 'cm10', 'gjeilo' => 'qu8', 'lauridsenii' => 'pu9', 'lauridseniii' => 'pu9', 'part' => 'sp9', 'sandstrom' => 'oc9', 'whitacre' => 'nu7'],
+        52 => ['arnesen' => 'au10', 'dove' => 'pA10', 'esenvalds' => 'cm11', 'gjeilo' => 'qu9', 'lauridsenii' => 'pu10', 'lauridseniii' => 'pu10', 'part' => 'sp10', 'sandstrom' => 'oc10', 'whitacre' => 'nu8'],
+        88 => ['arnesen' => '****', 'dove' => 'pA11', 'esenvalds' => 'cm12', 'gjeilo' => 'qu10', 'lauridsenii' => 'pu12', 'lauridseniii' => 'pu12', 'part' => 'sp11', 'sandstrom' => '****', 'whitacre' => 'nu9'],
+        13 => ['arnesen' => 'au11', 'dove' => 'pA12', 'esenvalds' => 'cm13', 'gjeilo' => 'qu11', 'lauridsenii' => 'pu13', 'lauridseniii' => 'pu13', 'part' => 'sp12', 'sandstrom' => 'oc11', 'whitacre' => 'nu10'],
+        4 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '----', 'gjeilo' => '****', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '----'],
+        42 => ['arnesen' => 'au12', 'dove' => 'pA13', 'esenvalds' => 'cm14', 'gjeilo' => 'qu12', 'lauridsenii' => 'pu14', 'lauridseniii' => 'pu14', 'part' => 'sp13', 'sandstrom' => 'oc12', 'whitacre' => 'nu11'],
+        92 => ['arnesen' => 'au13', 'dove' => 'pA14', 'esenvalds' => 'cm15', 'gjeilo' => 'qu13', 'lauridsenii' => 'pu16', 'lauridseniii' => 'pu15', 'part' => 'sp14', 'sandstrom' => 'oc13', 'whitacre' => 'nu12'],
+        73 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        161 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        48 => ['arnesen' => 'au14', 'dove' => 'pA15', 'esenvalds' => 'cm16', 'gjeilo' => 'qu14', 'lauridsenii' => 'pu18', 'lauridseniii' => 'pu16', 'part' => 'sp15', 'sandstrom' => 'oc14', 'whitacre' => 'nu13'],
+        65 => ['arnesen' => '****', 'dove' => 'pA16', 'esenvalds' => 'cm17', 'gjeilo' => 'qu15', 'lauridsenii' => 'pu19', 'lauridseniii' => 'pu18', 'part' => 'sp16', 'sandstrom' => '****', 'whitacre' => 'nu14'],
+        51 => ['arnesen' => 'au15', 'dove' => 'pA17', 'esenvalds' => 'cm18', 'gjeilo' => 'qu16', 'lauridsenii' => 'pu21', 'lauridseniii' => 'pu19', 'part' => 'sp18', 'sandstrom' => 'oc15', 'whitacre' => 'nu15'],
+        79 => ['arnesen' => 'au16', 'dove' => 'pA18', 'esenvalds' => 'cm19', 'gjeilo' => 'qu17', 'lauridsenii' => 'pu22', 'lauridseniii' => 'pu21', 'part' => 'sp19', 'sandstrom' => 'oc16', 'whitacre' => 'nu16'],
+        1 => ['arnesen' => '****', 'dove' => 'pA19', 'esenvalds' => '----', 'gjeilo' => 'qu18', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '****', 'sandstrom' => 'oc17', 'whitacre' => '----'],
+        84 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        8 => ['arnesen' => 'au17', 'dove' => 'pA20', 'esenvalds' => 'cm21', 'gjeilo' => 'qu19', 'lauridsenii' => 'pu23', 'lauridseniii' => 'pu22', 'part' => 'sp20', 'sandstrom' => 'oc18', 'whitacre' => 'nu17'],
+        50 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '----', 'gjeilo' => '****', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '----'],
+        77 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        97 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        165 => ['arnesen' => 'au18', 'dove' => 'pA21', 'esenvalds' => 'cm22', 'gjeilo' => 'qu20', 'lauridsenii' => 'pu25', 'lauridseniii' => 'pu23', 'part' => 'sp21', 'sandstrom' => 'oc19', 'whitacre' => 'nu18'],
+        33 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        159 => ['arnesen' => 'au19', 'dove' => 'pA22', 'esenvalds' => 'cm23', 'gjeilo' => 'qu21', 'lauridsenii' => 'pu26', 'lauridseniii' => 'pu25', 'part' => 'sp22', 'sandstrom' => 'oc20', 'whitacre' => 'nu19'],
+        108 => ['arnesen' => 'au20', 'dove' => 'pA23', 'esenvalds' => 'cm24', 'gjeilo' => 'qu22', 'lauridsenii' => 'pu27', 'lauridseniii' => 'pu26', 'part' => 'sp23', 'sandstrom' => 'oc21', 'whitacre' => 'nu20'],
+        95 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => 'cm25', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => 'pu27', 'part' => 'sp24', 'sandstrom' => 'oc22', 'whitacre' => 'nu21'],
+        174 => ['arnesen' => 'au21', 'dove' => 'pA24', 'esenvalds' => 'cm26', 'gjeilo' => 'qu23', 'lauridsenii' => 'pu28', 'lauridseniii' => 'pu28', 'part' => 'sp25', 'sandstrom' => 'oc23', 'whitacre' => 'nu22'],
+        160 => ['arnesen' => 'au22', 'dove' => 'pA25', 'esenvalds' => 'cm27', 'gjeilo' => 'qu24', 'lauridsenii' => 'pu29', 'lauridseniii' => 'pu29', 'part' => 'sp26', 'sandstrom' => 'oc24', 'whitacre' => 'nu23'],
+        86 => ['arnesen' => 'au23', 'dove' => 'pA26', 'esenvalds' => 'cm28', 'gjeilo' => 'qu25', 'lauridsenii' => 'pu30', 'lauridseniii' => 'pu30', 'part' => 'sp27', 'sandstrom' => 'oc25', 'whitacre' => 'nu24'],
+        101 => ['arnesen' => 'au24', 'dove' => 'pA27', 'esenvalds' => 'cm29', 'gjeilo' => 'qu26', 'lauridsenii' => 'pu31', 'lauridseniii' => 'pu31', 'part' => 'sp28', 'sandstrom' => 'oc26', 'whitacre' => 'nu25'],
+        58 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '----', 'sandstrom' => '****', 'whitacre' => '----'],
+        15 => ['arnesen' => 'au25', 'dove' => 'pA28', 'esenvalds' => 'cm30', 'gjeilo' => 'qu27', 'lauridsenii' => 'pu32', 'lauridseniii' => 'pu32', 'part' => 'sp29', 'sandstrom' => 'oc27', 'whitacre' => 'nu26'],
+        69 => ['arnesen' => 'au26', 'dove' => 'pA29', 'esenvalds' => 'cm36', 'gjeilo' => 'qu28', 'lauridsenii' => 'pu33', 'lauridseniii' => 'pu33', 'part' => 'sp30', 'sandstrom' => 'oc28', 'whitacre' => 'nu27'],
+        151 => ['arnesen' => 'au27', 'dove' => 'pA30', 'esenvalds' => 'cm37', 'gjeilo' => 'qu29', 'lauridsenii' => 'pu34', 'lauridseniii' => 'pu34', 'part' => '****', 'sandstrom' => 'oc29', 'whitacre' => 'nu28'],
+        2 => ['arnesen' => 'au28', 'dove' => 'pA31', 'esenvalds' => 'cm38', 'gjeilo' => 'qu30', 'lauridsenii' => 'pu36', 'lauridseniii' => 'pu36', 'part' => 'sp31', 'sandstrom' => 'oc30', 'whitacre' => 'nu29'],
+        5 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        31 => ['arnesen' => 'au29', 'dove' => 'pA32', 'esenvalds' => 'cm39', 'gjeilo' => 'qu31', 'lauridsenii' => 'pu37', 'lauridseniii' => 'pu37', 'part' => '****', 'sandstrom' => 'oc31', 'whitacre' => 'nu30'],
+        105 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        39 => ['arnesen' => 'au30', 'dove' => 'pA33', 'esenvalds' => 'cm40', 'gjeilo' => 'qu32', 'lauridsenii' => 'pu38', 'lauridseniii' => 'pu38', 'part' => 'sp32', 'sandstrom' => 'oc32', 'whitacre' => 'nu31'],
+        117 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        49 => ['arnesen' => '****', 'dove' => 'au1', 'esenvalds' => 'wg1', 'gjeilo' => 'qu33', 'lauridsenii' => 'pu39', 'lauridseniii' => 'pu39', 'part' => 'sp33', 'sandstrom' => 'oc33', 'whitacre' => 'nu32'],
+        81 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        32 => ['arnesen' => 'au31', 'dove' => 'au2', 'esenvalds' => 'wg2', 'gjeilo' => 'qu34', 'lauridsenii' => 'pu40', 'lauridseniii' => 'pu40', 'part' => 'sp34', 'sandstrom' => 'oc34', 'whitacre' => 'nu33'],
+        72 => ['arnesen' => 'au32', 'dove' => 'au3', 'esenvalds' => 'wg4', 'gjeilo' => 'qu35', 'lauridsenii' => 'pu41', 'lauridseniii' => 'pu41', 'part' => 'sp35', 'sandstrom' => 'oc35', 'whitacre' => 'nu34'],
+        172 => ['arnesen' => 'au33', 'dove' => 'au4', 'esenvalds' => 'wg5', 'gjeilo' => 'qu36', 'lauridsenii' => 'pu42', 'lauridseniii' => 'pu42', 'part' => 'tc1', 'sandstrom' => 'oc36', 'whitacre' => 'nu35'],
+        11 => ['arnesen' => 'au34', 'dove' => 'au5', 'esenvalds' => 'wg6', 'gjeilo' => 'qu37', 'lauridsenii' => 'pu43', 'lauridseniii' => 'pu43', 'part' => 'tc2', 'sandstrom' => 'oc37', 'whitacre' => 'nu36'],
+        82 => ['arnesen' => 'au35', 'dove' => 'au6', 'esenvalds' => 'wg7', 'gjeilo' => 'qu38', 'lauridsenii' => '****', 'lauridseniii' => 'pu44', 'part' => 'tc5', 'sandstrom' => 'oc38', 'whitacre' => 'nu37'],
+        7 => ['arnesen' => '****', 'dove' => 'au7', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => 'pu44', 'lauridseniii' => 'pu45', 'part' => '****', 'sandstrom' => 'oc39', 'whitacre' => '****'],
+        28 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        26 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        89 => ['arnesen' => 'au36', 'dove' => 'au8', 'esenvalds' => 'wg8', 'gjeilo' => 'qu39', 'lauridsenii' => 'pu45', 'lauridseniii' => 'pu46', 'part' => 'tc6', 'sandstrom' => 'oc40', 'whitacre' => 'nu38'],
+        36 => ['arnesen' => 'au37', 'dove' => 'au9', 'esenvalds' => 'wg9', 'gjeilo' => 'qu40', 'lauridsenii' => 'pu46', 'lauridseniii' => 'pu47', 'part' => 'tc8', 'sandstrom' => 'wg1', 'whitacre' => 'nu39'],
+        14 => ['arnesen' => 'au38', 'dove' => 'au10', 'esenvalds' => 'wg10', 'gjeilo' => 'qu41', 'lauridsenii' => 'pu47', 'lauridseniii' => 'pu48', 'part' => 'tc9', 'sandstrom' => 'wg2', 'whitacre' => 'nu40'],
+        53 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '----', 'sandstrom' => '****', 'whitacre' => '****'],
+        67 => ['arnesen' => 'au39', 'dove' => 'au11', 'esenvalds' => '****', 'gjeilo' => '----', 'lauridsenii' => 'pu48', 'lauridseniii' => 'pu49', 'part' => 'tc10', 'sandstrom' => 'wg3', 'whitacre' => '****'],
+        38 => ['arnesen' => '****', 'dove' => 'au12', 'esenvalds' => 'wg11', 'gjeilo' => '****', 'lauridsenii' => 'pu49', 'lauridseniii' => 'pu50', 'part' => '****', 'sandstrom' => 'wg4', 'whitacre' => '****'],
+        87 => ['arnesen' => 'au40', 'dove' => 'au13', 'esenvalds' => 'wg12', 'gjeilo' => 'qu42', 'lauridsenii' => 'pu50', 'lauridseniii' => 'pu52', 'part' => 'tc11', 'sandstrom' => 'wg5', 'whitacre' => 'nu41'],
+        24 => ['arnesen' => 'au41', 'dove' => 'au14', 'esenvalds' => 'wg13', 'gjeilo' => 'qu43', 'lauridsenii' => 'pu52', 'lauridseniii' => 'pu53', 'part' => 'tc12', 'sandstrom' => 'wg6', 'whitacre' => 'nu42'],
+        99 => ['arnesen' => 'au42', 'dove' => 'au15', 'esenvalds' => 'wg14', 'gjeilo' => 'qu44', 'lauridsenii' => 'pu53', 'lauridseniii' => 'pu54', 'part' => 'tc13', 'sandstrom' => 'wg7', 'whitacre' => 'nu43'],
+        111 => ['arnesen' => 'au43', 'dove' => 'au16', 'esenvalds' => 'wg15', 'gjeilo' => 'qu45', 'lauridsenii' => 'pu54', 'lauridseniii' => 'pu55', 'part' => 'tc14', 'sandstrom' => 'wg8', 'whitacre' => 'nu44'],
+        155 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        60 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        59 => ['arnesen' => 'au44', 'dove' => 'au17', 'esenvalds' => 'wg16', 'gjeilo' => 'qu46', 'lauridsenii' => 'pu55', 'lauridseniii' => 'pu57', 'part' => 'tc18', 'sandstrom' => 'wg9', 'whitacre' => 'nu45'],
+        18 => ['arnesen' => 'au45', 'dove' => 'au18', 'esenvalds' => 'wg17', 'gjeilo' => 'qu47', 'lauridsenii' => 'pu57', 'lauridseniii' => 'pu58', 'part' => 'tc20', 'sandstrom' => 'wg10', 'whitacre' => 'nu46'],
+        29 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        41 => ['arnesen' => 'au46', 'dove' => 'au19', 'esenvalds' => 'wg18', 'gjeilo' => 'qu48', 'lauridsenii' => 'pu58', 'lauridseniii' => 'pu60', 'part' => 'tc21', 'sandstrom' => 'wg11', 'whitacre' => 'nu47'],
+        115 => ['arnesen' => 'au47', 'dove' => 'au20', 'esenvalds' => 'wg19', 'gjeilo' => 'qu49', 'lauridsenii' => 'pu60', 'lauridseniii' => 'wg1', 'part' => 'tc22', 'sandstrom' => 'wg12', 'whitacre' => 'nu48'],
+        54 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        63 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        6 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        19 => ['arnesen' => 'au48', 'dove' => 'au21', 'esenvalds' => 'wg20', 'gjeilo' => 'qu50', 'lauridsenii' => 'gv1', 'lauridseniii' => 'wg2', 'part' => 'tc24', 'sandstrom' => 'wg13', 'whitacre' => 'nu49'],
+        30 => ['arnesen' => 'au49', 'dove' => 'au22', 'esenvalds' => 'wg21', 'gjeilo' => 'qu51', 'lauridsenii' => 'gv2', 'lauridseniii' => 'wg4', 'part' => 'tc26', 'sandstrom' => 'wg14', 'whitacre' => 'nu50'],
+        109 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        94 => ['arnesen' => 'au50', 'dove' => 'au23', 'esenvalds' => 'wg22', 'gjeilo' => 'qu52', 'lauridsenii' => 'gv3', 'lauridseniii' => 'wg5', 'part' => 'tc29', 'sandstrom' => 'wg15', 'whitacre' => 'nu51'],
+        162 => ['arnesen' => 'au51', 'dove' => 'au24', 'esenvalds' => 'wg23', 'gjeilo' => 'qu53', 'lauridsenii' => 'gv4', 'lauridseniii' => 'wg6', 'part' => 'tc30', 'sandstrom' => 'wg16', 'whitacre' => 'nu52'],
+        56 => ['arnesen' => 'au52', 'dove' => 'au25', 'esenvalds' => 'wg24', 'gjeilo' => 'qu54', 'lauridsenii' => 'gv5', 'lauridseniii' => 'wg7', 'part' => 'tc31', 'sandstrom' => 'wg17', 'whitacre' => 'nu53'],
+        104 => ['arnesen' => 'au53', 'dove' => 'au26', 'esenvalds' => 'wg25', 'gjeilo' => 'qu55', 'lauridsenii' => 'gv6', 'lauridseniii' => 'wg8', 'part' => 'tc32', 'sandstrom' => 'wg18', 'whitacre' => 'nu54'],
+        107 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        62 => ['arnesen' => 'au54', 'dove' => 'au27', 'esenvalds' => 'wg26', 'gjeilo' => 'qu56', 'lauridsenii' => 'gv7', 'lauridseniii' => 'wg9', 'part' => 'tc33', 'sandstrom' => 'wg19', 'whitacre' => 'nu55'],
+        98 => ['arnesen' => 'au55', 'dove' => 'au28', 'esenvalds' => 'wg27', 'gjeilo' => 'qu57', 'lauridsenii' => 'gv8', 'lauridseniii' => 'wg10', 'part' => 'tc34', 'sandstrom' => 'wg20', 'whitacre' => 'nu56'],
+        93 => ['arnesen' => 'au56', 'dove' => 'au29', 'esenvalds' => 'wg29', 'gjeilo' => 'qu58', 'lauridsenii' => 'gv9', 'lauridseniii' => 'wg11', 'part' => 'tc35', 'sandstrom' => 'wg21', 'whitacre' => 'nu57'],
+        100 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        90 => ['arnesen' => 'au57', 'dove' => 'au30', 'esenvalds' => 'wg30', 'gjeilo' => 'qu59', 'lauridsenii' => 'gv10', 'lauridseniii' => 'wg12', 'part' => 'tc37', 'sandstrom' => 'wg22', 'whitacre' => 'nu58'],
+        22 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        158 => ['arnesen' => 'au58', 'dove' => 'pA34', 'esenvalds' => 'wg31', 'gjeilo' => 'qu60', 'lauridsenii' => 'gv11', 'lauridseniii' => 'wg13', 'part' => 'tc38', 'sandstrom' => 'wg23', 'whitacre' => 'nu59'],
+        157 => ['arnesen' => 'au59', 'dove' => 'pA35', 'esenvalds' => 'wg32', 'gjeilo' => 'pu1', 'lauridsenii' => 'gv12', 'lauridseniii' => 'wg14', 'part' => 'tc40', 'sandstrom' => 'wg24', 'whitacre' => 'nu60'],
+        113 => ['arnesen' => 'au60', 'dove' => 'pA36', 'esenvalds' => 'wg33', 'gjeilo' => 'pu2', 'lauridsenii' => 'gv13', 'lauridseniii' => '----', 'part' => '----', 'sandstrom' => 'wg25', 'whitacre' => 'nu61'],
+        700 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '****', 'gjeilo' => '****', 'lauridsenii' => '****', 'lauridseniii' => '****', 'part' => '****', 'sandstrom' => '****', 'whitacre' => '****'],
+        701 => ['arnesen' => '****', 'dove' => '****', 'esenvalds' => '----', 'gjeilo' => '----', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '----', 'sandstrom' => '----', 'whitacre' => '----'],
+        702 => ['arnesen' => '****', 'dove' => '----', 'esenvalds' => '----', 'gjeilo' => '----', 'lauridsenii' => '----', 'lauridseniii' => '----', 'part' => '****', 'sandstrom' => '----', 'whitacre' => '----']
+      ];
+    @endphp
+
+
   @php
     \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
       function centstodollarsandcents($a) {
@@ -432,6 +550,156 @@
     </div>
     
     
+    
+    
+    
+    
+    
+    <hr>
+    <div class="page-break"></div>
+    <h1>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h1>
+    <h2>Registration package</h2>
+    
+    @php
+      $ScoreList = $ScoreListArray[$person->id];
+      $ScoreList = $ScoreList ?? [];
+    @endphp
+
+    <div class="row">
+      {{-- Borrowed scores --}}
+      <div class="col-6">
+        <div class="card border-primary mb-3 pb-0">
+          <h3 class="card-header text-white bg-primary">Borrowed scores</h3>
+          <table class="table border-primary mb-0">
+            @php $hasrows = false; @endphp
+            <tbody class="border-primary">
+              @if($ScoreList !== [])
+                @foreach($ScoreNames as $ScoreName)
+                  @if($ScoreList[$ScoreName] !== $BuyString && $ScoreList[$ScoreName] !== $BringString)
+                    <tr class="border-primary">@php $hasrows = true; @endphp
+                      <th class="border-primary px-5"></th>
+                      <td class="border-primary"><Strong>$ScoreName</strong></td>
+                    </tr>
+                  @endif
+                @endforeach
+              @endif
+              @if(!$hasrows)
+                <tr><td>None</td></tr>
+              @endif
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- End borrowed scores --}}
+      {{-- Bought scores --}}
+      <div class="col-6">
+        <div class="card border-primary mb-3 pb-0">
+          <h3 class="card-header text-white bg-primary">Bought scores</h3>
+          <table class="table border-primary mb-0">
+            @php $hasrows = false; @endphp
+            <tbody class="border-primary">
+              <tr class="border-primary">@php $hasrows = true; @endphp
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Row label</strong></td>
+              </tr>
+              @if(!$hasrows)
+                <tr><td>None</td></tr>
+              @endif
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- End bought scores --}}
+    </div>
+    <div class="row">
+      {{-- Merchandise items --}}
+      <div class="col-6">
+        <div class="card border-primary mb-3 pb-0">
+          <h3 class="card-header text-white bg-primary">Merchandise items</h3>
+          <table class="table border-primary mb-0">
+            @php $hasrows = false; @endphp
+            <tbody class="border-primary">
+              <tr class="border-primary">@php $hasrows = true; @endphp
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Row label</strong></td>
+              </tr>
+              @if(!$hasrows)
+                <tr><td>None</td></tr>
+              @endif
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- End merchandise items --}}
+      {{-- Common items --}}
+      <div class="col-6">
+        <div class="card border-primary mb-3 pb-0">
+          <h3 class="card-header text-white bg-primary">Common items</h3>
+          <table class="table border-primary mb-0">
+            <tbody class="border-primary">
+              <tr class="border-primary">
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Pencil</strong></td>
+              </tr>
+              <tr class="border-primary">
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Rubber</strong></td>
+              </tr>
+              <tr class="border-primary">
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Condom</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- End common items --}}
+    <div class="row">
+      {{-- Other merchandise items --}}
+      <div class="col-6">
+        <div class="card border-primary mb-3 pb-0">
+          <h3 class="card-header text-white bg-primary">Other merchandise items</h3>
+          <table class="table border-primary mb-0">
+            @php $hasrows = false; @endphp
+            <tbody class="border-primary">
+              <tr class="border-primary">@php $hasrows = true; @endphp
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Row label</strong></td>
+              </tr>
+              @if(!$hasrows)
+                <tr><td>None</td></tr>
+              @endif
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- End other merchandise items --}}
+      {{-- Excluded scores --}}
+      <div class="col-6">
+        <div class="card border-primary mb-3 pb-0">
+          <h3 class="card-header text-white bg-primary">Excluded scores</h3>
+          <table class="table border-primary mb-0">
+            <tbody class="border-primary">
+              <tr class="border-primary">
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Pencil</strong></td>
+              </tr>
+              <tr class="border-primary">
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Rubber</strong></td>
+              </tr>
+              <tr class="border-primary">
+                <th class="border-primary px-5"></th>
+                <td class="border-primary"><Strong>Condom</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{-- End excluded scores --}}
+    </div>
+    
+
 
     
   
