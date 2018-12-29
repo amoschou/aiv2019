@@ -578,7 +578,8 @@
                   @if($ScoreList[$ScoreShortName] !== $BuyString && $ScoreList[$ScoreShortName] !== $BringString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
-                      <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}<br>{{ $ScoreList[$ScoreShortName] }}</td>
+                      <td class="border-primary">{{ $ScoreList[$ScoreShortName] }}</td>
+                      <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
                     </tr>
                   @endif
                 @endforeach
@@ -658,15 +659,6 @@
           <table class="table border-primary mb-0">
             @php $hasrows = false; @endphp
             <tbody class="border-primary">
-              @foreach($MerchQty as $MerchItemKey => $MerchItemValue)
-                @if($MerchItemValue > 0)
-                  <tr class="border-primary">@php $hasrows = true; @endphp
-                    <th class="border-primary px-5"></th>
-                    <td class="border-primary"><Strong>{{ $MerchItemKey }}</strong</td>
-                    <td class="border-primary">{{ $MerchItemValue }}</td>
-                  </tr>
-                @endif
-              @endforeach
               @foreach($MerchJsonRaw as $MerchJsonItem)
                 @if($MerchJsonItem->questionshortname === 'bottle')
                   @php
@@ -686,11 +678,20 @@
                     @if(!is_null($SizeVal))
                       <tr class="border-primary">@php $hasrows = true; @endphp
                         <th class="border-primary px-5"></th>
-                        <td class="border-primary"><Strong>T shirt {{ $SizeKey }}</strong></td>
-                        <td class="border-primary">{{ $SizeVal }}</td>
+                        <td class="border-primary"><Strong>T&nbsp;shirt</strong></td>
+                        <td class="border-primary">{{ $SizeKey }}&emsp;{{ $SizeVal }}</td>
                       </tr>
                     @endif
                   @endforeach
+                @endif
+              @endforeach
+              @foreach($MerchQty as $MerchItemKey => $MerchItemValue)
+                @if($MerchItemValue > 0)
+                  <tr class="border-primary">@php $hasrows = true; @endphp
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>{{ $MerchItemKey }}</strong</td>
+                    <td class="border-primary">{{ $MerchItemValue }}</td>
+                  </tr>
                 @endif
               @endforeach
               @if(!$hasrows)
