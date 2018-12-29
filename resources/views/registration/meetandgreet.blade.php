@@ -656,7 +656,7 @@
     @endphp
     <div class="row">
       {{-- Merchandise items --}}
-      <div class="col-6">
+      <div class="col-8">
         <div class="card border-primary mb-3 pb-0">
           <h3 class="card-header text-white bg-primary">Merchandise items</h3>
           <table class="table border-primary mb-0">
@@ -665,7 +665,8 @@
               @if(in_array($person->id, $BarCardWinners))
                 <tr class="border-primary">@php $hasrows = true; @endphp
                   <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Bar card&emsp;$20</strong></td>
+                  <td class="border-primary"><strong>Bar card&emsp;$20</strong></td>
+                  <td class="border-primary"><strong>$20</strong></td>
                   <td class="border-primary">1</td>
                 </tr>
               @endif
@@ -676,8 +677,8 @@
                   @endphp              
                   <tr class="border-primary">@php $hasrows = true; @endphp
                     <th class="border-primary px-5"></th>
-                    <td class="border-primary"><Strong>Bottle</strong></td>
-                    <td class="border-primary">{{ $Bottle }}</td>
+                    <td class="border-primary"><strong>Bottle</strong></td>
+                    <td class="border-primary" colspan="2">{{ $Bottle }}</td>
                   </tr>
                 @endif
                 @if($MerchJsonItem->questionshortname === 'tshirt')
@@ -688,7 +689,8 @@
                     @if(!is_null($SizeVal))
                       <tr class="border-primary">@php $hasrows = true; @endphp
                         <th class="border-primary px-5"></th>
-                        <td class="border-primary"><Strong>T&nbsp;shirt&emsp;{{ $SizeKey }}</strong></td>
+                        <td class="border-primary"><strong>T&nbsp;shirt</strong></td>
+                        <td class="border-primary"><strong>{{ $SizeKey }}</strong></td>
                         <td class="border-primary">{{ $SizeVal }}</td>
                       </tr>
                     @endif
@@ -713,7 +715,7 @@
       </div>
       {{-- End merchandise items --}}
       {{-- Common items --}}
-      <div class="col-6">
+      <div class="col-4">
         <div class="card border-primary mb-3 pb-0">
           <h3 class="card-header text-white bg-primary">Common items</h3>
           <table class="table border-primary mb-0">
