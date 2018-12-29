@@ -205,9 +205,7 @@
           @endforeach
         </tbody>
       </table>
-      {{--
-        <h4>Electronic bank transfer</h4>
-      --}}
+      <h4>Electronic bank transfer</h4>
       <table class="table table-sm">
         <thead>
           <tr>
@@ -261,21 +259,27 @@
           @endforeach
         </tbody>
       </table>
-      <h3>Balance due</h3>
-      <table class="table table-sm">
-        <tfoot class="font-weight-bold">
-          <tr>
-            <td colspan="3" class="pl-0">BALANCE DUE</td>
-            <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</td>
-          </tr>
-        </tfoot>
-      </table>
     </div></div>
     </div>
     {{-- End receipts --}}
 
     </div>  {{-- Invoice/receipts row --}}
 
+    <div class="card border-primary mb-3">
+      <h3 class="card-header text-white bg-primary">Balance due</h3>
+      <div class="card-body">
+        <table class="table table-sm">
+          <tfoot class="font-weight-bold">
+            <tr>
+              <td colspan="3" class="pl-0">BALANCE DUE</td>
+              <td class="text-right pr-0">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    
+    
 
     
     @php
