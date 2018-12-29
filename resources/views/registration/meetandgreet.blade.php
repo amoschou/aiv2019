@@ -669,11 +669,11 @@
               @if(!is_null($Bottle))
                 @php
                   $Bottle = json_encode(json_decode($Bottle),JSON_PRETTY_PRINT);
-                  <tr class="border-primary">@php $hasrows = true; @endphp
-                    <th class="border-primary px-5"></th>
-                    <td class="border-primary"><Strong>Bottle</strong><br>{{ $Bottle }}</td>
-                  </tr>
                 @endphp              
+                <tr class="border-primary">@php $hasrows = true; @endphp
+                  <th class="border-primary px-5"></th>
+                  <td class="border-primary"><Strong>Bottle</strong><br>{{ $Bottle }}</td>
+                </tr>
               @endif
               @if(!$hasrows)
                 <tr><td>None</td></tr>
