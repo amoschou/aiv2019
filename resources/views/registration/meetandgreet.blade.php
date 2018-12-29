@@ -12,15 +12,15 @@
       $BuyString = '****';
       $BringString = '----';
       $ScoreNames = [
-        'arnesen' => 'Arnesen: Magnificat',
-        'dove' => 'Dove: Seek him that maketh the seven stars',
-        'esenvalds' => 'Ešenvalds: Stars',
-        'gjeilo' => 'Gjeilo: Northern lights',
-        'lauridsenii' => 'Lauridsen: Soneto de la noche',
-        'lauridseniii' => 'Lauridsen: Sure on this shining night',
-        'part' => 'Pärt: Magnificat',
-        'sandstrom' => 'Sandström: Es ist in Ros entsprungen',
-        'whitacre' => 'Whitacre: The seal lullaby',
+        'arnesen' => ['Arnesen', 'Magnificat'],
+        'dove' => ['Dove', 'Seek him that maketh the seven stars'],
+        'esenvalds' => ['Ešenvalds', 'Stars'],
+        'gjeilo' => ['Gjeilo', 'Northern lights'],
+        'lauridsenii' => ['Lauridsen', 'Soneto de la noche'],
+        'lauridseniii' => ['Lauridsen', 'Sure on this shining night'],
+        'part' => ['Pärt', 'Magnificat'],
+        'sandstrom' => ['Sandström', 'Es ist in Ros entsprungen'],
+        'whitacre' => ['Whitacre', 'The seal lullaby'],
       ];
       $ScoreListArray = [
         57 => ['arnesen' => 'au1', 'dove' => 'pA1', 'esenvalds' => 'cm2', 'gjeilo' => 'qu1', 'lauridsenii' => 'pu1', 'lauridseniii' => 'pu1', 'part' => 'sp1', 'sandstrom' => 'oc1', 'whitacre' => 'nu1'],
@@ -578,7 +578,7 @@
                   @if($ScoreList[$ScoreShortName] !== $BuyString && $ScoreList[$ScoreShortName] !== $BringString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
-                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong><br>{{ $ScoreList[$ScoreShortName] }}</td>
+                      <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}<br>{{ $ScoreList[$ScoreShortName] }}</td>
                     </tr>
                   @endif
                 @endforeach
@@ -603,7 +603,7 @@
                   @if($ScoreList[$ScoreShortName] === $BuyString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
-                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong></td>
+                      <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
                     </tr>
                   @endif
                 @endforeach
@@ -693,7 +693,7 @@
                   @if($ScoreList[$ScoreShortName] === $BringString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
-                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong></td>
+                      <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
                     </tr>
                   @endif
                 @endforeach
