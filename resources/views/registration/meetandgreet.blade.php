@@ -574,8 +574,8 @@
             @php $hasrows = false; @endphp
             <tbody class="border-primary">
               @if($ScoreList !== [])
-                @foreach($ScoreNames as $ScoreName)
-                  @if($ScoreList[$ScoreName] !== $BuyString && $ScoreList[$ScoreName] !== $BringString)
+                @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                  @if($ScoreList[$ScoreShortName] !== $BuyString && $ScoreList[$ScoreShortName] !== $BringString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
                       <td class="border-primary"><Strong>$ScoreName</strong></td>
