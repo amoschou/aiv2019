@@ -578,7 +578,7 @@
                   @if($ScoreList[$ScoreShortName] !== $BuyString && $ScoreList[$ScoreShortName] !== $BringString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
                       <th class="border-primary px-5"></th>
-                      <td class="border-primary"><Strong>$ScoreName</strong></td>
+                      <td class="border-primary"><Strong>{{ $ScoreName }}</strong></td>
                     </tr>
                   @endif
                 @endforeach
@@ -654,6 +654,7 @@
         </div>
       </div>
       {{-- End common items --}}
+    </div>
     <div class="row">
       {{-- Other merchandise items --}}
       <div class="col-6">
