@@ -648,7 +648,7 @@
       {
         $MerchQty[$MerchQtyRawRecord->questionshortname] = json_decode($MerchQtyRawRecord->responsejson);
       }
-      $Bottle = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','bottle')->first()->responsejson;
+      $MerchJsonRaw = DB::table('rego_responses')->select('questionshortname','responsejson')->where('userid',$person->id)->whereIn('questionshortname',['bottle','tshirt'])->get();
     @endphp
     <div class="row">
       {{-- Merchandise items --}}
@@ -666,15 +666,30 @@
                   </tr>
                 @endif
               @endforeach
-              @if(!is_null($Bottle))
-                @php
-                  $Bottle = json_encode(json_decode($Bottle),JSON_PRETTY_PRINT);
-                @endphp              
-                <tr class="border-primary">@php $hasrows = true; @endphp
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Bottle</strong><br>{{ $Bottle }}</td>
-                </tr>
-              @endif
+              @foreach($MerchJsonRaw as $MerchJsonItem)
+                @if($MerchJsonItem->questionshortname === 'bottle')
+                  @php
+                    $Bottle = json_encode(json_decode($MerchJsonItem->responsejson),JSON_PRETTY_PRINT);
+                  @endphp              
+                  <tr class="border-primary">@php $hasrows = true; @endphp
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Bottle</strong><br>{{ $Bottle }}</td>
+                  </tr>
+                @endif
+                @if($MerchJsonItem->questionshortname === 'tshirt')
+                  @php
+                    $TshirtJson = json_decode($MerchJsonItem->responsejson);
+                  @endphp
+                  @foreach($TshirtJson as $SizeKey => $SizeVal)
+                    @if(!is_null($SizeVal))
+                      <tr class="border-primary">@php $hasrows = true; @endphp
+                        <th class="border-primary px-5"></th>
+                        <td class="border-primary"><Strong>T shirt</strong> ({{ $SizeKey }})<br>{{ $SizeVal }}</td>
+                      </tr>
+                    @endif
+                  @endforeach
+                @endif
+              @endforeach
               @if(!$hasrows)
                 <tr><td>None</td></tr>
               @endif
