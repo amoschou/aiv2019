@@ -46,7 +46,7 @@
 
 
     <div class="row">
-      <div class="col-6">
+      <div class="col-7">
         <div class="card border-primary mb-3 pb-0">
           <h3 class="card-header text-white bg-primary">Pre registration checks</h3>
           @php
@@ -103,7 +103,7 @@
       </div>
       
       
-      <div class="col-6">
+      <div class="col-5">
         {{-- Red green box begins --}}
         @php
           $q = "select sectionid from rego_responses natural join rego_questions where userid = ? group by sectionid";
@@ -255,7 +255,7 @@
 
 
     {{-- Invoice --}}
-    <div class="col-6">
+    <div class="col-7">
       <div class="card border-primary mb-3 ">
         <h3 class="card-header text-white bg-primary">Invoice</h3>
         <div class="card-body pb-0">
@@ -312,7 +312,7 @@
     
     
     {{-- Receipts --}}
-    <div class="col-6">
+    <div class="col-5">
       <div class="card border-primary mb-3">
         <h3 class="card-header text-white bg-primary">Receipts</h3>
         <div class="card-body pb-0">
