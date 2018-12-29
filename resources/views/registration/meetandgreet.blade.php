@@ -617,6 +617,14 @@
       </div>
       {{-- End bought scores --}}
     </div>
+    @php
+      $MerchQtyRaw = DB::table('rego_responses')->select('questionshortname','responsejson')->where('userid',$person->id)->whereIn('questionshortname',['photo','cd','wineglass','bag'])->get();
+      $MerchQty = ['photo' => 0, 'cd' => 0, 'wineglass' => 0, 'bag' => 0];
+      foreach($MerchQtyRaw as $MerchQtyRawRecord)
+      {
+        $MerchQty[$MerchQtyRawRecord->questionshortname] = json_decode($MerchQtyRawRecord->responsejson);
+      }
+    @endphp
     <div class="row">
       {{-- Merchandise items --}}
       <div class="col-6">
@@ -625,10 +633,14 @@
           <table class="table border-primary mb-0">
             @php $hasrows = false; @endphp
             <tbody class="border-primary">
-              <tr class="border-primary">@php $hasrows = true; @endphp
-                <th class="border-primary px-5"></th>
-                <td class="border-primary"><Strong>Row label</strong></td>
-              </tr>
+              @foreach($MerchQty as $MerchItemKey => $MerchItemValue)
+                @if($MerchItemValue > 0)
+                  <tr class="border-primary">@php $hasrows = true; @endphp
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>{{$ MerchItemKey }}</strong><br>{{$ MerchItemValue }}</td>
+                  </tr>
+                @endif
+              @endforeach
               @if(!$hasrows)
                 <tr><td>None</td></tr>
               @endif
@@ -692,7 +704,6 @@
                 @foreach($ScoreNames as $ScoreShortName => $ScoreName)
                   @if($ScoreList[$ScoreShortName] === $BringString)
                     <tr class="border-primary">@php $hasrows = true; @endphp
-                      <th class="border-primary px-5"></th>
                       <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
                     </tr>
                   @endif
@@ -707,6 +718,8 @@
       </div>
       {{-- End excluded scores --}}
     </div>
+    
+    
     
 
 
