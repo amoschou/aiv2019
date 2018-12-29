@@ -140,7 +140,7 @@
             }
           @endphp
         @endforeach
-        <div class="alert alert-{{ $registrationiscomplete ? 'success' : 'danger' }} rounded-0" role="alert">
+        <div class="alert alert-{{ $registrationiscomplete ? 'success' : 'danger' }} rounded-0 pb-0" role="alert">
           <p class="h4">Registration is {{ $registrationiscomplete ? 'complete' : 'not yet finished' }}</p>
           @php
             switch(config('database.default'))
@@ -312,109 +312,112 @@
     
     {{-- Receipts --}}
     <div class="col-6">
-    <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Receipts</h3><div class="card-body">
-      <h4>Card payments</h4>
-      @php
-        $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
-        $stripetotal = 0;
-      @endphp
-      <table class="table table-sm">
-        <thead>
-          <tr class="border-bottom-0 mb-0 pb-0"><th class="pl-0 border-bottom-0 mb-0 pb-0" colspan="4">Charge ID</th></tr>
-          <tr class="border-top-0 mt-0 pt-0">
-            <th class="pl-0 border-top-0 mt-0 pt-0">Date</th>
-            <th class="border-top-0 mt-0 pt-0">Status</th>
-            <th class="text-right border-top-0 mt-0 pt-0">Transaction amount</th>
-            <th class="text-right border-top-0 pr-0 mt-0 pt-0">Transaction net</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($charges as $charge)
-            @php
-              $chargeobject = \Stripe\Charge::retrieve($charge->chargeid);
-              if($chargeobject->captured)
-              {
-                $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
-              }
-            @endphp
-            <tr class="border-bottom-0 mb-0 pb-0"><td class="pl-0 border-bottom-0 mb-0 pb-0" colspan="4">{{ $chargeobject->id }}</td></tr>
-            <tr class="border-top-0 mt-0 pt-0">
-              <td class="pl-0 border-top-0 mt-0 pt-0">{{ date('j/m/y',$chargeobject->created) }}</td>
-              <td class="border-top-0 mt-0 pt-0">
-                {{ $chargeobject->status }}
-                @if( $chargeobject->status === 'failed' )
-                  ({{ $chargeobject->failure_message }})
-                @endif
-              </td>
-              @if( $chargeobject->captured )
-                <td class="text-right border-top-0 mt-0 pt-0">${{ number_format($balancetransactionobject->amount/100,2,'.','') }}</td>
-                <td class="text-right border-top-0 pr-0 mt-0 pt-0">${{ number_format($balancetransactionobject->net/100,2,'.','') }}</td>
+      <div class="card border-primary mb-3">
+        <h3 class="card-header text-white bg-primary">Receipts</h3>
+        <div class="card-body pb-0">
+          <h4>Card payments</h4>
+          @php
+            $charges = DB::table('rego_stripe_charges')->select('chargeid')->where('accountref',$accountref)->get();
+            $stripetotal = 0;
+          @endphp
+          <table class="table table-sm">
+            <thead>
+              <tr class="border-bottom-0 mb-0 pb-0"><th class="pl-0 border-bottom-0 mb-0 pb-0" colspan="4">Charge ID</th></tr>
+              <tr class="border-top-0 mt-0 pt-0">
+                <th class="pl-0 border-top-0 mt-0 pt-0">Date</th>
+                <th class="border-top-0 mt-0 pt-0">Status</th>
+                <th class="text-right border-top-0 mt-0 pt-0">Transaction amount</th>
+                <th class="text-right border-top-0 pr-0 mt-0 pt-0">Transaction net</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($charges as $charge)
                 @php
-                  $stripetotal += $balancetransactionobject->net/100;
+                  $chargeobject = \Stripe\Charge::retrieve($charge->chargeid);
+                  if($chargeobject->captured)
+                  {
+                    $balancetransactionobject = \Stripe\BalanceTransaction::retrieve($chargeobject->balance_transaction);
+                  }
                 @endphp
-              @else
-                <td class="text-right border-top-0 mt-0 pt-0"></td>
-                <td class="text-right border-top-0 pr-0 mt-0 pt-0"></td>
-              @endif
-            </tr>
-          @endforeach
-        </tbody>
-      </table>
-      <h4>Electronic bank transfer</h4>
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th class="pl-0">Transaction ID</th>
-            <th>Date</th>
-            <th>Description</th>
-            <th class="text-right pr-0">Credit</th>
-          </tr>
-        </thead>
-        <tbody>
-          @php
-            $bankq = "SELECT id,date,description,credit FROM bank_transaction_accounts JOIN bank_transactions ON (id = transactionid) WHERE accountref = ?";
-            $transactions = DB::SELECT($bankq,[$accountref]);
-            $banktotal = 0;
-          @endphp
-          @foreach($transactions as $transaction)
-            <tr>
-              <td clas="pl-0">{{ $transaction->id }}</td>
-              <td class="">{{ $transaction->date }}</td>
-              <td class="">{{ $transaction->description }}</td>
-              <td class="text-right pr-0">${{ $transaction->credit }}</td>
+                <tr class="border-bottom-0 mb-0 pb-0"><td class="pl-0 border-bottom-0 mb-0 pb-0" colspan="4">{{ $chargeobject->id }}</td></tr>
+                <tr class="border-top-0 mt-0 pt-0">
+                  <td class="pl-0 border-top-0 mt-0 pt-0">{{ date('j/m/y',$chargeobject->created) }}</td>
+                  <td class="border-top-0 mt-0 pt-0">
+                    {{ $chargeobject->status }}
+                    @if( $chargeobject->status === 'failed' )
+                      ({{ $chargeobject->failure_message }})
+                    @endif
+                  </td>
+                  @if( $chargeobject->captured )
+                    <td class="text-right border-top-0 mt-0 pt-0">${{ number_format($balancetransactionobject->amount/100,2,'.','') }}</td>
+                    <td class="text-right border-top-0 pr-0 mt-0 pt-0">${{ number_format($balancetransactionobject->net/100,2,'.','') }}</td>
+                    @php
+                      $stripetotal += $balancetransactionobject->net/100;
+                    @endphp
+                  @else
+                    <td class="text-right border-top-0 mt-0 pt-0"></td>
+                    <td class="text-right border-top-0 pr-0 mt-0 pt-0"></td>
+                  @endif
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+          <h4>Electronic bank transfer</h4>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th class="pl-0">Transaction ID</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th class="text-right pr-0">Credit</th>
+              </tr>
+            </thead>
+            <tbody>
               @php
-                $banktotal += $transaction->credit;
+                $bankq = "SELECT id,date,description,credit FROM bank_transaction_accounts JOIN bank_transactions ON (id = transactionid) WHERE accountref = ?";
+                $transactions = DB::SELECT($bankq,[$accountref]);
+                $banktotal = 0;
               @endphp
-            </tr>
-          @endforeach
-        </tbody>
-      </table>
-      <h4>Other transfer</h4>
-      <table class="table table-sm pb-0">
-        <thead>
-          <tr>
-            <th class="pl-0">Transaction ID</th>
-            <th>Description</th>
-            <th class="text-right pr-0">Credit</th>
-          </tr>
-        </thead>
-        <tbody>
-          @php
-            $otherq = "SELECT othertransactionid,description,value FROM rego_othertransactions WHERE accountref = ?";
-            $othertransactions = DB::SELECT($otherq,[$accountref]);
-            $othertotal = 0;
-          @endphp
-          @foreach($othertransactions as $transaction)
-            <td clas="pl-0">{{ $transaction->othertransactionid }}</td>
-            <td class="">{{ $transaction->description }}</td>
-            <td class="text-right pr-0">${{ $transaction->value }}</td>
-            @php
-              $othertotal += $transaction->value;
-            @endphp
-          @endforeach
-        </tbody>
-      </table>
-    </div></div>
+              @foreach($transactions as $transaction)
+                <tr>
+                  <td clas="pl-0">{{ $transaction->id }}</td>
+                  <td class="">{{ $transaction->date }}</td>
+                  <td class="">{{ $transaction->description }}</td>
+                  <td class="text-right pr-0">${{ $transaction->credit }}</td>
+                  @php
+                    $banktotal += $transaction->credit;
+                  @endphp
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+          <h4>Other transfer</h4>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th class="pl-0">Transaction ID</th>
+                <th>Description</th>
+                <th class="text-right pr-0">Credit</th>
+              </tr>
+            </thead>
+            <tbody>
+              @php
+                $otherq = "SELECT othertransactionid,description,value FROM rego_othertransactions WHERE accountref = ?";
+                $othertransactions = DB::SELECT($otherq,[$accountref]);
+                $othertotal = 0;
+              @endphp
+              @foreach($othertransactions as $transaction)
+                <td clas="pl-0">{{ $transaction->othertransactionid }}</td>
+                <td class="">{{ $transaction->description }}</td>
+                <td class="text-right pr-0">${{ $transaction->value }}</td>
+                @php
+                  $othertotal += $transaction->value;
+                @endphp
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     {{-- End receipts --}}
 
@@ -422,7 +425,7 @@
 
     <div class="card border-primary mb-3">
       <h3 class="card-header text-white bg-primary">Balance due</h3>
-      <div class="card-body">
+      <div class="card-body pb-0">
         <p class="lead">${{ number_format($regoitemtotal - $stripetotal - $banktotal - $othertotal,2,'.','') }}</p>
       </div>
     </div>
