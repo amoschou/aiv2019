@@ -255,52 +255,55 @@
 
     {{-- Invoice --}}
     <div class="col-6">
-    <div class="card border-primary mb-3"><h3 class="card-header text-white bg-primary">Invoice</h3><div class="card-body">
-      <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
-      <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
-      <div class="row">
-        <div class="col-2 text-right">To:</div>
-        <div class="col-10">
-          {{ $person->firstname }} {{ $person->lastname }}
+      <div class="card border-primary mb-3 ">
+        <h3 class="card-header text-white bg-primary">Invoice</h3>
+        <div class="card-body pb-0">
+          <h2>AIVCF Adelaide<br><small><span class="font-weight-bold">ABN</span> 41 628 114 920</small></h2>
+          <p class="text-right lead">Date: {{ date('l, j F Y') }}</p>
+          <div class="row">
+            <div class="col-2 text-right">To:</div>
+            <div class="col-10">
+              {{ $person->firstname }} {{ $person->lastname }}
+            </div>
+          </div>
+          <p class="text-right lead"><span class="font-weight-bold">INVOICE</span> No. {{ $accountref }}</p>
+          @php
+            $regoitems = DB::table('v_user_rego_items')
+              ->select('itemname','unitprice','qty','price')
+              ->where('userid',$person->id)
+              ->get();
+            $regoitemtotal = 0;
+          @endphp
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th class="pl-0">Description</th>
+                <th>Qty</th>
+                <th class="text-right">Unit price</th>
+                <th class="text-right pr-0">Amount payable</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($regoitems as $regoitem)
+                @php $regoitemtotal += $regoitem->price; @endphp
+                <tr>
+                  <td class="pl-0">{{ $regoitem->itemname }}</td>
+                  <td>{{ $regoitem->qty }}</td>
+                  <td class="text-right">{{ $regoitem->unitprice }}</td>
+                  <td class="text-right pr-0">{{ $regoitem->price }}</td>
+                </tr>
+              @endforeach
+            </tbody>
+            <tfoot class="font-weight-bold">
+              <tr>
+                <td colspan="3" class="pl-0">TOTAL AMOUNT PAYABLE</td>
+                <td class="text-right pr-0">${{ number_format($regoitemtotal,2,'.','') }}</td>
+              </tr>
+            </tfoot>
+          </table>
+          <p class="font-weight-bold mb-0">No GST has been charged.</p>
         </div>
       </div>
-      <p class="text-right lead"><span class="font-weight-bold">INVOICE</span> No. {{ $accountref }}</p>
-      @php
-        $regoitems = DB::table('v_user_rego_items')
-          ->select('itemname','unitprice','qty','price')
-          ->where('userid',$person->id)
-          ->get();
-        $regoitemtotal = 0;
-      @endphp
-      <table class="table table-sm">
-        <thead>
-          <tr>
-            <th class="pl-0">Description</th>
-            <th>Qty</th>
-            <th class="text-right">Unit price</th>
-            <th class="text-right pr-0">Amount payable</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($regoitems as $regoitem)
-            @php $regoitemtotal += $regoitem->price; @endphp
-            <tr>
-              <td class="pl-0">{{ $regoitem->itemname }}</td>
-              <td>{{ $regoitem->qty }}</td>
-              <td class="text-right">{{ $regoitem->unitprice }}</td>
-              <td class="text-right pr-0">{{ $regoitem->price }}</td>
-            </tr>
-          @endforeach
-        </tbody>
-        <tfoot class="font-weight-bold">
-          <tr>
-            <td colspan="3" class="pl-0">TOTAL AMOUNT PAYABLE</td>
-            <td class="text-right pr-0">${{ number_format($regoitemtotal,2,'.','') }}</td>
-          </tr>
-        </tfoot>
-      </table>
-      <p class="font-weight-bold">No GST has been charged.</p>
-    </div></div>
     </div>
     {{-- End invoice --}}
     
