@@ -8,6 +8,7 @@
   <title>{{ config('app.name') }} Registration</title>
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
   <link href="{{ asset('css/stickyfooter.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/pagebreaks.css') }}" rel="stylesheet">
   @yield('extrastyles')
 </head>
 <body>
