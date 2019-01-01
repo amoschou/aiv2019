@@ -560,7 +560,7 @@
                 $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id)->get();
               @endphp
               @foreach($notes as $note)
-                <p>{{ var_dump($notes) }}</p>
+                <p>{{ $note->notes) }}</p>
               @endforeach()
             </div>
           </div>
