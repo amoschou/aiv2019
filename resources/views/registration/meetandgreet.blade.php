@@ -557,10 +557,10 @@
             <h3 class="card-header text-white bg-primary">Notes</h3>
             <div class="card-body pb-0">
               @php
-                $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id);
+                $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id)->get();
               @endphp
               @foreach($notes as $note)
-                <p>{{ var_dump($note) }}</p>
+                <p>{{ var_dump($notes) }}</p>
               @endforeach()
             </div>
           </div>
