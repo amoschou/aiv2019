@@ -12,6 +12,7 @@
       $IncludeRedgreenbox = true;
       $IncludeBalancedue = true;
       $IncludeInvoice = true;
+      $IncludeReceipts = true;
       
       $IncludeRegistrationbundle = true;
       
