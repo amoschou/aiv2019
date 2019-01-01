@@ -557,7 +557,9 @@
             <h3 class="card-header text-white bg-primary">Notes</h3>
             <div class="card-body pb-0">
               <h4>Status</h4>
-              {{ $statuses = DB::table('rego_status')->select('status')->where('userid,$person->id')->get(); }}
+              @php
+                $statuses = DB::table('rego_status')->select('status')->where('userid,$person->id')->get();
+              @endphp
               @foreach($statuses as $status)
                 <p>{{ $status->status }}</p>
               @endforeach
