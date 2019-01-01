@@ -558,7 +558,7 @@
             <div class="card-body pb-0">
               <h4>Status</h4>
               @php
-                $statuses = DB::table('rego_status')->select('status')->where('userid,$person->id')->get();
+                $statuses = DB::table('rego_status')->select('status')->where('userid',$person->id)->get();
               @endphp
               @foreach($statuses as $status)
                 <p>{{ $status->status }}</p>
