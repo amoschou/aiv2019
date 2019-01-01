@@ -556,7 +556,12 @@
           <div class="card border-primary mb-3">
             <h3 class="card-header text-white bg-primary">Notes</h3>
             <div class="card-body pb-0">
-              <p>{{ DB::table('rego_notes')->select('notes')->where('userid',$person->id)->first()->notes }}</p>
+              @php
+                $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id);
+              @endphp
+              @foreach($notes as $note)
+                <p>{{ $note->notes }}</p>
+              @endforeach()
             </div>
           </div>
       </div>
