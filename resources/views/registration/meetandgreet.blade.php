@@ -556,12 +556,18 @@
           <div class="card border-primary mb-3">
             <h3 class="card-header text-white bg-primary">Notes</h3>
             <div class="card-body pb-0">
+              <h4>Status</h4>
+              {{ $statuses = DB::table('rego_status')->select('status')->where('userid,$person->id')->get(); }}
+              @foreach($statuses as $status)
+                <p>{{ $status->status }}</p>
+              @endforeach
+              <h4>Other notes</h4>
               @php
                 $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id)->get();
               @endphp
               @foreach($notes as $note)
                 <p>{{ $note->notes }}</p>
-              @endforeach()
+              @endforeach
             </div>
           </div>
       </div>
