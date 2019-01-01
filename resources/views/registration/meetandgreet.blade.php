@@ -11,6 +11,7 @@
       $IncludePrerego = true;
       $IncludeRedgreenbox = true;
       $IncludeBalancedue = true;
+      $IncludeInvoice = true;
       
       $IncludeRegistrationbundle = true;
       
