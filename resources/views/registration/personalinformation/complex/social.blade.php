@@ -4,7 +4,7 @@
 
   <h1>List of academic dinner tickets</h1>
   
-  <p>In addition to the big list below, also include in the dinner if they are not already listed there:</p>
+  <p>In addition to the big lists below, also include in the dinner if they are not already listed there:</p>
   <ul>
     <li>Peter Kelsall</li>
     <li>Trish Kelsall</li>
@@ -14,6 +14,30 @@
   </ul>
   
   <p>Dietary requirements are available at <a href="https://www.aiv.org.au/home/personalinformation/section/10">https://www.aiv.org.au/home/personalinformation/section/10</a>.</p>
+
+  @php
+    $q = "select json_remove(responsejson,json_unquote(json_search(responsejson,'one','hiddeninput'))) as guests from rego_responses where questionshortname = 'acdinnerguest' and responsejson <> '[\"hiddeninput\"]'";
+  $c = ['guests'];
+  $h = ['Guests'];
+  @endphp
+  
+  <table id="datatable" class="table table-sm table-striped table-bordered">
+    <thead class="thead-dark">
+      @foreach($h as $hh)
+        <th scope="col">{{ $hh }}</th>
+      @endforeach
+    </thead>
+    @php
+      $rows = DB::select($q,[]);
+    @endphp
+    @foreach($rows as $row)
+      <tr>
+        @foreach($c as $cc)
+          <td>{{ $row->{$cc} }}</td>
+        @endforeach
+      </tr>
+    @endforeach
+  </table>
 
   @php
     $q = "select userid,firstname,lastname from rego_responses join v_cols_essential on (userid=id) where questionshortname = 'acdinner' and responsejson = '\"yes\"' order by userid";
