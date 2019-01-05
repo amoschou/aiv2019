@@ -4,14 +4,16 @@
 
   <h1>List of academic dinner tickets</h1>
   
-  <p>In addition to the big list below, also include in the dinner:</p>
+  <p>In addition to the big list below, also include in the dinner if they are not already listed there:</p>
   <ul>
     <li>Peter Kelsall</li>
     <li>Trish Kelsall</li>
     <li>Alistair Knight</li>
     <li>Phoebe Knight</li>
-    <li>Everybody who signed up using the separate Google Form</li>
+    <li>Everybody who signed up using the separate Google form at <a href="https://docs.google.com/spreadsheets/d/1DOJxagLDSDMxZoYLKej6C_fRhiQtI3Mbc09npnkcyuI">https://docs.google.com/spreadsheets/d/1DOJxagLDSDMxZoYLKej6C_fRhiQtI3Mbc09npnkcyuI</a></li>
   </ul>
+  
+  <p>Dietary requirements are available at <a href="https://www.aiv.org.au/home/personalinformation/section/10">https://www.aiv.org.au/home/personalinformation/section/10</a>.</p>
 
   @php
     $q = "select userid,firstname,lastname from rego_responses join v_cols_essential on (userid=id) where questionshortname = 'acdinner' and responsejson = '\"yes\"' order by userid";
