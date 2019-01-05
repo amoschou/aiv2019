@@ -15,7 +15,7 @@
 
   @php
     $q = "select userid,firstname,lastname from rego_responses join v_cols_essential on (userid=id) where questionshortname = 'acdinner' and responsejson = '\"yes\"' order by userid";
-  $c = ['id','firstname','lastname'];
+  $c = ['userid','firstname','lastname'];
   $h = ['ID','First name','Lastname'];
   @endphp
   
