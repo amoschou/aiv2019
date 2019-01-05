@@ -746,6 +746,10 @@
               <tbody class="border-primary">
                 <tr class="border-primary">
                   <th class="border-primary px-5"></th>
+                  <td class="border-primary"><Strong>Name badge</strong></td>
+                </tr>
+                <tr class="border-primary">
+                  <th class="border-primary px-5"></th>
                   <td class="border-primary"><Strong>Pencil</strong></td>
                 </tr>
                 <tr class="border-primary">

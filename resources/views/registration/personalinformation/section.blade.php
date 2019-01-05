@@ -49,6 +49,13 @@
       @php
       @endphp
       @break
+    @case(10)
+      @php
+        $q = "SELECT id,firstname,lastname,foritem,gf,veg,avoidanimalproducts,allergies,precautions,emergencyplan,simpleadditions,complexadditions from v_full_diet";
+        $c = ['id','firstname','lastname','foritem','gf','veg','avoidanimalproducts','allergies','precautions','emergencyplan','simpleadditions','complexadditions'];
+        $h = ['ID','First name','Last name','Self or guest','GF','Veg','Animal products to avoid','Allergies/intolerances','Precautions','Emergency action plan','Simple additional information','Complex additional information'];
+      @endphp
+      @break
   @endswitch
   
   <table id="datatable" class="table table-sm table-striped table-bordered">
