@@ -329,6 +329,12 @@ class PublicController extends Controller
       'titletext' => 'Welcome',
       'essay' => [
         [
+          'Buy tickets',
+          [
+            'Please book tickets using the Trybooking link above. If that fails to load for you, you can alternatively buy tickets from <a href="https://www.trybooking.com/YZMR">https://www.trybooking.com/YZMR</a>.'
+          ],
+        ],
+        [
           'Welcome',
           [
             'We’d like to invite you to participate in the 70th Australian Intervarsity Choral Festival, to be held in January 2019 in Adelaide!',
