@@ -756,6 +756,7 @@
         $ScoreList = array_key_exists($person->id,$ScoreListArray)
                    ? $ScoreListArray[$person->id]
                    : [];
+     var_dump($IsSinging);
       @endphp
 
       @if(!$IsSinging)
