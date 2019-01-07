@@ -671,8 +671,8 @@
           <div class="card border-primary mb-3">
             <h3 class="card-header text-white bg-primary">Notes</h3>
             <div class="card-body pb-0">
-              <row>
-                <div class="col-4">
+              <div class="row">
+                <div class="col-3">
                   <h4>Status</h4>
                   @php
                     $statuses = DB::table('rego_status')->select('status')->where('userid',$person->id)->get();
@@ -681,7 +681,16 @@
                     <p>{{ $status->status }}</p>
                   @endforeach
                 </div>
-                <div class="col-4">
+                <div class="col-3">
+                  <h4>Other notes</h4>
+                  @php
+                    $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id)->get();
+                  @endphp
+                  @foreach($notes as $note)
+                    <p>{{ $note->notes }}</p>
+                  @endforeach
+                </div>
+                <div class="col-6">
                   <h4>Merch/Scores closure</h4>
                   @php
                     if(is_array($ScoreListArray[$person->id]))
@@ -693,7 +702,7 @@
                         if($NumOrdered !== 0)
                         {
                           $ScoreListString .= $BreakHere . $ScoreLabel.  " (" . $NumOrdered . ")";
-                          $BreakHere = "<br>";
+                          $BreakHere = "&emsp;•&emsp;";
                         }
                         $i++;
                       }
@@ -713,7 +722,7 @@
                         if($NumOrdered !== 0)
                         {
                           $MerchListString .= $BreakHere . $MerchLabel[$i]. " (" . $NumOrdered . ")";
-                          $BreakHere = "<br>";
+                          $BreakHere = "&emsp;•&emsp;";
                         }
                         $i++;
                       }
@@ -724,16 +733,7 @@
                     }
                   @endphp
                 </div>
-                <div class="col-4">
-                  <h4>Other notes</h4>
-                  @php
-                    $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id)->get();
-                  @endphp
-                  @foreach($notes as $note)
-                    <p>{{ $note->notes }}</p>
-                  @endforeach
-                </div>
-              </row>
+              </div>
             </div>
           </div>
       </div>
