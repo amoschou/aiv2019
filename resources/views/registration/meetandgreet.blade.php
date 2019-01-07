@@ -702,7 +702,7 @@
                       {
                         if($BBB === $BuyString)
                         {
-                          $ScoreListString .= $BreakHere . $ScoreLabel";
+                          $ScoreListString .= $BreakHere . $ScoreLabel;
                           $BreakHere = "&emsp;•&emsp;";
                         }
                         $i++;
