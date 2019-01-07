@@ -684,6 +684,26 @@
                 <div class="col-4">
                   <h4>Merch/Scores closure</h4>
                   @php
+                    if(is_array($ScoreListArray[$person->id]))
+                    {
+                      $ScoreListString = '';
+                      $BreakHere = '';
+                      $i = 0;
+                      foreach($ScoreListArray[$person->id] as $ScoreLabel => $NumOrdered) {
+                        if($NumOrdered !== 0)
+                        {
+                          $ScoreListString .= $BreakHere . $ScoreLabel.  " (" . $NumOrdered . ")";
+                          $BreakHere = "<br>";
+                        }
+                        $i++;
+                      }
+                      if($ScoreListString !== '')
+                      {
+                        echo "<p>" . $ScoreListString . "</p>";
+                      }
+                    }
+                  @endphp
+                  @php
                     if(is_array($FinalMerchandiseOrders[$person->id]))
                     {
                       $MerchListString = '';
