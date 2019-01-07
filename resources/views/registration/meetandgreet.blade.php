@@ -697,7 +697,7 @@
                         }
                         $i++;
                       }
-                      if($MerchListString !=== '')
+                      if($MerchListString !== '')
                       {
                         echo "<p>" . $MerchListString . "</p>";
                       }
