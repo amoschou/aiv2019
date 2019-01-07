@@ -758,83 +758,85 @@
                    : [];
       @endphp
 
-      <div class="row">
-        {{-- Borrowed scores --}}
-        <div class="col-5">
-          <div class="card border-primary mb-3 pb-0">
-            <h3 class="card-header text-white bg-primary">Borrowed scores</h3>
-            <table class="table border-primary mb-0">
-              @php $hasrows = false; @endphp
-              <tbody class="border-primary">
-                @if($ScoreList !== [])
-                  @foreach($ScoreNames as $ScoreShortName => $ScoreName)
-                    @if($ScoreList[$ScoreShortName] !== $BuyString && $ScoreList[$ScoreShortName] !== $BringString)
-                      <tr class="border-primary">@php $hasrows = true; @endphp
-                        <th class="border-primary px-5"></th>
-                        <td class="border-primary">{{ $ScoreList[$ScoreShortName] }}</td>
-                        <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
-                      </tr>
-                    @endif
-                  @endforeach
-                @endif
-                @if(!$hasrows)
-                  <tr><td>None</td></tr>
-                @endif
-              </tbody>
-            </table>
+      @if(!$IsSinging)
+        <div class="row">
+          {{-- Borrowed scores --}}
+          <div class="col-5">
+            <div class="card border-primary mb-3 pb-0">
+              <h3 class="card-header text-white bg-primary">Borrowed scores</h3>
+              <table class="table border-primary mb-0">
+                @php $hasrows = false; @endphp
+                <tbody class="border-primary">
+                  @if($ScoreList !== [])
+                    @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                      @if($ScoreList[$ScoreShortName] !== $BuyString && $ScoreList[$ScoreShortName] !== $BringString)
+                        <tr class="border-primary">@php $hasrows = true; @endphp
+                          <th class="border-primary px-5"></th>
+                          <td class="border-primary">{{ $ScoreList[$ScoreShortName] }}</td>
+                          <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
+                        </tr>
+                      @endif
+                    @endforeach
+                  @endif
+                  @if(!$hasrows)
+                    <tr><td>None</td></tr>
+                  @endif
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        {{-- End borrowed scores --}}
-        {{-- Bought scores --}}
-        <div class="col-5">
-          <div class="card border-primary mb-3 pb-0">
-            <h3 class="card-header text-white bg-primary">Bought scores</h3>
-            <table class="table border-primary mb-0">
-              @php $hasrows = false; @endphp
-              <tbody class="border-primary">
-                @if($ScoreList !== [])
-                  @foreach($ScoreNames as $ScoreShortName => $ScoreName)
-                    @if($ScoreList[$ScoreShortName] === $BuyString)
-                      <tr class="border-primary">@php $hasrows = true; @endphp
-                        <th class="border-primary px-5"></th>
-                        <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
-                      </tr>
-                    @endif
-                  @endforeach
-                @endif
-                @if(!$hasrows)
-                  <tr><td>None</td></tr>
-                @endif
-              </tbody>
-            </table>
+          {{-- End borrowed scores --}}
+          {{-- Bought scores --}}
+          <div class="col-5">
+            <div class="card border-primary mb-3 pb-0">
+              <h3 class="card-header text-white bg-primary">Bought scores</h3>
+              <table class="table border-primary mb-0">
+                @php $hasrows = false; @endphp
+                <tbody class="border-primary">
+                  @if($ScoreList !== [])
+                    @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                      @if($ScoreList[$ScoreShortName] === $BuyString)
+                        <tr class="border-primary">@php $hasrows = true; @endphp
+                          <th class="border-primary px-5"></th>
+                          <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
+                        </tr>
+                      @endif
+                    @endforeach
+                  @endif
+                  @if(!$hasrows)
+                    <tr><td>None</td></tr>
+                  @endif
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        {{-- End bought scores --}}
-        {{-- Excluded scores --}}
-        <div class="col-2">
-          <div class="card border-primary mb-3 pb-0">
-            <h3 class="card-header text-white bg-primary">Excluded scores</h3>
-            <table class="table border-primary mb-0">
-              @php $hasrows = false; @endphp
-              <tbody class="border-primary">
-                @if($ScoreList !== [])
-                  @foreach($ScoreNames as $ScoreShortName => $ScoreName)
-                    @if($ScoreList[$ScoreShortName] === $BringString)
-                      <tr class="border-primary">@php $hasrows = true; @endphp
-                        <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
-                      </tr>
-                    @endif
-                  @endforeach
-                @endif
-                @if(!$hasrows)
-                  <tr><td>None</td></tr>
-                @endif
-              </tbody>
-            </table>
+          {{-- End bought scores --}}
+          {{-- Excluded scores --}}
+          <div class="col-2">
+            <div class="card border-primary mb-3 pb-0">
+              <h3 class="card-header text-white bg-primary">Excluded scores</h3>
+              <table class="table border-primary mb-0">
+                @php $hasrows = false; @endphp
+                <tbody class="border-primary">
+                  @if($ScoreList !== [])
+                    @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                      @if($ScoreList[$ScoreShortName] === $BringString)
+                        <tr class="border-primary">@php $hasrows = true; @endphp
+                          <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
+                        </tr>
+                      @endif
+                    @endforeach
+                  @endif
+                  @if(!$hasrows)
+                    <tr><td>None</td></tr>
+                  @endif
+                </tbody>
+              </table>
+            </div>
           </div>
+          {{-- End excluded scores --}}
         </div>
-        {{-- End excluded scores --}}
-      </div>
+      @endif
       @php
         $MerchQtyRaw = DB::table('rego_responses')->select('questionshortname','responsejson')->where('userid',$person->id)->whereIn('questionshortname',['photo','cd','wineglass','bag'])->get();
         $MerchQty = ['photo' => 0, 'cd' => 0, 'wineglass' => 0, 'bag' => 0];
