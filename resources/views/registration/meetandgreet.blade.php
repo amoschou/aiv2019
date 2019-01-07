@@ -684,7 +684,7 @@
                 <div class="col-4">
                   <h4>Merch/Scores closure</h4>
                   @php
-                    if(in_array($person->id,$ScoreListArray))
+                    if(array_key_exists($person->id,$ScoreListArray))
                     {
                       $ScoreListString = '';
                       $BreakHere = '';
@@ -705,17 +705,14 @@
                     }
                   @endphp
                   @php
-                    if(in_array($person->id,$FinalMerchandiseOrders))
+                    if(array_key_exists($person->id,$FinalMerchandiseOrders))
                     {
-                      echo "C";
                       $MerchListString = '';
                       $BreakHere = '';
                       $i = 0;
                       foreach($FinalMerchandiseOrders[$person->id] as $NumOrdered) {
-                        echo "B";
                         if($NumOrdered !== 0)
                         {
-                          echo "A";
                           $MerchListString .= $BreakHere . $MerchLabel[$i]. " (" . $NumOrdered . ")";
                           $BreakHere = "&emsp;•&emsp;";
                         }
@@ -723,13 +720,8 @@
                       }
                       if($MerchListString !== '')
                       {
-                        echo "E";
                         echo "<p>" . $MerchListString . "</p>";
                       }
-                    }
-                    else
-                    {
-                      echo "D";
                     }
                   @endphp
                 </div>
