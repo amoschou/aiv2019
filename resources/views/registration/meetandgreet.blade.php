@@ -298,6 +298,7 @@
               $ConcessionList = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','concession')->first();
               $Fresher = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','fresher')->first();
               $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first();
+              $IsSinging = DB::table('v_user_rego_items')->where('userid',$person->id)->where('questionshortname','ivhistory')->exists();
         
               if(!is_null($ConcessionList))
               {
@@ -913,6 +914,12 @@
                   <th class="border-primary px-5"></th>
                   <td class="border-primary"><Strong>Name badge</strong></td>
                 </tr>
+                @if($IsSinging)
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Song book</strong></td>
+                  </tr>
+                @endif
                 <tr class="border-primary">
                   <th class="border-primary px-5"></th>
                   <td class="border-primary"><Strong>Pencil</strong></td>
