@@ -672,7 +672,7 @@
             <h3 class="card-header text-white bg-primary">Notes</h3>
             <div class="card-body pb-0">
               <div class="row">
-                <div class="col-3">
+                <div class="col-4">
                   <h4>Status</h4>
                   @php
                     $statuses = DB::table('rego_status')->select('status')->where('userid',$person->id)->get();
@@ -681,16 +681,7 @@
                     <p>{{ $status->status }}</p>
                   @endforeach
                 </div>
-                <div class="col-3">
-                  <h4>Other notes</h4>
-                  @php
-                    $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id)->get();
-                  @endphp
-                  @foreach($notes as $note)
-                    <p>{{ $note->notes }}</p>
-                  @endforeach
-                </div>
-                <div class="col-6">
+                <div class="col-4">
                   <h4>Merch/Scores closure</h4>
                   @php
                     if(is_array($ScoreListArray[$person->id]))
@@ -733,6 +724,15 @@
                       }
                     }
                   @endphp
+                </div>
+                <div class="col-4">
+                  <h4>Other notes</h4>
+                  @php
+                    $notes = DB::table('rego_notes')->select('notes')->where('userid',$person->id)->get();
+                  @endphp
+                  @foreach($notes as $note)
+                    <p>{{ $note->notes }}</p>
+                  @endforeach
                 </div>
               </div>
             </div>
