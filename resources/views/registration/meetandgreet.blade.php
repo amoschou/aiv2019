@@ -707,12 +707,15 @@
                   @php
                     if(in_array($person->id,$FinalMerchandiseOrders) && is_array($FinalMerchandiseOrders[$person->id]))
                     {
+                      echo "C";
                       $MerchListString = '';
                       $BreakHere = '';
                       $i = 0;
                       foreach($FinalMerchandiseOrders[$person->id] as $NumOrdered) {
+                        echo "B";
                         if($NumOrdered !== 0)
                         {
+                          echo "A";
                           $MerchListString .= $BreakHere . $MerchLabel[$i]. " (" . $NumOrdered . ")";
                           $BreakHere = "&emsp;•&emsp;";
                         }
@@ -720,8 +723,13 @@
                       }
                       if($MerchListString !== '')
                       {
+                        echo "E";
                         echo "<p>" . $MerchListString . "</p>";
                       }
+                    }
+                    else
+                    {
+                      echo "D";
                     }
                   @endphp
                 </div>
