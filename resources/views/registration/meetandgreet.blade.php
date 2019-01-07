@@ -684,7 +684,7 @@
                 <div class="col-4">
                   <h4>Merch/Scores closure</h4>
                   @php
-                    if(in_array($person->id,$ScoreListArray) && is_array($ScoreListArray[$person->id]))
+                    if(in_array($person->id,$ScoreListArray))
                     {
                       $ScoreListString = '';
                       $BreakHere = '';
@@ -705,7 +705,7 @@
                     }
                   @endphp
                   @php
-                    if(in_array($person->id,$FinalMerchandiseOrders) && is_array($FinalMerchandiseOrders[$person->id]))
+                    if(in_array($person->id,$FinalMerchandiseOrders))
                     {
                       echo "C";
                       $MerchListString = '';
