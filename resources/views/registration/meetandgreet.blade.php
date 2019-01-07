@@ -698,8 +698,9 @@
                       $ScoreListString = '';
                       $BreakHere = '';
                       $i = 0;
-                      foreach($ScoreListArray[$person->id] as $ScoreLabel => $BBB) {
-                        if($NumOrdered === $BuyString)
+                      foreach($ScoreListArray[$person->id] as $ScoreLabel => $BBB)
+                      {
+                        if($BBB === $BuyString)
                         {
                           $ScoreListString .= $BreakHere . $ScoreLabel";
                           $BreakHere = "&emsp;•&emsp;";
