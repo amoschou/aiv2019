@@ -756,10 +756,9 @@
         $ScoreList = array_key_exists($person->id,$ScoreListArray)
                    ? $ScoreListArray[$person->id]
                    : [];
-     var_dump($IsSinging);
       @endphp
 
-      @if(!$IsSinging)
+      @if($IsSinging)
         <div class="row">
           {{-- Borrowed scores --}}
           <div class="col-5">
