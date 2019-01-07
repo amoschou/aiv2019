@@ -686,13 +686,20 @@
                   @php
                     if(is_array($FinalMerchandiseOrders[$person->id]))
                     {
+                      $MerchListString = '';
+                      $BreakHere = '';
                       $i = 0;
                       foreach($FinalMerchandiseOrders[$person->id] as $NumOrdered) {
                         if($NumOrdered !== 0)
                         {
-                          echo "<p>" . $MerchLabel[$i]. ": (" . $NumOrdered . ")</p>";
+                          $MerchListString .= $BreakHere . $MerchLabel[$i]. " (" . $NumOrdered . ")";
+                          $BreakHere = "<br>";
                         }
                         $i++;
+                      }
+                      if($MerchListString !=== '')
+                      {
+                        echo "<p>" . $MerchListString . "</p>";
                       }
                     }
                   @endphp
