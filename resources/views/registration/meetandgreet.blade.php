@@ -300,8 +300,6 @@
               $IVHistory = DB::table('rego_responses')->select('responsejson')->where('userid',$person->id)->where('questionshortname','ivhistory')->first();
               $IsSinging = DB::table('v_user_rego_items')->where('userid',$person->id)->where('itemshortname','rego_choral')->exists();
               
-              var_dump($IsSinging);
-        
               if(!is_null($ConcessionList))
               {
                 $ConcessionList = json_decode($ConcessionList->responsejson);
