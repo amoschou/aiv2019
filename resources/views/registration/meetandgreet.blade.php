@@ -690,7 +690,7 @@
                       foreach($FinalMerchandiseOrders[$person->id] as $NumOrdered) {
                         if($NumOrdered !== 0)
                         {
-                          <p>$MerchLabel[$i]: ($NumOrdered)</p>
+                          echo "<p>" . $MerchLabel[$i]. ": (" . $NumOrdered . ")</p>";
                         }
                         $i++;
                       }
