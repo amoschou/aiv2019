@@ -921,19 +921,19 @@
                     <th class="border-primary px-5"></th>
                     <td class="border-primary"><Strong>Song book</strong></td>
                   </tr>
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Pencil</strong></td>
+                  </tr>
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Rubber</strong></td>
+                  </tr>
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>SHINE SA package</strong></td>
+                  </tr>
                 @endif
-                <tr class="border-primary">
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Pencil</strong></td>
-                </tr>
-                <tr class="border-primary">
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Rubber</strong></td>
-                </tr>
-                <tr class="border-primary">
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>SHINE SA package</strong></td>
-                </tr>
               </tbody>
             </table>
           </div>
@@ -1125,19 +1125,19 @@
                     <th class="border-primary px-5"></th>
                     <td class="border-primary"><Strong>Song book</strong></td>
                   </tr>
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Pencil</strong></td>
+                  </tr>
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Rubber</strong></td>
+                  </tr>
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>SHINE SA package</strong></td>
+                  </tr>
                 @endif
-                <tr class="border-primary">
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Pencil</strong></td>
-                </tr>
-                <tr class="border-primary">
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>Rubber</strong></td>
-                </tr>
-                <tr class="border-primary">
-                  <th class="border-primary px-5"></th>
-                  <td class="border-primary"><Strong>SHINE SA package</strong></td>
-                </tr>
               </tbody>
             </table>
           </div>
