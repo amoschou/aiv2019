@@ -750,7 +750,211 @@
 
     @if($IncludeRegistrationbundle)
       <h1>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h1>
-      <h2>Registration bundle list</h2>
+      <h2>Registration bundle list <small>Take away copy</small></h2>
+
+      @php
+        $ScoreList = array_key_exists($person->id,$ScoreListArray)
+                   ? $ScoreListArray[$person->id]
+                   : [];
+      @endphp
+
+      @if($IsSinging)
+        <div class="row">
+          {{-- Borrowed scores --}}
+          <div class="col-5">
+            <div class="card border-primary mb-3 pb-0">
+              <h3 class="card-header text-white bg-primary">Borrowed scores</h3>
+              <table class="table border-primary mb-0">
+                @php $hasrows = false; @endphp
+                <tbody class="border-primary">
+                  @if($ScoreList !== [])
+                    @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                      @if($ScoreList[$ScoreShortName] !== $BuyString && $ScoreList[$ScoreShortName] !== $BringString)
+                        <tr class="border-primary">@php $hasrows = true; @endphp
+                          <th class="border-primary px-5"></th>
+                          <td class="border-primary">{{ $ScoreList[$ScoreShortName] }}</td>
+                          <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
+                        </tr>
+                      @endif
+                    @endforeach
+                  @endif
+                  @if(!$hasrows)
+                    <tr><td>None</td></tr>
+                  @endif
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {{-- End borrowed scores --}}
+          {{-- Bought scores --}}
+          <div class="col-5">
+            <div class="card border-primary mb-3 pb-0">
+              <h3 class="card-header text-white bg-primary">Bought scores</h3>
+              <table class="table border-primary mb-0">
+                @php $hasrows = false; @endphp
+                <tbody class="border-primary">
+                  @if($ScoreList !== [])
+                    @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                      @if($ScoreList[$ScoreShortName] === $BuyString)
+                        <tr class="border-primary">@php $hasrows = true; @endphp
+                          <th class="border-primary px-5"></th>
+                          <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
+                        </tr>
+                      @endif
+                    @endforeach
+                  @endif
+                  @if(!$hasrows)
+                    <tr><td>None</td></tr>
+                  @endif
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {{-- End bought scores --}}
+          {{-- Excluded scores --}}
+          <div class="col-2">
+            <div class="card border-primary mb-3 pb-0">
+              <h3 class="card-header text-white bg-primary">Excluded scores</h3>
+              <table class="table border-primary mb-0">
+                @php $hasrows = false; @endphp
+                <tbody class="border-primary">
+                  @if($ScoreList !== [])
+                    @foreach($ScoreNames as $ScoreShortName => $ScoreName)
+                      @if($ScoreList[$ScoreShortName] === $BringString)
+                        <tr class="border-primary">@php $hasrows = true; @endphp
+                          <td class="border-primary"><strong>{{ $ScoreName[0] }}</strong>: {{ $ScoreName[1] }}</td>
+                        </tr>
+                      @endif
+                    @endforeach
+                  @endif
+                  @if(!$hasrows)
+                    <tr><td>None</td></tr>
+                  @endif
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {{-- End excluded scores --}}
+        </div>
+      @endif
+      @php
+        $MerchQtyRaw = DB::table('rego_responses')->select('questionshortname','responsejson')->where('userid',$person->id)->whereIn('questionshortname',['photo','cd','wineglass','bag'])->get();
+        $MerchQty = ['photo' => 0, 'cd' => 0, 'wineglass' => 0, 'bag' => 0];
+        foreach($MerchQtyRaw as $MerchQtyRawRecord)
+        {
+          $MerchQty[$MerchQtyRawRecord->questionshortname] = json_decode($MerchQtyRawRecord->responsejson);
+        }
+        $MerchJsonRaw = DB::table('rego_responses')->select('questionshortname','responsejson')->where('userid',$person->id)->whereIn('questionshortname',['bottle','tshirt'])->get();
+      @endphp
+      <div class="row">
+        {{-- Merchandise items --}}
+        <div class="col-8">
+          <div class="card border-primary mb-3 pb-0">
+            <h3 class="card-header text-white bg-primary">Merchandise items</h3>
+            <table class="table border-primary mb-0">
+              @php $hasrows = false; @endphp
+              <tbody class="border-primary">
+                @if(in_array($person->id, $BarCardWinners))
+                  <tr class="border-primary">@php $hasrows = true; @endphp
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><strong>Bar card</strong></td>
+                    <td class="border-primary"><strong>$20</strong></td>
+                    <td class="border-primary">Qty 1</td>
+                  </tr>
+                @endif
+                @foreach($MerchJsonRaw as $MerchJsonItem)
+                  @if($MerchJsonItem->questionshortname === 'bottle')
+                    @php
+                      $Bottle = json_encode(json_decode($MerchJsonItem->responsejson),JSON_PRETTY_PRINT);
+                    @endphp              
+                    <tr class="border-primary">@php $hasrows = true; @endphp
+                      <th class="border-primary px-5"></th>
+                      <td class="border-primary"><strong>Bottle</strong></td>
+                      <td class="border-primary" colspan="2">{{ $Bottle }}</td>
+                    </tr>
+                  @endif
+                  @if($MerchJsonItem->questionshortname === 'tshirt')
+                    @php
+                      $TshirtJson = json_decode($MerchJsonItem->responsejson);
+                    @endphp
+                    @foreach($TshirtJson as $SizeKey => $SizeVal)
+                      @if(!is_null($SizeVal))
+                        <tr class="border-primary">@php $hasrows = true; @endphp
+                          <th class="border-primary px-5"></th>
+                          <td class="border-primary"><strong>T&nbsp;shirt</strong></td>
+                          <td class="border-primary">Size <strong>{{ strtoupper($SizeKey) }}</strong></td>
+                          <td class="border-primary">Qty {{ $SizeVal }}</td>
+                        </tr>
+                      @endif
+                    @endforeach
+                  @endif
+                @endforeach
+                @foreach($MerchQty as $MerchItemKey => $MerchItemValue)
+                  @if($MerchItemValue > 0)
+                    <tr class="border-primary">@php $hasrows = true; @endphp
+                      <th class="border-primary px-5"></th>
+                      <td class="border-primary" colspan="2"><strong>{{ $MerchItemKey }}</strong</td>
+                      <td class="border-primary">Qty {{ $MerchItemValue }}</td>
+                    </tr>
+                  @endif
+                @endforeach
+                @if(!$hasrows)
+                  <tr><td>None</td></tr>
+                @endif
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {{-- End merchandise items --}}
+        {{-- Common items --}}
+        <div class="col-4">
+          <div class="card border-primary mb-3 pb-0">
+            <h3 class="card-header text-white bg-primary">Common items</h3>
+            <table class="table border-primary mb-0">
+              <tbody class="border-primary">
+                <tr class="border-primary">
+                  <th class="border-primary px-5"></th>
+                  <td class="border-primary"><Strong>Name badge</strong></td>
+                </tr>
+                @if($IsSinging)
+                  <tr class="border-primary">
+                    <th class="border-primary px-5"></th>
+                    <td class="border-primary"><Strong>Song book</strong></td>
+                  </tr>
+                @endif
+                <tr class="border-primary">
+                  <th class="border-primary px-5"></th>
+                  <td class="border-primary"><Strong>Pencil</strong></td>
+                </tr>
+                <tr class="border-primary">
+                  <th class="border-primary px-5"></th>
+                  <td class="border-primary"><Strong>Rubber</strong></td>
+                </tr>
+                <tr class="border-primary">
+                  <th class="border-primary px-5"></th>
+                  <td class="border-primary"><Strong>SHINE SA package</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {{-- End common items --}}
+      </div>
+    @endif
+
+    
+    
+    
+    
+
+    <hr>
+    <div class="page-break"></div>
+
+    
+
+    @if($IncludeRegistrationbundle)
+      <h1>{{ $person->id }}: {{ $person->firstname }} {{ $person->lastname }} <small>({{ $accountref }})</small></h1>
+      <h2>Registration bundle list <small>Office copy</small></h2>
 
       @php
         $ScoreList = array_key_exists($person->id,$ScoreListArray)
