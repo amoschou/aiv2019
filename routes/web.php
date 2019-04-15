@@ -43,9 +43,10 @@ Route::get('/participate/choir', 'PublicController@participatechoir')->name('par
 Route::post('/participate/choir/register', 'ExpressionOfInterestController@store');
 Route::get('/participate/choir/register/thanks', 'ExpressionOfInterestController@show')->name('register.thanks');
 
-Route::get('/contact', 'ContactController@create')->name('contact');
-Route::post('/contact', 'ContactController@store');
-Route::get('/contact/thanks', 'ContactController@show')->name('contact.thanks');
+// Removed contact page to stop spam.
+//Route::get('/contact', 'ContactController@create')->name('contact');
+//Route::post('/contact', 'ContactController@store');
+//Route::get('/contact/thanks', 'ContactController@show')->name('contact.thanks');
 
 Route::get('/concert', 'PublicController@concert')->name('public.concert');
 
