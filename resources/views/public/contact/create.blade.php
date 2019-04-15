@@ -21,6 +21,8 @@
   @section('receiptmessage')
   @stop
 
+  <p>This contact form is now disabled.</p>
+{{--
   <form action="/contact" method="POST">
     {{ csrf_field() }}
     <div class="mdl-textfield @if ($errors->has('name')) is-invalid @endif mdl-js-textfield mdl-textfield--floating-label">
@@ -73,6 +75,6 @@
       </button>
     </p>
   </form>
-
+--}}
 
 @endsection
